@@ -1,0 +1,5 @@
+{
+    "port": "COM9",
+    "board": "arduino:avr:uno",
+    "sketch": "src\\catch_the_led_pattern.ino"
+}
