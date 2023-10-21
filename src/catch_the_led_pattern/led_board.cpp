@@ -13,7 +13,7 @@ void init_led_board() {
     pinMode(ledPin[i], OUTPUT);     
   }
   pinMode(LED_START, OUTPUT);   
-    
+
 }
 
 void reset_led_board() {
@@ -22,7 +22,7 @@ void reset_led_board() {
   }
 }
 
-void test_led_board(){   
+/*void test_led_board(){   
   for (int i = 0; i < NLEDS; i++){
     digitalWrite(ledPin[i], HIGH);     
     delay(500);
@@ -36,7 +36,7 @@ void test_led_board(){
     analogWrite(LED_START, i*25);     
     delay(100);
   }
-}
+}*/
 
 void reset_pulsing() {
   pulseIntensity = 0;
@@ -59,13 +59,17 @@ void turn_on_leds(){
   }
 }
 
+void turn_on_led(short led){
+  digitalWrite(ledPin[led], HIGH);
+}
+
 void turn_off_led(short led){
   digitalWrite(ledPin[led], LOW);
 }
 
-/*void turn_off_pattern(short pattern[]){
-  for (int i = 0; i < NLEDS; i++) {
-    digitalWrite(pattern[i], LOW);
-    delay(T2_TIME);
-  }
-}*/
+void led_game_over() {
+  digitalWrite(LED_START,HIGH);
+  delay(1000);
+  digitalWrite(LED_START,LOW);
+}
+

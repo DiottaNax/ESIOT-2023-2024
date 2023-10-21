@@ -37,6 +37,8 @@ short* get_current_pattern();
 /* for testing */
 void test_player_input();
 
+bool allPressed();
+
 /* for debugging */
 void log(const String& msg);
  

@@ -16,6 +16,8 @@ void reset_led_board();
 
 void turn_off_led(short led);
 void turn_on_leds();
+void turn_on_led(short led);
+void led_game_over();
 // void turn_off_pattern();
 
 void reset_pulsing();

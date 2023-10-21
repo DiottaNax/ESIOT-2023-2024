@@ -1,6 +1,8 @@
 #include "user_console.h"
 #include "Arduino.h"
 #include "config.h"
+#include "led_board.h"
+#include "game_core.h"
 
 #include <EnableInterrupt.h>
 
@@ -28,12 +30,13 @@ void button_handler(int i){
   if (ts - lastButtonPressedTimeStamps[i] > BOUNCING_TIME){
     if(!playerStartedGame && i == 0){
       playerStartedGame = true;
-    } else if (playerStartedGame){
+    } else if (game_state == GAME_LOOP_WAITING_PLAYER_PATTERN){
       lastButtonPressedTimeStamps[i] = ts;
       if (!wasAlreadyPressed[i]) {
         inputPattern[buttonsPressed] = i;
         wasAlreadyPressed[i] = true;
         buttonsPressed++;
+        turn_on_led(i);
       }
     }
   }
@@ -75,6 +78,15 @@ bool player_input_started(){
   return playerStartedGame;
 }
 
+bool allPressed() {
+  for (int i = 0; i < NLEDS; i++) {
+    if (wasAlreadyPressed[i] == false) {
+      return false;
+    }
+  }
+  return true;
+}
+
 void log(const String& msg){
   #ifdef __DEBUG__
   Serial.println(msg);
@@ -82,12 +94,7 @@ void log(const String& msg){
 }
 
 
-void test_player_input(){
-  for (int i = 0; i < NUM_INPUT_POS; i++) {
-    if (inputPattern[i]) {
-      Serial.println(String("button ") + i + " pressed"); 
-    }
-  }
+/*void test_player_input(){
   int value = analogRead(POT_PIN);
   Serial.println(value);
-}
+}*/

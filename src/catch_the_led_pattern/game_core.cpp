@@ -6,7 +6,7 @@
 #include <avr/sleep.h>
 
 #define MAX_IDLE_TIME 10000
-#define TIME_IN_GAME_OVER 2000
+#define TIME_IN_GAME_OVER 1000
 
 /* current pattern to be generated */
 short current_pattern[NLEDS];
@@ -60,7 +60,7 @@ void check_difficulty_level(){
 
 void game_intro(){
   //reset_led_board();   
-  print_on_console("Welcome to the Catch the Led Pattern Game. Press Key T1 to Start");
+  print_on_console("Welcome to the Restore the Light Game. Press Key T1 to Start");
   reset_pulsing();
   change_game_state(GAME_WAIT_TO_START);
 }
@@ -93,7 +93,7 @@ void game_init(){
 
   difficulty_level = read_difficulty_level();
   difficulty_scaling_factor = 1.0 + difficulty_level*0.1;
-  log(String("Scaling F: ") + difficulty_scaling_factor);
+  /*log(String("Scaling F: ") + difficulty_scaling_factor);*/
   
   score = 0;
   
@@ -105,8 +105,7 @@ void game_init(){
 
 void fisherYatesShuffle(short arr[], short n) {
   // Start from the last element and swap one by one
-  for (int i = 0; i < n; i++)
-  {
+  for (int i = 0; i < n; i++) {
     // Generate a random index between i (inclusive) and n (exclusive)
     int j = random(i, n);
     // Swap arr[i] with arr[j]
@@ -122,7 +121,6 @@ void generate_pattern(){
     current_pattern[i] = i;
   }
   fisherYatesShuffle(current_pattern, NLEDS);
-  //turn_off_pattern(current_pattern);
   change_game_state(GAME_LOOP_DISPLAY_PATTERN);
 }
 
@@ -132,18 +130,21 @@ void game_loop_display_pattern(){
   max_time_to_generate_pattern = 3000 + random(T1_TIME);
   generate_pattern();
   delay(max_time_to_generate_pattern);
-  log(String("Now it's input time... waiting for: ") + max_time_to_form_pattern);
-
+  //log(String("Now it's input time... waiting for: ") + max_time_to_form_pattern);
   for (int led = 0; led < NLEDS; led++) {
     turn_off_led(current_pattern[led]); 
-    delay(max_time_to_form_pattern);
+    if (led < NLEDS-1) {
+      delay(max_time_to_form_pattern);
+    }
   }
-
   change_game_state(GAME_LOOP_WAITING_PLAYER_PATTERN);
 }
 
 void change_to_game_over(){
   print_on_console(String("Game Over - Final Score: ") + score);
+  led_game_over();
+  reset_led_board();
+  delay(10000);
   change_game_state(GAME_OVER);
 }
 
@@ -153,35 +154,22 @@ bool check_patterns(short* pattern, short* input){
         return false;
     }
   }
-
   return true;
 }
 
 void game_loop_wait_player_pattern(){
-  if (current_time_in_state >= max_time_to_form_pattern){
-      short* input_pattern = get_current_pattern();
-      Serial.print("Input Pattern: ");
-      for (int led = 0; led < NLEDS; led++) {
-        Serial.print(input_pattern[led]);
-      }
-      Serial.println('\n');
-      Serial.print("Current Pattern: ");
-      for (int led = 0; led < NLEDS; led++) {
-        Serial.print(current_pattern[led]);
-      }
-      Serial.println('\n');
+  if (current_time_in_state >= max_time_to_form_pattern /*|| allPressed()*/){
+      short* input_pattern = get_current_pattern();  
       if (!check_patterns(current_pattern, input_pattern)){
         change_to_game_over();
       } else {
         score++;
         max_time_to_display_pattern /= difficulty_scaling_factor; 
         max_time_to_form_pattern /= difficulty_scaling_factor;
-        print_on_console(String("New Point! Score ") + score);
+        print_on_console(String("New Point! Score: ") + score);
         change_game_state(GAME_LOOP_DISPLAY_PATTERN);
       }
-  } /*else {
-    turn_off_pattern(input_pattern);
-  }*/
+  } 
 }
 
 void game_over(){
