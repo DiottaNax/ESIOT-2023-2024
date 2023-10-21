@@ -26,17 +26,14 @@ void (*button_handlers[4])() = { button_handler_0, button_handler_1, button_hand
 void button_handler(int i){
   long ts = millis();
   if (ts - lastButtonPressedTimeStamps[i] > BOUNCING_TIME){
-    if(!playerStartedGame && i == 1){
+    if(!playerStartedGame && i == 0){
       playerStartedGame = true;
-    } else{
+    } else if (playerStartedGame){
       lastButtonPressedTimeStamps[i] = ts;
-      int status = digitalRead(inputPins[i]);
-      if (status == HIGH) {
-        if (!wasAlreadyPressed[i]) {
-          inputPattern[buttonsPressed] = i;
-          wasAlreadyPressed[i] = true;
-          buttonsPressed++;
-        }
+      if (!wasAlreadyPressed[i]) {
+        inputPattern[buttonsPressed] = i;
+        wasAlreadyPressed[i] = true;
+        buttonsPressed++;
       }
     }
   }

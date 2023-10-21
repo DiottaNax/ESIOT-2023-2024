@@ -12,8 +12,8 @@ void init_led_board() {
   for (int i = 0; i < NLEDS; i++){
     pinMode(ledPin[i], OUTPUT);     
   }
-
-  pinMode(LED_START, OUTPUT);     
+  pinMode(LED_START, OUTPUT);   
+    
 }
 
 void reset_led_board() {

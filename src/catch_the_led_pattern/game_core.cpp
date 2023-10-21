@@ -59,7 +59,7 @@ void check_difficulty_level(){
 }
 
 void game_intro(){
-  reset_led_board();   
+  //reset_led_board();   
   print_on_console("Welcome to the Catch the Led Pattern Game. Press Key T1 to Start");
   reset_pulsing();
   change_game_state(GAME_WAIT_TO_START);
@@ -103,8 +103,7 @@ void game_init(){
   change_game_state(GAME_LOOP_DISPLAY_PATTERN);
 }
 
-void fisherYatesShuffle(short arr[], short n)
-{
+void fisherYatesShuffle(short arr[], short n) {
   // Start from the last element and swap one by one
   for (int i = 0; i < n; i++)
   {
@@ -117,7 +116,7 @@ void fisherYatesShuffle(short arr[], short n)
   }
 }
 
-void generate_pattern(){
+void generate_pattern(){ 
   /* generate pattern */
   for (int i = 0; i < NLEDS; i++){
     current_pattern[i] = i;
@@ -128,6 +127,7 @@ void generate_pattern(){
 }
 
 void game_loop_display_pattern(){
+  reset_player_input();
   turn_on_leds();
   max_time_to_generate_pattern = 3000 + random(T1_TIME);
   generate_pattern();
@@ -135,11 +135,10 @@ void game_loop_display_pattern(){
   log(String("Now it's input time... waiting for: ") + max_time_to_form_pattern);
 
   for (int led = 0; led < NLEDS; led++) {
-    turn_off_led(led);
+    turn_off_led(current_pattern[led]); 
     delay(max_time_to_form_pattern);
   }
 
-  reset_player_input();
   change_game_state(GAME_LOOP_WAITING_PLAYER_PATTERN);
 }
 
@@ -150,7 +149,7 @@ void change_to_game_over(){
 
 bool check_patterns(short* pattern, short* input){
   for (int i = 0; i < NLEDS; i++){
-    if(pattern[i] != input[NLEDS - i]){
+    if(pattern[i] != input[NLEDS - 1 - i]){
         return false;
     }
   }
@@ -159,8 +158,18 @@ bool check_patterns(short* pattern, short* input){
 }
 
 void game_loop_wait_player_pattern(){
-  short* input_pattern = get_current_pattern();
   if (current_time_in_state >= max_time_to_form_pattern){
+      short* input_pattern = get_current_pattern();
+      Serial.print("Input Pattern: ");
+      for (int led = 0; led < NLEDS; led++) {
+        Serial.print(input_pattern[led]);
+      }
+      Serial.println('\n');
+      Serial.print("Current Pattern: ");
+      for (int led = 0; led < NLEDS; led++) {
+        Serial.print(current_pattern[led]);
+      }
+      Serial.println('\n');
       if (!check_patterns(current_pattern, input_pattern)){
         change_to_game_over();
       } else {
