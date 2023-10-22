@@ -59,7 +59,6 @@ void check_difficulty_level(){
 }
 
 void game_intro(){
-  //reset_led_board();   
   print_on_console("Welcome to the Restore the Light Game. Press Key T1 to Start");
   reset_pulsing();
   change_game_state(GAME_WAIT_TO_START);
@@ -78,7 +77,6 @@ void game_wait_to_start(){
 }
 
 void game_sleep(){
-  log("Going to sleep..");
   reset_pulsing();
   delay(500);
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);  
@@ -90,13 +88,9 @@ void game_sleep(){
 
 void game_init(){
   reset_pulsing();
-
   difficulty_level = read_difficulty_level();
   difficulty_scaling_factor = 1.0 + difficulty_level*0.1;
-  /*log(String("Scaling F: ") + difficulty_scaling_factor);*/
-  
   score = 0;
-  
   print_on_console("Go!");  
   max_time_to_display_pattern = T2_TIME; 
   max_time_to_form_pattern = T3_TIME;
@@ -130,7 +124,6 @@ void game_loop_display_pattern(){
   max_time_to_generate_pattern = 3000 + random(T1_TIME);
   generate_pattern();
   delay(max_time_to_generate_pattern);
-  //log(String("Now it's input time... waiting for: ") + max_time_to_form_pattern);
   for (int led = 0; led < NLEDS; led++) {
     turn_off_led(current_pattern[led]); 
     if (led < NLEDS-1) {
@@ -138,14 +131,6 @@ void game_loop_display_pattern(){
     }
   }
   change_game_state(GAME_LOOP_WAITING_PLAYER_PATTERN);
-}
-
-void change_to_game_over(){
-  print_on_console(String("Game Over - Final Score: ") + score);
-  led_game_over();
-  reset_led_board();
-  delay(10000);
-  change_game_state(GAME_OVER);
 }
 
 bool check_patterns(short* pattern, short* input){
@@ -157,8 +142,16 @@ bool check_patterns(short* pattern, short* input){
   return true;
 }
 
+void change_to_game_over(){
+  print_on_console(String("Game Over - Final Score: ") + score);
+  led_game_over();
+  reset_led_board();
+  delay(10000);
+  change_game_state(GAME_OVER);
+}
+
 void game_loop_wait_player_pattern(){
-  if (current_time_in_state >= max_time_to_form_pattern /*|| allPressed()*/){
+  if (current_time_in_state >= max_time_to_form_pattern || allPressed()){
       short* input_pattern = get_current_pattern();  
       if (!check_patterns(current_pattern, input_pattern)){
         change_to_game_over();

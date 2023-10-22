@@ -1,7 +1,7 @@
 /*
  * ESIOT a.y. 2023/2024
  *
- * ASSIGNMENT #1 - CATCH THE LED PATTERN  
+ * ASSIGNMENT #1 - RESTORE THE LIGHT GAME 
  * 
  * Authors: Ameri Javid, D'Antino Matilde, Diotallevi Federico :3
  * 
@@ -15,7 +15,7 @@
 void setup() {
   init_player_console();
   init_led_board();
-  Serial.println("Setup finished");
+  print_on_console("Setup finished");
   change_game_state(GAME_INTRO);
 }
 

@@ -71,7 +71,6 @@ void reset_player_input(){
   }
   buttonsPressed = 0;
   delay(BOUNCING_TIME);
-  log("input reset");
 }
 
 bool player_input_started(){
@@ -87,14 +86,3 @@ bool allPressed() {
   return true;
 }
 
-void log(const String& msg){
-  #ifdef __DEBUG__
-  Serial.println(msg);
-  #endif
-}
-
-
-/*void test_player_input(){
-  int value = analogRead(POT_PIN);
-  Serial.println(value);
-}*/

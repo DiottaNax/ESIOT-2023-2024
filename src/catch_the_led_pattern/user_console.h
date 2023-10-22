@@ -18,30 +18,29 @@
 #define NO_SELECTION -1
 #define DIFFICULTY_LEVELS 4
 
+// Button press handler
+void button_handler(int button);
+
+// Initialize the player's console
 void init_player_console();
 
+// Print a message on the serial console
 void print_on_console(const String& msg);
 
-/* read the difficulty level */
+// Read the difficulty level
 int read_difficulty_level();
 
-/* check if the player started the game */
+// Check if the player has started the game
 bool player_input_started();
 
-/* reset the input, at each interation */
+// Reset the player's input, including button presses
 void reset_player_input();
 
-/* get current pattern inserted by player */
+// Get current pattern inserted by player
 short* get_current_pattern();
 
-/* for testing */
-void test_player_input();
-
+// Check if all buttons have been pressed
 bool allPressed();
-
-/* for debugging */
-void log(const String& msg);
- 
 
 
 #endif

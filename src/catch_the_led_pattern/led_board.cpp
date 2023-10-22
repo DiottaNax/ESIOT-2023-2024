@@ -2,11 +2,11 @@
 #include "config.h"
 #include "game_core.h"
 
+// Define an array of LED pin numbers
 uint8_t ledPin[] = {LED01_PIN, LED02_PIN, LED03_PIN, LED04_PIN};
+// Initialize variables for LED pulsing
 uint8_t pulseIntensity = 0;
 uint8_t pulseDelta = 5;
-
-extern void log(const String &msg);
 
 void init_led_board() {   
   for (int i = 0; i < NLEDS; i++){
@@ -21,22 +21,6 @@ void reset_led_board() {
     digitalWrite(ledPin[i], LOW);     
   }
 }
-
-/*void test_led_board(){   
-  for (int i = 0; i < NLEDS; i++){
-    digitalWrite(ledPin[i], HIGH);     
-    delay(500);
-    digitalWrite(ledPin[i], LOW);     
-  }
-  for (int i = 0; i < 10; i++){
-    analogWrite(LED_START, i*25);     
-    delay(100);
-  }
-  for (int i = 9; i >= 0; i--){
-    analogWrite(LED_START, i*25);     
-    delay(100);
-  }
-}*/
 
 void reset_pulsing() {
   pulseIntensity = 0;
