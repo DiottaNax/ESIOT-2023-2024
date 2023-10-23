@@ -24,6 +24,9 @@ void button_handler(int button);
 // Initialize the player's console
 void init_player_console();
 
+// Clears the serial monitor
+void clear_console();
+
 // Print a message on the serial console
 void print_on_console(const String& msg);
 
@@ -40,7 +43,7 @@ void reset_player_input();
 short* get_current_pattern();
 
 // Check if all buttons have been pressed
-bool allPressed();
+bool all_pressed();
 
 
 #endif

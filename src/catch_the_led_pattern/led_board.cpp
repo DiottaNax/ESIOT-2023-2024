@@ -4,8 +4,9 @@
 
 // Define an array of LED pin numbers
 uint8_t ledPin[] = {LED01_PIN, LED02_PIN, LED03_PIN, LED04_PIN};
-// Initialize variables for LED pulsing
+// Current intensity for the Start LED pulsing
 uint8_t pulseIntensity = 0;
+// Fade amount to let the led pulsing
 uint8_t pulseDelta = 5;
 
 void init_led_board() {   
