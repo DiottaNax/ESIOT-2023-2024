@@ -1,4 +1,4 @@
-#include "PresenceDetectorImpl.h"
+#include "devices/PresenceDetectorImpl.h"
 #include <Arduino.h>
 
 PresenceDetectorImpl::PresenceDetectorImpl(int pin) {
