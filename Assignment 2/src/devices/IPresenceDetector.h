@@ -5,7 +5,7 @@
 
 class IPresenceDetector {
 public:
-    boolean isDetected;
+    boolean isDetected();
 };
 
 #endif
