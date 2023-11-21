@@ -1,15 +1,15 @@
 #include <Arduino.h>
 #include <Servo.h>
-#include "devices/ServoMotorImpl.h"
+#include "devices/Gate.h"
 
-ServoMotorImpl::ServoMotorImpl(short pin) : _pin(pin) {
+Gate::Gate(short pin) : _pin(pin) {
 }
 
-void ServoMotorImpl::on(){
+void Gate::on(){
     _servo.attach(_pin);
 }
 
-void ServoMotorImpl::setAngle(short angle){
+void Gate::setAngle(short angle){
     if(_servo.attached()){
         if (angle <= 0){
             _servo.write(0);
