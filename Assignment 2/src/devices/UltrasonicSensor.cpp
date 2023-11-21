@@ -1,12 +1,12 @@
 #include <Arduino.h>
-#include "devices/ProximitySensorImpl.h"
+#include "devices/UltrasonicSensor.h"
 
-ProximitySensorImpl::ProximitySensorImpl(short echoPin, short triggerPin) : _echoPin(echoPin), _triggerPin(triggerPin) {
+UltrasonicSensor::UltrasonicSensor(short echoPin, short triggerPin) : _echoPin(echoPin), _triggerPin(triggerPin) {
     pinMode(_echoPin, INPUT);
     pinMode(_triggerPin, OUTPUT);
 }
 
-float ProximitySensorImpl::getDistance() {
+float UltrasonicSensor::getDistance() {
     // sending impulse
     digitalWrite(_triggerPin, LOW);
     delayMicroseconds(3);
@@ -21,6 +21,6 @@ float ProximitySensorImpl::getDistance() {
     return t * _vs;
 }
 
-void ProximitySensorImpl::setTemperature(float temperature) {
+void UltrasonicSensor::setTemperature(float temperature) {
     _vs = 331.5 + 0.6 * temperature;
 }
