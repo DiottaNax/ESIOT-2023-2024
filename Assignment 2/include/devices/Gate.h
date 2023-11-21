@@ -4,14 +4,14 @@
 #include <Servo.h>
 #include "ServoMotor.h"
 
-class ServoMotorImpl : ServoMotor{
+class Gate : ServoMotor{
 
 private:
     Servo _servo;
     short _pin;
 
 public:
-    ServoMotorImpl(short pin);
+    Gate(short pin);
     void on();
     void setAngle(short angle);
     void off();
