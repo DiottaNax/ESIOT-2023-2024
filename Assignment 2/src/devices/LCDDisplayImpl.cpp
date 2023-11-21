@@ -1,4 +1,4 @@
-#include "LCDDisplay.h"
+#include "devices/LCDDisplay.h"
 
 LCDDisplay::LCDDisplay(int rs, int enable, int d4, int d5, int d6, int d7) : lcd(rs, enable, d4, d5, d6, d7) {}
 
