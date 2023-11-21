@@ -1,5 +1,5 @@
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef __DISPLAY__
+#define __DISPLAY__
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>
