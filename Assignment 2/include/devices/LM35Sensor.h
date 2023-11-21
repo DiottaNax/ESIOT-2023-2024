@@ -2,12 +2,12 @@
 #define __TEMP_SENSOR_IMPL__
 #include "ITemperatureSensor.h"
 
-class TemperatureSensorImpl : ITemperatureSensor{
+class LM35Sensor : public ITemperatureSensor{
 private:
     int pin;
 public:
-    TemperatureSensorImpl(int pin);
-    virtual int getTemp() = 0;
+    LM35Sensor(int pin);
+    int getTemp();
 };
 
 #endif
