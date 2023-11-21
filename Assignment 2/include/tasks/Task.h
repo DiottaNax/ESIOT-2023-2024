@@ -22,6 +22,16 @@ public:
 
   virtual void tick() = 0;
 
+  bool updateAndCheckTime(int basePeriod){
+    timeElapsed += basePeriod;
+    if (timeElapsed >= period){
+      timeElapsed = 0;
+      return true;
+    } else {
+      return false; 
+    }
+  }
+
   bool isActive() {
       return active;
   }
