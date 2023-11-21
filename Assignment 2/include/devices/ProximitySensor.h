@@ -5,6 +5,7 @@
  * @brief Abstract interface for a proximity sensor.
  */
 class ProximitySensor {
+public:
     /**
      * @brief Retrieves the distance measured by the proximity sensor.
      *

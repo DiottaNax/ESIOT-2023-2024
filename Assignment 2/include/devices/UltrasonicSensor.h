@@ -1,14 +1,14 @@
-#ifndef __PROXIMITY_SENSOR_IMPL__
-#define __PROXIMITY_SENSOR_IMPL__
+#ifndef __ULTRASONIC_SENSOR__
+#define __ULTRASONIC_SENSOR__
 #include "ProximitySensor.h"
 
 /**
  * @brief Abstract interface for a proximity sensor.
  */
-class ProximitySensorImpl : public ProximitySensor {
+class UltrasonicSensor : public ProximitySensor {
 
 public:
-    ProximitySensorImpl(short echoPin, short triggerPin);
+    UltrasonicSensor(short echoPin, short triggerPin);
 
     float getDistance();
 
