@@ -7,7 +7,6 @@ class Led {
 public:
   Led(int pin);
 
-  void initialize();
   void turnOn();
   void turnOff();
   void setIntensity(int intensity);

@@ -2,9 +2,6 @@
 
 Led::Led(int pin) {
   this->pin = pin;
-}
-
-void Led::initialize() {
   pinMode(pin, OUTPUT);
 }
 
