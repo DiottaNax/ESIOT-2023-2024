@@ -4,7 +4,7 @@
 
 #include "Task.h"
 
-class TaskWithState : Task {
+class TaskWithState : public Task {
     
 public:
   TaskWithState() : Task(){}

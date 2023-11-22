@@ -10,7 +10,7 @@ private:
   enum { ON, OFF} state;
 
 public:
-  BlinkingTask() : Task(){}
+  using Task::Task;
   void changePeriod(int period);  
   void init(int pin);  
   void tick();
