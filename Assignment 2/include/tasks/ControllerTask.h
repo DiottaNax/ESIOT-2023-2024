@@ -4,6 +4,8 @@
 #include "tasks/BlinkingTask.h"
 #include "tasks/DistanceControlTask.h"
 #include "tasks/TemperatureTask.h"
+#include "devices/PresenceDetectorImpl.h"
+#include "models/Bridge.h"
 #include "config.h"
 
 #define PERIOD 50
@@ -11,14 +13,14 @@
 class ControllerTask : public TaskWithState {
 private:
     BlinkingTask *blink;
-    DistanceControlTask *distanceController;
     TemperatureTask *tempController;
+    PresenceDetectorImpl *presenceSensor;
     Led *L1;
     Led *L3;
-    CarWashingState currentState;
+    Bridge *bridge;
 
 public:
-    ControllerTask(BlinkingTask *blink, DistanceControlTask *distanceController, TemperatureTask *tempController);
+    ControllerTask(Bridge *bridge, BlinkingTask *blink, TemperatureTask *tempController, PresenceDetectorImpl *presenceSensor);
     void init(int L1pin, int L2pin);
     void tick();
 };
