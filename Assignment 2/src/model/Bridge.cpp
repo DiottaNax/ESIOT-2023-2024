@@ -1,4 +1,4 @@
-#include "models/Bridge.h"
+#include "model/Bridge.h"
 #include "config.h"
 #include <Arduino.h>
 
