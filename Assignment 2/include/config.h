@@ -2,9 +2,9 @@
 #define __CONFIG__
 
 #define PRESENCE_SENSOR 2
-#define PIN_LED1 11
-#define PIN_LED2 12
-#define PIN_LED3 13
+#define PIN_LED1 14
+#define PIN_LED2 15
+#define PIN_LED3 16
 
 #define N1 1
 #define N2 2000
