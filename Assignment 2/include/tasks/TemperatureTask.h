@@ -2,19 +2,21 @@
 #define __TEMPERATURE_TASK__
 
 #include "devices/LM35Sensor.h"
-#include "tasks/ControllerTask.h"
+#include "models/Bridge.h"
 #include "Task.h"
 #define MAXTEMP 20
 
-class TemperatureTask: public Task {
-private:
-  LM35Sensor *sensor;
-  ControllerTask *controller;
+class TemperatureTask : public Task {
 
 public:
-  TemperatureTask(int period, ControllerTask *controller);  
+  TemperatureTask(int period, Bridge *bridge);  
   void init(int pin);  
   void tick();
+
+private:
+  LM35Sensor *sensor;
+  Bridge *bridge;
+  
 };
 
 #endif
