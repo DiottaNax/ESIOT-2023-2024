@@ -5,7 +5,7 @@
 #include "tasks/DistanceControlTask.h"
 #include "tasks/TemperatureTask.h"
 #include "devices/PresenceDetectorImpl.h"
-#include "models/Bridge.h"
+#include "model/Bridge.h"
 #include "config.h"
 
 #define PERIOD 50

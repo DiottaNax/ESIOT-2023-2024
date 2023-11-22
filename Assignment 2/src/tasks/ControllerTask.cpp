@@ -1,8 +1,4 @@
-#include "tasks/BlinkingTask.h"
-#include "tasks/DistanceControlTask.h"
-#include "tasks/TemperatureTask.h"
-#include "devices/PresenceDetectorImpl.h"
-#include "models/Bridge.h"
+#include "tasks/ControllerTask.h"
 #include "config.h"
 #include <avr/sleep.h>
 
@@ -24,8 +20,7 @@ void ControllerTask::init(int pinL1, int pinL3) {
 }
 
 void ControllerTask::tick() {
-    switch (this->bridge->getState())
-    {
+    switch (this->bridge->getState()) {
     case CAR_WAITING:
         break;
     case WELCOME:
@@ -52,7 +47,7 @@ void ControllerTask::tick() {
         this->blink->setActive(true);
         //LCDdisplay compare una barra di caricamento N3->0
         break;
-    case MANTEINANCE:
+    case MAINTENANCE:
         break;
     case WASHING_COMPLETED:
         this->tempController->setActive(false);
