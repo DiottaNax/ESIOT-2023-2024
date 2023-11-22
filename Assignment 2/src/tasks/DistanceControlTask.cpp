@@ -41,6 +41,9 @@ void DistanceControlTask::handleDistance(bool distanceCondition, bool timeCondit
     }
 }
 
+/**
+ * Opens the gate if not already opened
+ */
 void DistanceControlTask::handleGate() {
     if (!_gateOpened) {
         _gate->setAngle(OPEN);
@@ -50,7 +53,6 @@ void DistanceControlTask::handleGate() {
 
 void DistanceControlTask::tick()
 {
-    // Handle gate operations
     handleGate();
 
     // Get the current distance and time
