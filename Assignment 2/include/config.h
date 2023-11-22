@@ -13,7 +13,8 @@ enum CarWashingState {
     GATE_OPENING,
     READY_TO_WASH,
     CAR_WASHING,
-    WASHING_COMPLITED
+    WASHING_COMPLETED,
+    MANTEINANCE
 };
 
 #endif
