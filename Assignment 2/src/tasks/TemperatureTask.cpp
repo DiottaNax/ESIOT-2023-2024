@@ -1,11 +1,11 @@
 #include "tasks/TemperatureTask.h"
 #include "config.h"
 
-TemperatureTask::TemperatureTask(int period, ControllerTask *controller) {
+TemperatureTask::TemperatureTask(int period, Bridge *controller) {
     active = false;
     periodic = true;
     this->period = period;
-    this->controller = controller;
+    this->bridge = controller;
 }
 
 void TemperatureTask::init(int pin) {
@@ -16,6 +16,6 @@ void TemperatureTask::init(int pin) {
 
 void TemperatureTask::tick() {
     if (this->sensor->getTemp() >= MAXTEMP) {
-        controller->setState(MANTEINANCE);
+        bridge->setState(MANTEINANCE);
     }
 }
