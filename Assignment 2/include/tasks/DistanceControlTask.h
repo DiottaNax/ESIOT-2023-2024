@@ -4,7 +4,7 @@
 #include "TaskWithState.h"
 #include "devices/ProximitySensor.h"
 #include "devices/ServoMotor.h"
-#include "ControllerTask.h"
+#include "model/Bridge.h"
 
 /**
  * @brief A task responsible for distance control using a proximity sensor and a servo motor.
@@ -27,7 +27,7 @@ private:
     bool _alreadyPassedDist;          // Flag indicating if the object has already passed the minimum distance.
     ServoMotor *_gate;                // Pointer to the servo motor controlling the gate.
     ProximitySensor *_proxSensor;     // Pointer to the proximity sensor for distance measurement.
-    ControllerTask *_controllerTask;  // Pointer to the controller task for coordination.
+    Bridge *_bridge;  // Pointer to the bridge for coordination.
 
     /**
      * @brief Handles the operations related to the gate.
@@ -38,9 +38,6 @@ private:
 
     /**
      * @brief Handles the distance-related operations based on specified conditions.
-     *
-     * This function checks conditions related to the object's distance and time
-     * to determine the appropriate actions. It is called within the `tick` method.
      *
      * @param distanceCondition A boolean indicating whether the distance condition is met.
      * @param timeCondition A boolean indicating for how much time the distance condition needs to be respected.
@@ -54,16 +51,12 @@ public:
      *
      * @param proxSensor Pointer to the proximity sensor.
      * @param gate Pointer to the servo motor controlling the gate.
-     * @param controllerTask Pointer to the controller task.
+     * @param bridge Pointer to the bridge.
      */
-    DistanceControlTask(ProximitySensor *proxSensor, ServoMotor *gate, ControllerTask *controllerTask);
+    DistanceControlTask(ProximitySensor *proxSensor, ServoMotor *gate, Bridge *bridge);
 
-    /**
-     * @brief Executes the task logic.
-     *
-     * This method is called periodically to perform distance control based on
-     * the readings from the proximity sensor.
-     */
+    void init();
+
     void tick();
 };
 

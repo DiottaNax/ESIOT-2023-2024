@@ -6,15 +6,10 @@
 #define OPEN 180
 #define CLOSED 0
 
-DistanceControlTask::DistanceControlTask(ProximitySensor *proxSensor, ServoMotor *gate, ControllerTask *controllerTask){
+DistanceControlTask::DistanceControlTask(ProximitySensor *proxSensor, ServoMotor *gate, Bridge *bridge){
     _proxSensor = proxSensor;
     _gate = gate;
-    _controllerTask = controllerTask;
-    _gateOpened = false;
-    _alreadyPassedDist = false;
-    setState(ENTERING);
-    _gate->on();
-    _gate->setAngle(CLOSED);
+    _bridge = bridge;
 }
 
 void DistanceControlTask::handleDistance(bool distanceCondition, bool timeCondition, CarWashingState stateToSet)
@@ -36,7 +31,7 @@ void DistanceControlTask::handleDistance(bool distanceCondition, bool timeCondit
             setState(getState() == ENTERING ? LEAVING : ENTERING);
             // Disactivating the task waiting to be activated by an outside task
             setActive(false);
-            _controllerTask->setState(stateToSet);
+            _bridge->setState(stateToSet);
         }
     }
 }
@@ -49,6 +44,14 @@ void DistanceControlTask::handleGate() {
         _gate->setAngle(OPEN);
         _gateOpened = true;
     }
+}
+
+void DistanceControlTask::init(){
+    _gateOpened = false;
+    _alreadyPassedDist = false;
+    setState(ENTERING);
+    _gate->on();
+    _gate->setAngle(CLOSED);
 }
 
 void DistanceControlTask::tick()
