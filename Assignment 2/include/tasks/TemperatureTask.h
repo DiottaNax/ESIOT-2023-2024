@@ -2,7 +2,7 @@
 #define __TEMPERATURE_TASK__
 
 #include "devices/LM35Sensor.h"
-#include "models/Bridge.h"
+#include "model/Bridge.h"
 #include "Task.h"
 #define MAXTEMP 20
 
