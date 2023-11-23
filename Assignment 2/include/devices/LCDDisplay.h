@@ -42,6 +42,8 @@ public:
    */
   void setCursor(int column, int row);
 
+  void scrollToLeft();
+
 private:
   LiquidCrystal lcd; /**< The LiquidCrystal object used for interfacing with the LCD display. */
 };
