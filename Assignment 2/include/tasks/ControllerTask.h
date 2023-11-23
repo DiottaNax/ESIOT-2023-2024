@@ -8,7 +8,7 @@
 #include "model/Bridge.h"
 #include "config.h"
 
-#define PERIOD 50
+#define PERIOD 10
 
 class ControllerTask : public TaskWithState {
 private:
@@ -21,7 +21,7 @@ private:
 
 public:
     ControllerTask(Bridge *bridge, BlinkingTask *blink, TemperatureTask *tempController, PresenceDetectorImpl *presenceSensor);
-    void init(int L1pin, int L2pin);
+    void init();
     void tick();
 };
 
