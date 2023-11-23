@@ -1,18 +1,44 @@
 #include <Arduino.h>
+#include "model/Bridge.h"
+#include "kernel/Scheduler.h"
+#include "tasks/ControllerTask.h"
+#include "tasks/BlinkingTask.h"
+#include "tasks/DistanceControlTask.h"
+#include "tasks/TemperatureTask.h"
+#include "devices/PresenceDetectorImpl.h"
+#include "config.h"
 
-// put function declarations here:
-int myFunction(int, int);
+//#include <EnableInterrupt.h>
+#include <avr/sleep.h>
+
+Bridge *bridge;
+Scheduler *scheduler;
+ControllerTask *controller;
+BlinkingTask *blink;
+TemperatureTask *tempController;
+PresenceDetectorImpl *presenceSensor;
+
+void changeState() {
+  Serial.println("Movement detected");
+}
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  bridge = new Bridge();
+  scheduler = new Scheduler();
+  blink = new BlinkingTask();
+  tempController = new TemperatureTask(50, bridge);
+  presenceSensor = new PresenceDetectorImpl(PIR_PIN);
+
+  controller = new ControllerTask(bridge, blink, tempController, presenceSensor);
+  controller->init();
+  controller->setActive(true);
+  scheduler->init(10);
+  scheduler->addTask(controller);
+  attachInterrupt(digitalPinToInterrupt(PIR_PIN), changeState, CHANGE);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  Serial.println(bridge->getState());
+  scheduler->schedule();
 }

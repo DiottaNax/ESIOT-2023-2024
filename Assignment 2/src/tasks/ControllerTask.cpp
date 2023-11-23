@@ -11,19 +11,21 @@ ControllerTask::ControllerTask(Bridge *bridge, BlinkingTask *blink, TemperatureT
     this->periodic = true;
 }
 
-void ControllerTask::init(int pinL1, int pinL3) {
+void ControllerTask::init() {
     active = true;
-    this->L1 = new Led(pinL1);
-    this->L3 = new Led(pinL3);
     this->bridge->setState(CAR_WAITING);
-    /*attachInterrupt(digitalPinToInterrupt(PRESENCE_SENSOR), bridge->setState(WELCOME),RISING);*/
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 }
 
 void ControllerTask::tick() {
     switch (this->bridge->getState()) {
     case CAR_WAITING:
+        sleep_enable();
+        sleep_mode(); 
+        sleep_disable();
+        this->bridge->setState(WELCOME);
         break;
-    case WELCOME:
+    case WELCOME: 
         //LCDdisplay scrive "Welcome"
         this->L1->turnOn();
         if (this->bridge->elapsedTimeInState() >= N1) {

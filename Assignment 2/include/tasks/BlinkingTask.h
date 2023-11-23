@@ -10,10 +10,10 @@ private:
   enum { ON, OFF} state;
 
 public:
-  using Task::Task;
-  void changePeriod(int period);  
+  using Task::Task; 
   void init(int pin);  
   void tick();
+  void changePeriod(int period); 
 };
 
 #endif
