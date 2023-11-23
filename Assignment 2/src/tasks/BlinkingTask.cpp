@@ -20,3 +20,7 @@ void BlinkingTask::tick() {
             break;
     }
 }
+
+void BlinkingTask::changePeriod(int period) {
+    this->period = period;
+}
