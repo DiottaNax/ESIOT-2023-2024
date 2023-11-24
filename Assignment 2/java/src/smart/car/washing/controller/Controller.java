@@ -1,4 +1,4 @@
-package controller;
+package smart.car.washing.controller;
 
 public interface Controller {
 

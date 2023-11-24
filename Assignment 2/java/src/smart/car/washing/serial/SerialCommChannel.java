@@ -1,4 +1,4 @@
-package serial;
+package smart.car.washing.serial;
 
 import java.util.concurrent.*;
 import jssc.*;

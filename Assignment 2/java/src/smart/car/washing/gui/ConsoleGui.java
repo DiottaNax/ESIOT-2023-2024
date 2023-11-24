@@ -1,4 +1,4 @@
-package gui;
+package smart.car.washing.gui;
 
 import java.lang.Math;
 
@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import serial.CommChannel;
+import smart.car.washing.serial.CommChannel;
 
 
 public class ConsoleGui extends JFrame {

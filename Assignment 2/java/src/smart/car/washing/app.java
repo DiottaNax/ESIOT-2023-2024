@@ -1,12 +1,14 @@
+package smart.car.washing;
+
 import java.util.StringTokenizer;
 
-import serial.SerialCommChannel;
-import gui.ConsoleGui;
+import smart.car.washing.gui.ConsoleGui;
+import smart.car.washing.serial.SerialCommChannel;
 
 public class app {
     
     public static void main(String[] args) throws Exception {
-        SerialCommChannel channel = new SerialCommChannel("COM5",9600);		
+        SerialCommChannel channel = new SerialCommChannel("COM3",9600);		
 		
         ConsoleGui gui = new ConsoleGui(channel);
         

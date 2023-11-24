@@ -1,5 +1,4 @@
-package serial;
-
+package smart.car.washing.serial;
 
 /**
  * Simple interface for an async msg communication channel
