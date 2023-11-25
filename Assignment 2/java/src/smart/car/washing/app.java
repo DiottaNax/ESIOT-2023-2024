@@ -2,15 +2,19 @@ package smart.car.washing;
 
 import java.util.StringTokenizer;
 
+import smart.car.washing.controller.Controller;
+import smart.car.washing.controller.ControllerImpl;
 import smart.car.washing.gui.ConsoleGui;
-import smart.car.washing.serial.SerialCommChannel;
+import smart.car.washing.serial.ChannelMonitor;
 
 public class app {
     
     public static void main(String[] args) throws Exception {
-        SerialCommChannel channel = new SerialCommChannel("COM3",9600);		
-		
-        ConsoleGui gui = new ConsoleGui(channel);
+        final ConsoleGui gui = new ConsoleGui();
+        final Controller controller = new ControllerImpl(gui);
+        gui.attachController(controller);
+        final Thread channelMonitorThread = new Thread(new ChannelMonitor("COM9", controller));
+        channelMonitorThread.start();
         
 		System.out.println("Waiting Arduino for rebooting...");
 		Thread.sleep(3000);
