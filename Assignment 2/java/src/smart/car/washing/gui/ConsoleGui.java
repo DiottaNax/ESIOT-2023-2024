@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import smart.car.washing.controller.Controller;
 import smart.car.washing.serial.CommChannel;
 
 
@@ -22,8 +23,7 @@ public class ConsoleGui extends JFrame {
     private JLabel temp = new JLabel();
     private JLabel washingNumber = new JLabel();
     private JLabel state = new JLabel();
-    private MaintenanceButtonListener buttonListener;
-    private JButton maintenanceButton = null;
+    private final JButton maintenanceButton;
 
     public ConsoleGui() {
         mainPanel = new JPanel();
@@ -49,11 +49,7 @@ public class ConsoleGui extends JFrame {
         state.setText("Current State: CAR_WAITING");
 
         maintenanceButton = new JButton("Maintenance Done");
-        maintenanceButton.addActionListener(e -> {
-            if (this.buttonListener!=null) {
-                this.buttonListener.action()
-            } 
-        });
+
         this.mainPanel.add(southPanel, BorderLayout.SOUTH);
         this.mainPanel.add(centerPanel, BorderLayout.CENTER);
         this.mainPanel.add(northPanel, BorderLayout.NORTH);
@@ -72,23 +68,25 @@ public class ConsoleGui extends JFrame {
         this.setVisible(true);
     }
 
-    public void updateTemperature(int temperature) {
+    public void updateTemperature(final int temperature) {
         this.temp.setText("Current Temperrature: "+temperature);
     }
 
-    public void updateWashingNumber(int number) {
+    public void updateWashingNumber(final int number) {
         this.washingNumber.setText("Current Number: "+number);
     }
 
-    public void updateState(String state) {
-        this.state.setText("Current State: "+state);
+    public void updateState(final String state) {
+        this.state.setText("Current State: " + state);
+        if (state.equals("MAINTENANCE")) {
+            this.maintenanceButton.setEnabled(true);
+        }
     }
 
-    public void updateButtonState(boolean enable) {
-        this.maintenanceButton.setEnable(enable);
-    }
-
-    public void updateButtonListener(Controller controller) {
-        this.buttonListener = new MaintenanceButtonListener(controller);
+    public void attachController(final Controller controller) {
+        maintenanceButton.addActionListener(e -> {
+            controller.notifyEvent("MAINTENANCE DONE");
+            maintenanceButton.setEnabled(false);
+        });
     }
 }
