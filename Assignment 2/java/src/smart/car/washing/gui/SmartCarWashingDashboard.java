@@ -14,10 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import smart.car.washing.controller.Controller;
-import smart.car.washing.serial.CommChannel;
 
-
-public class ConsoleGui extends JFrame {
+public class SmartCarWashingDashboard extends JFrame implements Dashboard {
     private static int PROPORTION = 2;
     private JPanel mainPanel;
     private JLabel temp = new JLabel();
@@ -25,7 +23,7 @@ public class ConsoleGui extends JFrame {
     private JLabel state = new JLabel();
     private final JButton maintenanceButton;
 
-    public ConsoleGui() {
+    public SmartCarWashingDashboard() {
         mainPanel = new JPanel();
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(Color.LIGHT_GRAY);
@@ -49,6 +47,7 @@ public class ConsoleGui extends JFrame {
         state.setText("Current State: CAR_WAITING");
 
         maintenanceButton = new JButton("Maintenance Done");
+        maintenanceButton.setEnabled(false);
 
         this.mainPanel.add(southPanel, BorderLayout.SOUTH);
         this.mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -85,7 +84,7 @@ public class ConsoleGui extends JFrame {
 
     public void attachController(final Controller controller) {
         maintenanceButton.addActionListener(e -> {
-            controller.notifyEvent("MAINTENANCE DONE");
+            controller.notifyEvent("MAINTENANCE:DONE");
             maintenanceButton.setEnabled(false);
         });
     }
