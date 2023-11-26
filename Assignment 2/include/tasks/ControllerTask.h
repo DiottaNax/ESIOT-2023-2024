@@ -1,26 +1,25 @@
 #ifndef __CONTROLLER_TASK__
 #define __CONTROLLER_TASK__
 #include "TaskWithState.h"
-#include "tasks/BlinkingTask.h"
+#include "tasks/UserConsoleTask.h"
 #include "tasks/DistanceControlTask.h"
 #include "tasks/TemperatureTask.h"
 #include "devices/PresenceDetectorImpl.h"
 #include "model/Bridge.h"
+#include "serial/MsgService.h"
 #include "config.h"
 
 #define PERIOD 10
 
 class ControllerTask : public TaskWithState {
 private:
-    BlinkingTask *blink;
     TemperatureTask *tempController;
     PresenceDetectorImpl *presenceSensor;
-    Led *L1;
-    Led *L3;
+    UserConsoleTask *userConsole;
     Bridge *bridge;
 
 public:
-    ControllerTask(Bridge *bridge, BlinkingTask *blink, TemperatureTask *tempController, PresenceDetectorImpl *presenceSensor);
+    ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, TemperatureTask *tempController, PresenceDetectorImpl *presenceSensor);
     void init();
     void tick();
 };
