@@ -21,6 +21,11 @@ import javax.swing.border.EmptyBorder;
 
 import smart.car.washing.controller.Controller;
 
+/**
+ * The SmartCarWashingDashboard class represents the graphical user interface
+ * for a smart car washing system. It displays temperature, washing number,
+ * current state, and allows performing maintenance actions.
+ */
 public class SmartCarWashingDashboard extends JFrame implements Dashboard {
     private static int PROPORTION = 2;
     private JPanel mainPanel;
@@ -29,6 +34,9 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
     private JLabel state = new JLabel();
     private final JButton maintenanceButton;
 
+    /**
+     * Constructor for the SmartCarWashingDashboard.
+     */
     public SmartCarWashingDashboard() {
 
         mainPanel = new JPanel();
@@ -79,14 +87,29 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         this.setVisible(true);
     }
 
+    /**
+     * Updates the displayed temperature on the dashboard.
+     *
+     * @param temperature The current temperature reading from the system.
+     */
     public void updateTemperature(final int temperature) {
         this.temp.setTemperature(temperature);
     }
 
+    /**
+     * Updates the displayed washing number on the dashboard.
+     *
+     * @param number The current washing number or identifier.
+     */
     public void updateWashingNumber(final int number) {
         this.washingNumber.setText("Current Number: " + number);
     }
 
+    /**
+     * Updates the displayed state on the dashboard.
+     *
+     * @param state A string representing the current state of the car washing system.
+     */
     public void updateState(final String state) {
         this.state.setText("Current State: " + state);
         if (state.equals("MAINTENANCE")) {
@@ -94,6 +117,11 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         }
     }
 
+    /**
+     * Attaches a controller to the dashboard for event handling.
+     *
+     * @param controller The controller to be attached for event handling.
+     */
     public void attachController(final Controller controller) {
         maintenanceButton.addActionListener(e -> {
             controller.notifyEvent("MAINTENANCE:DONE");

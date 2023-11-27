@@ -22,6 +22,7 @@ TemperatureTask *tempController;
 DistanceControlTask *distanceController;
 UserConsoleTask *userConsole;
 
+// Callback function for presence detection
 void changeState() {
   Serial.println("Movement detected");
 }
@@ -36,15 +37,11 @@ void setup() {
   
   blink = new BlinkingTask();
   tempController = new TemperatureTask(50, bridge);
-  tempController->init(LM35_PIN);
   distanceController = new DistanceControlTask(distanceSensor, gate, bridge);
-  distanceController->init();
   userConsole = new UserConsoleTask(bridge, blink);
-  userConsole->init();
 
   controller = new ControllerTask(bridge, userConsole, tempController, distanceController);
   controller->init();
-  controller->setActive(true);
 
   scheduler = new Scheduler();
   scheduler->init(10);
@@ -54,10 +51,11 @@ void setup() {
   scheduler->addTask(distanceController);
   scheduler->addTask(userConsole);
 
+  // Attach an interrupt for the presence detection using PIR sensor
   attachInterrupt(digitalPinToInterrupt(PIR_PIN), changeState, CHANGE);
 }
 
 void loop() {
   Serial.println(bridge->getState());
-  scheduler->schedule();
+  scheduler->schedule(); 
 }

@@ -5,15 +5,30 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 
-
+/**
+ * JPanel subclass representing a graphical representation of temperature.
+ * The temperature is displayed as a vertical bar within the panel, with
+ * a color indicating whether it exceeds a specified threshold.
+ */
 class TemperaturePanel extends JPanel {
+    
     private int temperature;
 
+    /**
+     * Sets the temperature value and triggers a repaint of the panel.
+     *
+     * @param temperature The temperature value to be displayed.
+     */
     public void setTemperature(int temperature) {
         this.temperature = temperature;
         repaint();
     }
 
+    /**
+     * Overrides the paintComponent method to customize the appearance of the panel.
+     *
+     * @param g The Graphics object used for painting.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
