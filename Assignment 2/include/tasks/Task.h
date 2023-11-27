@@ -25,10 +25,9 @@ public:
   }
 
   /**
-   * @brief Initializes the task, setting it to active and resetting elapsed time.
+   * @brief Initializes the task resetting elapsed time.
    */
   void init() {
-      active = true;
       timeElapsed = 0;
   }
 

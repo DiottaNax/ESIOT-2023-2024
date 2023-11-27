@@ -1,5 +1,6 @@
 #include "tasks/TemperatureTask.h"
 #include "config.h"
+#include "serial/MsgService.h"
 
 TemperatureTask::TemperatureTask(int period, Bridge *controller) {
     active = false;
@@ -10,12 +11,15 @@ TemperatureTask::TemperatureTask(int period, Bridge *controller) {
 
 void TemperatureTask::init(int pin) {
     this->sensor = new LM35Sensor(pin);
-    this->active = true;
     this->timeElapsed = 0;
 }
 
 void TemperatureTask::tick() {
-    if (this->sensor->getTemp() >= MAXTEMP) {
+    int temp = this->sensor->getTemp();
+    if (temp >= MAXTEMP) {
         bridge->setState(MAINTENANCE);
+    }
+    if(MsgService.isMsgAvailable()) {
+        MsgService.sendMsg("TEMP:"+temp);
     }
 }
