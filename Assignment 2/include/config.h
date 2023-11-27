@@ -18,14 +18,21 @@
 #define MINDIST 0.04
 #define MAXDIST 0.08
 
+/**
+ * @brief Enumeration representing the states in a car washing process.
+ *
+ * The CarWashingState enumeration defines the possible states in a car washing
+ * process. Each state represents a specific phase, from the car waiting to washing 
+ * completion.
+ */
 enum CarWashingState {
-    CAR_WAITING,
-    WELCOME,
-    GATE_OPENING,
-    READY_TO_WASH,
-    CAR_WASHING,
-    WASHING_COMPLETED,
-    MAINTENANCE
+    CAR_WAITING,    //The initial state when the car is waiting.
+    WELCOME,        // The state indicating the welcome phase, triggered when a car is detected by the motion sensor.
+    GATE_OPENING,   // The state when the gate of the car wash is opening, and it closes when the car is at the correct distance.
+    READY_TO_WASH,  // The state when the system is ready to start washing, waiting for the user to push the start button.
+    CAR_WASHING,    // The state representing the active car washing process.
+    WASHING_COMPLETED,  // The state indicating that the car washing is completed.
+    MAINTENANCE     //The state called only if the temperature during washing exceeds a certain value, indicating the need for maintenance.
 };
 
 #endif
