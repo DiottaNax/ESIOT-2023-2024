@@ -2,9 +2,6 @@ package smart.car.washing;
 
 import java.util.logging.Level;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
 import smart.car.washing.controller.Controller;
 import smart.car.washing.controller.ControllerImpl;
 import smart.car.washing.gui.Dashboard;
@@ -24,7 +21,7 @@ public class app {
         dashboard = new SmartCarWashingDashboard();
         
         try {
-            channelMonitor = new ChannelMonitor(new SerialCommChannel("COM9", 9600));
+            channelMonitor = new ChannelMonitor(new SerialCommChannel("COM6", 9600));
             channelMonitor.attachController(controller);
         } catch (Exception e) {
             e.printStackTrace();
