@@ -1,10 +1,14 @@
 #ifndef __CONFIG__
 #define __CONFIG__
 
-#define PIR_PIN 2
-#define PIN_LED1 14
-#define PIN_LED2 15
-#define PIN_LED3 16
+#define PIR_PIN 5
+#define PIN_LED1 1
+#define PIN_LED2 2
+#define PIN_LED3 3
+#define GATE_PIN 3
+#define DISTANCE_ECHO_PIN 4
+#define DISTANCE_TRIGGERED_PIN 5
+#define LM35_PIN A2
 
 #define N1 1000
 #define N2 2000

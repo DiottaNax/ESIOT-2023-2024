@@ -4,7 +4,7 @@
 #include "devices/LM35Sensor.h"
 #include "model/Bridge.h"
 #include "Task.h"
-#define MAXTEMP 20
+#define MAXTEMP 27
 
 class TemperatureTask : public Task {
 

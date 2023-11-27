@@ -4,13 +4,13 @@
 #define SLIDING_PERIOD 1000
 #define TICK_PERIOD 200
 
-#define RS_PIN 2
-#define ENABLE_PIN 3
-#define D4_PIN 4
-#define D5_PIN 5
-#define D6_PIN 6
-#define D7_PIN 7
-#define BUTTON_PIN 10
+#define RS_PIN 8
+#define ENABLE_PIN 9
+#define D4_PIN 10
+#define D5_PIN 11
+#define D6_PIN 12
+#define D7_PIN 13
+#define BUTTON_PIN 4
 
 #include "tasks/Task.h"
 #include "tasks/BlinkingTask.h"
