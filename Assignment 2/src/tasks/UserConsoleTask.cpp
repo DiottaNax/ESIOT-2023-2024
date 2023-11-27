@@ -67,7 +67,10 @@ void UserConsoleTask::tick(){
     case CAR_WASHING:
         _display.print("Washing process:", 0, 0);
         _display.print(String(getWashingPercentage()) + "%", 0, 1);
+        //_tBlinking->changePeriod(500);
+        //_tBlinking->setActive(true); (devono essere disattivate?)
         if(getWashingPercentage() >= 100){
+            _bridge->setState(WASHING_COMPLETED);
             setActive(false);
         }
         break;

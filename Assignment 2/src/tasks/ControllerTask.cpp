@@ -14,6 +14,11 @@ ControllerTask::ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, Tem
 void ControllerTask::init() {
     active = true;
     this->bridge->setState(CAR_WAITING);
+
+    distanceController->init();
+    tempController->init(LM35_PIN);
+    userConsole->init();
+
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     MsgService.init();
 }
@@ -22,9 +27,14 @@ void ControllerTask::tick() {
     switch (this->bridge->getState()) {
     case CAR_WAITING:
         this->distanceController->setActive(false);
+        this->washingNumber++;
+        MsgService.sendMsg("NUMBER:"+washingNumber);
+
+        //sleeping
         sleep_enable();
         sleep_mode(); 
         sleep_disable();
+
         this->bridge->setState(WELCOME);
         break;
     case WELCOME: 
@@ -39,7 +49,6 @@ void ControllerTask::tick() {
         break;
     case READY_TO_WASH:
         this->userConsole->setActive(true);
-        this->distanceController->setActive(false);
         break;
     case CAR_WASHING:
         this->userConsole->setActive(true);
@@ -51,6 +60,7 @@ void ControllerTask::tick() {
             Msg *msg = MsgService.receiveMsg();
             if(msg->getContent().equals("DONE")){
                 bridge->setState(CAR_WASHING);
+                bridge->changeElapsedTimeInState(bridge->elapsedTimeInLastState());
             }
             delete (msg);
         }
