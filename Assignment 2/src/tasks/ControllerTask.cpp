@@ -2,10 +2,10 @@
 #include "config.h"
 #include <avr/sleep.h>
 
-ControllerTask::ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, TemperatureTask *tempController, PresenceDetectorImpl *presenceSensor) {
+ControllerTask::ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, TemperatureTask *tempController, DistanceControlTask *distanceController) {
     this->tempController = tempController;
     this->bridge = bridge;
-    this->presenceSensor = presenceSensor;
+    this->distanceController = distanceController;
     this->period = PERIOD;
     this->periodic = true;
     this->userConsole = userConsole;
@@ -21,42 +21,44 @@ void ControllerTask::init() {
 void ControllerTask::tick() {
     switch (this->bridge->getState()) {
     case CAR_WAITING:
+        this->distanceController->setActive(false);
         sleep_enable();
         sleep_mode(); 
         sleep_disable();
         this->bridge->setState(WELCOME);
         break;
     case WELCOME: 
-        //LCDdisplay scrive "Welcome"
+        this->userConsole->setActive(true);
         if (this->bridge->elapsedTimeInState() >= N1) {
             this->bridge->setState(GATE_OPENING);
         }
         break;
     case GATE_OPENING:
-        //LCDdisplay scrive "Proceed to the Washing Area"
-        //Attiva sensore di distanza e apre il gate
+        this->userConsole->setActive(true);
+        this->distanceController->setActive(true);
         break;
     case READY_TO_WASH:
-        //Disattiva il sensore di distanza e chiude il gate
-        //LCDdisplay scrive "Ready To Wash"
+        this->userConsole->setActive(true);
+        this->distanceController->setActive(false);
         break;
     case CAR_WASHING:
+        this->userConsole->setActive(true);
         this->tempController->setActive(true);
-        //LCDdisplay compare una barra di caricamento N3->0
         break;
     case MAINTENANCE:
+        this->userConsole->setActive(true);
         if(MsgService.isMsgAvailable()){
             Msg *msg = MsgService.receiveMsg();
-            if(msg->getContent().equals("MAINTENANCE:DONE")){
+            if(msg->getContent().equals("DONE")){
                 bridge->setState(CAR_WASHING);
             }
             delete (msg);
         }
         break;
     case WASHING_COMPLETED:
+        this->userConsole->setActive(true);
         this->tempController->setActive(false);
-        //LCDdisplay scrive "Washing complete, you can leave the area"
-        //Attiva distanceContoller e apre la sbarra
+        this->distanceController->setActive(true);
         break;
     default:
         break;

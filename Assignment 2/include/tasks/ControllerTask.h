@@ -14,12 +14,12 @@
 class ControllerTask : public TaskWithState {
 private:
     TemperatureTask *tempController;
-    PresenceDetectorImpl *presenceSensor;
     UserConsoleTask *userConsole;
+    DistanceControlTask *distanceController;
     Bridge *bridge;
 
 public:
-    ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, TemperatureTask *tempController, PresenceDetectorImpl *presenceSensor);
+    ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, TemperatureTask *tempController, DistanceControlTask *distanceController);
     void init();
     void tick();
 };
