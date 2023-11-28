@@ -1,6 +1,6 @@
 #ifndef __TEMP_SENSOR_IMPL__
 #define __TEMP_SENSOR_IMPL__
-#include "ITemperatureSensor.h"
+#include "TemperatureSensor.h"
 
 /**
  * @brief Concrete implementation of the ITemperatureSensor interface for LM35 temperature sensor. 
