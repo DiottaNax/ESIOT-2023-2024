@@ -20,3 +20,7 @@ void Gate::setAngle(short angle){
         }
     }
 }
+
+void Gate::off(){
+    _servo.detach();
+}
