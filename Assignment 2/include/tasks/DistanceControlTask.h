@@ -14,8 +14,7 @@
  * to an object using the proximity sensor and controls the gate (servo motor) based on
  * the detected distance.
  */
-class DistanceControlTask : TaskWithState
-{
+class DistanceControlTask : public TaskWithState {
     enum State {
         ENTERING, // State when an object is entering the monitored area.
         LEAVING   // State when an object is leaving the monitored area.

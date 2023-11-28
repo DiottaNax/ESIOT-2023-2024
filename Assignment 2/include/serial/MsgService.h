@@ -89,7 +89,7 @@ public:
    * @param pattern The pattern to match against.
    * @return True if a matching message is available, false otherwise.
    */
-  bool isMsgAvailable(Pattern& pattern);ù
+  bool isMsgAvailable(Pattern& pattern);
 
   /**
    * @brief Receive the next available message matching the specified pattern.
@@ -104,7 +104,7 @@ public:
    *
    * @param msg The message to send.
    */
-  void sendMsg(const Msg& msg);
+  void sendMsg(Msg& msg);
 
   /**
    * @brief Send a message with the specified content.
