@@ -30,14 +30,11 @@ void changeState() {
 void setup() {
   Serial.begin(9600);
 
-  Gate *gate = new Gate(GATE_PIN);
-  UltrasonicSensor *distanceSensor = new UltrasonicSensor(DISTANCE_ECHO_PIN, DISTANCE_TRIGGERED_PIN);
-
   bridge = new Bridge();
   
   blink = new BlinkingTask();
   tempController = new TemperatureTask(50, bridge);
-  distanceController = new DistanceControlTask(distanceSensor, gate, bridge);
+  distanceController = new DistanceControlTask(bridge);
   userConsole = new UserConsoleTask(bridge, blink);
 
   controller = new ControllerTask(bridge, userConsole, tempController, distanceController);

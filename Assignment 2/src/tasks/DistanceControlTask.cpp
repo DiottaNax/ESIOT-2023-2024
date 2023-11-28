@@ -1,14 +1,15 @@
 #include <Arduino.h>
 #include "tasks/DistanceControlTask.h"
-#include "tasks/DistanceControlTask.h"
+#include "devices/UltrasonicSensor.h"
+#include "devices/Gate.h"
 #include "config.h"
 
 #define OPEN 180
 #define CLOSED 0
 
-DistanceControlTask::DistanceControlTask(ProximitySensor *proxSensor, ServoMotor *gate, Bridge *bridge){
-    _proxSensor = proxSensor;
-    _gate = gate;
+DistanceControlTask::DistanceControlTask(Bridge *bridge){
+    _proxSensor = new UltrasonicSensor(ECHO_PIN, TRIGGER_PIN);
+    _gate = new Gate(GATE_PIN);
     _bridge = bridge;
 }
 

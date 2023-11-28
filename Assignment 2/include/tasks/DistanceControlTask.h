@@ -48,11 +48,9 @@ public:
     /**
      * @brief Constructor for DistanceControlTask.
      *
-     * @param proxSensor Pointer to the proximity sensor.
-     * @param gate Pointer to the servo motor controlling the gate.
      * @param bridge Pointer to the bridge.
      */
-    DistanceControlTask(ProximitySensor *proxSensor, ServoMotor *gate, Bridge *bridge);
+    DistanceControlTask(Bridge *bridge);
 
     void init();
 
