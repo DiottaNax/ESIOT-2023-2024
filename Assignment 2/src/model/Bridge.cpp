@@ -1,18 +1,21 @@
-#include "model/Bridge.h"
-#include "config.h"
 #include <Arduino.h>
+#include "model/Bridge.h"
+#include "serial/MsgService.h"
+#include "config.h"
 
 Bridge::Bridge() {
     this->currentState = CAR_WAITING;
-    this->elapsedTimeInLastState = 0;
+    this->lastStateTimeStamp = 0;
 }
 
 void Bridge::setState(CarWashingState newState) {
-    this->currentState = newState;
-    if (newState != MAINTENANCE) {
-        this->elapsedTimeInLastState = this->elapsedTimeInState;
+    if (currentState == MAINTENANCE && newState == CAR_WASHING) {
+        stateTimestamp = lastStateTimeStamp;
+    } else {
+        stateTimestamp = millis();
     }
-    stateTimestamp = millis();
+
+    currentState = newState;
     MsgService.sendMsg("STATE:"+this->currentState);
 }
 
@@ -22,8 +25,4 @@ CarWashingState Bridge::getState() {
 
 long Bridge::elapsedTimeInState() {
     return (millis() - this->stateTimestamp);
-}
-
-void Bridge::changeElapsedTimeInState(long time) {
-    this->stateTimestamp=time;
 }

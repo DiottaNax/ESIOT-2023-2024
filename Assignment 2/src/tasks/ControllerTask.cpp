@@ -60,7 +60,6 @@ void ControllerTask::tick() {
             Msg *msg = MsgService.receiveMsg();
             if(msg->getContent().equals("DONE")){
                 bridge->setState(CAR_WASHING);
-                bridge->changeElapsedTimeInState(bridge->elapsedTimeInLastState());
             }
             delete (msg);
         }

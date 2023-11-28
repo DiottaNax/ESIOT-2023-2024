@@ -47,11 +47,6 @@ public:
      * @return The elapsed time in the current state.
      */
     long elapsedTimeInState();
-
-    long elapsedTimeInLastState();
-
-    void changeElapsedTimeInState(long time);
-
 };
 
 #endif
