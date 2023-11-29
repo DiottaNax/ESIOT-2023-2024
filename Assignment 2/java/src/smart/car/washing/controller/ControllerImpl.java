@@ -34,8 +34,9 @@ public class ControllerImpl implements Controller {
      */
     public void notifyEvent(final String msgEvent) {
         StringTokenizer tokenizer = new StringTokenizer(msgEvent, ":");
-            switch(tokenizer.nextToken()){
-                case "TEMP": 
+        if (tokenizer.hasMoreTokens()) {
+            switch (tokenizer.nextToken()) {
+                case "TEMP":
                     this.gui.updateTemperature(Integer.parseInt(tokenizer.nextToken()));
                     break;
 
@@ -47,11 +48,12 @@ public class ControllerImpl implements Controller {
                 case "NUMBER":
                     this.gui.updateWashingNumber(Integer.parseInt(tokenizer.nextToken()));
                     break;
-                    
+
                 case "MAINTENANCE":
                     String msg = tokenizer.nextToken();
                     this.channelMonitor.sendMessage(msg);
                     break;
+            }
         }
     }
 
