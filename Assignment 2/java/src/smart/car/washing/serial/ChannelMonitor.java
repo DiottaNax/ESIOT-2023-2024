@@ -49,7 +49,7 @@ public class ChannelMonitor implements Runnable {
             }
 
             try {
-                Thread.sleep(50);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 DashboardLogger.showError(e, Level.SEVERE);
