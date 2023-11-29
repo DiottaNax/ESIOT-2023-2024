@@ -56,7 +56,7 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         this.mainPanel.setLayout(new BorderLayout());
 
         EmptyBorder border = new EmptyBorder(10, 10, 10, 10);
-        state.setText("Current State: CAR_WAITING");
+        state.setText("Current State: Waiting for car");
         washingNumber.setText("Current Number: 0");
         state.setBorder(border);
         washingNumber.setBorder(border);
