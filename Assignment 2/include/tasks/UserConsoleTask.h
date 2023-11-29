@@ -2,7 +2,7 @@
 #define __USER_CONSOLE_TASK__
 
 #define SLIDING_PERIOD 1000
-#define TICK_PERIOD 15
+#define TICK_PERIOD 100
 
 #include "tasks/Task.h"
 #include "tasks/BlinkingTask.h"
