@@ -16,7 +16,7 @@ void Bridge::setState(CarWashingState newState) {
     }
 
     currentState = newState;
-    MsgService.sendMsg("STATE:"+this->currentState);
+    MsgService.sendMsg("STATE:"+String(this->currentState));
 }
 
 CarWashingState Bridge::getState() {

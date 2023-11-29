@@ -22,7 +22,6 @@ int UserConsoleTask::getWashingPercentage(){
 
 void UserConsoleTask::makeTextScroll(){
     if (_bridge->elapsedTimeInState() - _timeStamp >= SLIDING_PERIOD) {
-        Serial.println("Slided");
         _timeStamp = _bridge->elapsedTimeInState();
         _display.scrollToLeft();
     }
@@ -43,16 +42,20 @@ void UserConsoleTask::tick(){
         break;
     
     case GATE_OPENING:
-        _leds[0].turnOff();
-        _display.print("Proceed to", 0, 0);
-        _display.print("the Washing Area", 0, 1);
-        _tBlinking->changePeriod(100);
-        _tBlinking->setActive(true);
-        setActive(false);
+        if(_justChangedState){
+            _leds[1].turnOff();
+            _tBlinking->changePeriod(100);
+            _tBlinking->setActive(true);
+            _leds[0].turnOff();
+            _display.print("Proceed to", 0, 0);
+            _display.print("the Washing Area", 0, 1);
+        }
+        //setActive(false);
         break;
 
     case READY_TO_WASH:
         if(_justChangedState){
+             _tBlinking->setActive(false);
             _display.clear();
             _leds[1].turnOn();
             _display.print("Ready to Wash", 0, 0);
@@ -61,14 +64,17 @@ void UserConsoleTask::tick(){
         if(_button.isPressed()){
             _bridge->setState(CAR_WASHING);
         }
-        
+        setActive(false);
         break;
 
     case CAR_WASHING:
+        if(_justChangedState){
+            _leds[1].turnOff();
+            _tBlinking->changePeriod(500);
+            _tBlinking->setActive(true);
+        }
         _display.print("Washing process:", 0, 0);
         _display.print(String(getWashingPercentage()) + "%", 0, 1);
-        //_tBlinking->changePeriod(500);
-        //_tBlinking->setActive(true); (devono essere disattivate?)
         if(getWashingPercentage() >= 100){
             _bridge->setState(WASHING_COMPLETED);
             setActive(false);
@@ -77,13 +83,14 @@ void UserConsoleTask::tick(){
     
     case WASHING_COMPLETED:
         if (_justChangedState) {
+            _tBlinking->setActive(false);
             _timeStamp = SLIDING_PERIOD;
             _display.print("Washing completed,", 0, 0);
             _display.print("you can leave the area", 0, 1);
             _leds[1].turnOff();
             _leds[2].turnOn();
         }
-
+        setActive(false);
         makeTextScroll();
 
         break;
@@ -94,7 +101,7 @@ void UserConsoleTask::tick(){
             _display.print("Dectected a Problem", 0, 0);
             _display.print(" - Please Wait", 0, 1);
         }
-
+        setActive(false);
         makeTextScroll();
 
         break;

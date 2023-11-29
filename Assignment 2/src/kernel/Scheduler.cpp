@@ -33,12 +33,9 @@ void Scheduler::schedule(){
         if (this->tasks[i]->updateAndCheckTime(this->period)){
           this->tasks[i]->tick();
         }
-      } /*else {
+      } else {
         this->tasks[i]->tick();
-        if (this->tasks[i]->isCompleted()){
-          this->tasks[i]->setActive(false);
-        }
-      }*/
+      }
     }
   }
 }

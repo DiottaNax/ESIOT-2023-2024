@@ -65,7 +65,9 @@ public:
    */
   void setActive(bool active) {
       this->active = active;
-      timeElapsed = 0;
+      //if (!active) {
+        timeElapsed = 0;
+      //}
   }
 
   /**
@@ -80,7 +82,9 @@ protected:
     bool active;       /**< Indicates if the task is currently active. */
     bool periodic;     /**< Indicates if the task is periodic. */
     int period;        /**< The time period for the periodic task. */
-    int timeElapsed;   /**< The time elapsed since the task was last executed. */
+       /**< The time elapsed since the task was last executed. */
+  public:
+    long timeElapsed;
 };
 
 #endif

@@ -19,5 +19,5 @@ void TemperatureTask::tick() {
     if (temp >= MAXTEMP) {
         bridge->setState(MAINTENANCE);
     }
-    MsgService.sendMsg("TEMP:"+temp);
+    MsgService.sendMsg("TEMP:"+String(temp));
 }
