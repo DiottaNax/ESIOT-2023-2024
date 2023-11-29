@@ -1,10 +1,9 @@
 #include <Arduino.h>
 #include "tasks/DistanceControlTask.h"
-#include "devices/UltrasonicSensor.h"
 #include "devices/Gate.h"
-#include "config.h"
+#include "devices/UltrasonicSensor.h"
 
-#define OPEN 180
+#define OPEN 90
 #define CLOSED 0
 
 DistanceControlTask::DistanceControlTask(Bridge *bridge){
