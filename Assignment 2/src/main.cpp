@@ -32,8 +32,8 @@ void setup() {
 
   bridge = new Bridge();
   
-  blink = new BlinkingTask();
-  tempController = new TemperatureTask(50, bridge);
+  blink = new BlinkingTask(100);
+  tempController = new TemperatureTask(100, bridge);
   distanceController = new DistanceControlTask(bridge);
   userConsole = new UserConsoleTask(bridge, blink);
 
@@ -41,7 +41,7 @@ void setup() {
   controller->init();
 
   scheduler = new Scheduler();
-  scheduler->init(10);
+  scheduler->init(50);
   scheduler->addTask(controller);
   scheduler->addTask(blink);
   scheduler->addTask(tempController);
