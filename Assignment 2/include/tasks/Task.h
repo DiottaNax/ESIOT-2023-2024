@@ -65,9 +65,9 @@ public:
    */
   void setActive(bool active) {
       this->active = active;
-      //if (!active) {
+      if (!active) {
         timeElapsed = 0;
-      //}
+      }
   }
 
   /**
