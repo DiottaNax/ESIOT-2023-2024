@@ -32,6 +32,7 @@ void UserConsoleTask::tick(){
     if(!_justChangedState && _bridge->elapsedTimeInState() < TICK_PERIOD){
         _display.clear();
         _justChangedState = true;
+        _timeStamp = 0;
     }
 
     switch (_bridge->getState()) {
@@ -97,10 +98,9 @@ void UserConsoleTask::tick(){
     case MAINTENANCE:
         if (_justChangedState) {
             _timeStamp = SLIDING_PERIOD;
-            _display.print("Dectected a Problem", 0, 0);
+            _display.print("Detected a Problem", 0, 0);
             _display.print(" - Please Wait", 0, 1);
         }
-        setActive(false);
         makeTextScroll();
 
         break;
