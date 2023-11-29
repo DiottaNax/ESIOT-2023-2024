@@ -2,15 +2,7 @@
 #define __USER_CONSOLE_TASK__
 
 #define SLIDING_PERIOD 1000
-#define TICK_PERIOD 200
-
-#define RS_PIN 8
-#define ENABLE_PIN 9
-#define D4_PIN 10
-#define D5_PIN 11
-#define D6_PIN 12
-#define D7_PIN 13
-#define BUTTON_PIN 4
+#define TICK_PERIOD 15
 
 #include "tasks/Task.h"
 #include "tasks/BlinkingTask.h"
