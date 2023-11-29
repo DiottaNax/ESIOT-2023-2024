@@ -53,6 +53,5 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(bridge->getState());
   scheduler->schedule(); 
 }
