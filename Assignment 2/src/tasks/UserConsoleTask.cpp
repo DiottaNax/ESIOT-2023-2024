@@ -55,7 +55,7 @@ void UserConsoleTask::tick(){
 
     case READY_TO_WASH:
         if(_justChangedState){
-             _tBlinking->setActive(false);
+            _tBlinking->setActive(false);
             _display.clear();
             _leds[1].turnOn();
             _display.print("Ready to Wash", 0, 0);
@@ -64,7 +64,6 @@ void UserConsoleTask::tick(){
         if(_button.isPressed()){
             _bridge->setState(CAR_WASHING);
         }
-        setActive(false);
         break;
 
     case CAR_WASHING:
@@ -90,7 +89,7 @@ void UserConsoleTask::tick(){
             _leds[1].turnOff();
             _leds[2].turnOn();
         }
-        setActive(false);
+
         makeTextScroll();
 
         break;
