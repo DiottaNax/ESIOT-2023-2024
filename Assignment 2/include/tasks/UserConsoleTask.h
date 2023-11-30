@@ -71,6 +71,8 @@ public:
      * interaction, updates the display, and controls the BlinkingTask.
      */
     void tick();
+
+    void setJustChangedState(bool justChangedState);
 };
 
 #endif

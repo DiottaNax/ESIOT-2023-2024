@@ -9,9 +9,8 @@ Bridge::Bridge() {
 }
 
 void Bridge::setState(CarWashingState newState) {
-    if (currentState == MAINTENANCE) {
-        this->stateTimestamp = this->lastStateTimeStamp;
-        Serial.println("elapsed tima stamp = "+String(stateTimestamp));
+    if (currentState == MAINTENANCE && newState == CAR_WASHING) {
+        this->stateTimestamp = millis() - this->lastStateTimeStamp;
     } else {
         lastStateTimeStamp = this->elapsedTimeInState();
         stateTimestamp = millis();

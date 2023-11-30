@@ -26,10 +26,8 @@ void ControllerTask::init() {
 void ControllerTask::tick() {
     switch (this->bridge->getState()) {
     case CAR_WAITING:
-        this->distanceController->setActive(false);
         this->washingNumber++;
-        MsgService.sendMsg("NUMBER:"+washingNumber);
-
+        MsgService.sendMsg("NUMBER:"+String(washingNumber));
         //sleeping
         sleep_enable();
         sleep_mode(); 
@@ -60,6 +58,7 @@ void ControllerTask::tick() {
             Msg *msg = MsgService.receiveMsg();
             if(msg->getContent().equals("DONE")){
                 bridge->setState(CAR_WASHING);
+                this->userConsole->setJustChangedState(true);
             }
             delete (msg);
         }

@@ -27,6 +27,13 @@ void UserConsoleTask::makeTextScroll(){
     }
 }
 
+void UserConsoleTask::setJustChangedState(bool justChangedState){
+    _justChangedState = justChangedState;
+    if (justChangedState) {
+        _display.clear();
+    }
+}
+
 void UserConsoleTask::tick(){
 
     if(!_justChangedState && _bridge->elapsedTimeInState() < TICK_PERIOD){
@@ -55,7 +62,7 @@ void UserConsoleTask::tick(){
 
     case READY_TO_WASH:
         if(_justChangedState){
-            _tBlinking->setActive(false);
+             _tBlinking->setActive(false);
             _display.clear();
             _leds[1].turnOn();
             _display.print("Ready to Wash", 0, 0);
@@ -64,6 +71,7 @@ void UserConsoleTask::tick(){
         if(_button.isPressed()){
             _bridge->setState(CAR_WASHING);
         }
+        
         break;
 
     case CAR_WASHING:
@@ -89,7 +97,7 @@ void UserConsoleTask::tick(){
             _leds[1].turnOff();
             _leds[2].turnOn();
         }
-
+    
         makeTextScroll();
 
         break;
@@ -100,7 +108,7 @@ void UserConsoleTask::tick(){
             _display.print("Dectected a Problem", 0, 0);
             _display.print(" - Please Wait", 0, 1);
         }
-        setActive(false);
+    
         makeTextScroll();
 
         break;
