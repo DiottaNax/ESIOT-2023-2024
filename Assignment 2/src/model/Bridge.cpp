@@ -9,12 +9,13 @@ Bridge::Bridge() {
 }
 
 void Bridge::setState(CarWashingState newState) {
-    if (currentState == MAINTENANCE && newState == CAR_WASHING) {
-        stateTimestamp = lastStateTimeStamp;
+    if (currentState == MAINTENANCE) {
+        this->stateTimestamp = this->lastStateTimeStamp;
+        Serial.println("elapsed tima stamp = "+String(stateTimestamp));
     } else {
+        lastStateTimeStamp = this->elapsedTimeInState();
         stateTimestamp = millis();
     }
-
     currentState = newState;
     MsgService.sendMsg("STATE:"+String(this->currentState));
 }

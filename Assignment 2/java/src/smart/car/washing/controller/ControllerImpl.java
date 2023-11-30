@@ -49,9 +49,8 @@ public class ControllerImpl implements Controller {
                     this.gui.updateWashingNumber(Integer.parseInt(tokenizer.nextToken()));
                     break;
 
-                case "MAINTENANCE":
-                    String msg = tokenizer.nextToken();
-                    this.channelMonitor.sendMessage(msg);
+                case "DONE":
+                    this.channelMonitor.sendMessage("DONE");
                     break;
             }
         }

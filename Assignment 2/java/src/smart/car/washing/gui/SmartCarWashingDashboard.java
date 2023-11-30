@@ -112,8 +112,10 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      */
     public void updateState(final String state) {
         this.state.setText("Current State: " + state);
-        if (state.equals("MAINTENANCE")) {
+        if (state.equals("Maintenance")) {
             this.maintenanceButton.setEnabled(true);
+        } else if (this.maintenanceButton.isEnabled()) {
+            this.maintenanceButton.setEnabled(false);
         }
     }
 
@@ -124,7 +126,7 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      */
     public void attachController(final Controller controller) {
         maintenanceButton.addActionListener(e -> {
-            controller.notifyEvent("MAINTENANCE:DONE");
+            controller.notifyEvent("DONE");
             maintenanceButton.setEnabled(false);
         });
     }
