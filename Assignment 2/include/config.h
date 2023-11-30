@@ -1,7 +1,7 @@
 #ifndef __CONFIG__
 #define __CONFIG__
 
-#define PIR_PIN 1
+#define PIR_PIN 2
 #define PIN_LED1 17
 #define PIN_LED2 18
 #define PIN_LED3 19
@@ -10,13 +10,13 @@
 #define TRIGGER_PIN 11
 #define LM35_PIN A2
 
-#define RS_PIN 2
-#define ENABLE_PIN 3
-#define D4_PIN 4
-#define D5_PIN 5
-#define D6_PIN 6
-#define D7_PIN 7
-#define BUTTON_PIN 8
+#define RS_PIN 3
+#define ENABLE_PIN 4
+#define D4_PIN 5
+#define D5_PIN 6
+#define D6_PIN 7
+#define D7_PIN 8
+#define BUTTON_PIN 12
 
 #define N1 5000
 #define N2 2000
