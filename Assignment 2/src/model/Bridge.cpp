@@ -4,7 +4,7 @@
 #include "config.h"
 
 Bridge::Bridge() {
-    this->currentState = CAR_WAITING;
+    this->setState(CAR_WAITING);
     this->lastStateTimeStamp = 0;
 }
 

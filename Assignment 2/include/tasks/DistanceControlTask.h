@@ -2,9 +2,10 @@
 #define __DISTANCE_CONTROL_TASK__
 
 #include "TaskWithState.h"
-#include "devices/ProximitySensor.h"
 #include "devices/ServoMotor.h"
+#include "devices/ProximitySensor.h"
 #include "model/Bridge.h"
+#include "config.h"
 
 /**
  * @brief A task responsible for distance control using a proximity sensor and a servo motor.
@@ -24,9 +25,10 @@ private:
     long _firstTimeRegisteredMinDist; // Timestamp of the first time a minimum distance was registered.
     bool _gateOpened;                 // Flag indicating whether the gate is open.
     bool _alreadyPassedDist;          // Flag indicating if the object has already passed the minimum distance.
-    ServoMotor *_gate;                // Pointer to the servo motor controlling the gate.
-    ProximitySensor *_proxSensor;     // Pointer to the proximity sensor for distance measurement.
+    
+    ProximitySensor *_proxSensor; // Pointer to the proximity sensor for distance measurement.
     Bridge *_bridge;  // Pointer to the bridge for coordination.
+    ServoMotor *_gate;
 
     /**
      * @brief Handles the operations related to the gate.
