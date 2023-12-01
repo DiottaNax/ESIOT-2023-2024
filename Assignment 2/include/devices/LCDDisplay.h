@@ -11,6 +11,7 @@ class LCDDisplay {
 public:
   /**
    * @brief Constructor for the LCDDisplay class.
+   * 
    * @param rs Pin connected to the RS (Register Select) pin of the LCD.
    * @param enable Pin connected to the Enable pin of the LCD.
    * @param d4-d7 Pins connected to the D4-D7 data pins of the LCD.
@@ -29,6 +30,7 @@ public:
 
   /**
    * @brief Prints a string to the LCD display at a specified position.
+   * 
    * @param text The text to be printed.
    * @param column The column position where the text should be printed.
    * @param row The row position where the text should be printed.
@@ -37,11 +39,15 @@ public:
 
   /**
    * @brief Sets the cursor position on the LCD display.
+   * 
    * @param column The column position where the cursor should be set.
    * @param row The row position where the cursor should be set.
    */
   void setCursor(int column, int row);
 
+  /**
+   * @brief Scrolls the contents of the LCD display to the left.
+   */
   void scrollToLeft();
 
 private:

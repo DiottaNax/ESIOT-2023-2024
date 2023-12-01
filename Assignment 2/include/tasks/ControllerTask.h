@@ -4,7 +4,6 @@
 #include "tasks/UserConsoleTask.h"
 #include "tasks/DistanceControlTask.h"
 #include "tasks/TemperatureTask.h"
-#include "devices/PresenceDetectorImpl.h"
 #include "model/Bridge.h"
 #include "serial/MsgService.h"
 #include "config.h"
@@ -19,18 +18,7 @@
  * and distance control. It acts as the central controller for the overall system.
  */
 class ControllerTask : public Task {
-
-private:
-
-    TemperatureTask *tempController; //Pointer to the temperature control task.
-    UserConsoleTask *userConsole; //Pointer to the user console interaction task.
-    DistanceControlTask *distanceController; //Pointer to the distance control task.
-    Bridge *bridge; //Pointer to the bridge managing state and time in the car washing process.
-
-    int washingNumber = 0; //The current washing number.
-
 public:
-
     /**
      * @brief Constructor for ControllerTask.
      *
@@ -42,14 +30,12 @@ public:
      * @param distanceController Pointer to the DistanceControlTask for distance control.
      */
     ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, TemperatureTask *tempController, DistanceControlTask *distanceController);
-
     /**
      * @brief Initialize the ControllerTask.
      *
      * This function initializes the ControllerTask and its associated tasks.
      */
     void init();
-
     /**
      * @brief Perform a single iteration of the controller task.
      *
@@ -59,6 +45,12 @@ public:
      */
     void tick();
 
+private:
+    TemperatureTask *tempController;    //Pointer to the temperature control task.
+    UserConsoleTask *userConsole;       //Pointer to the user console interaction task.
+    DistanceControlTask *distanceController; //Pointer to the distance control task.
+    Bridge *bridge;     //Pointer to the bridge managing state and time in the car washing process.
+    int washingNumber = 0;  //The current washing number.
 };
 
 #endif

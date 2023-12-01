@@ -16,7 +16,7 @@ void TemperatureTask::init(int pin) {
 
 void TemperatureTask::tick() {
     int temp = this->sensor->getTemp();
-    if (temp >= MAXTEMP) {
+    if (temp >= MAXTEMP && this->bridge->getState() != MAINTENANCE) {
         bridge->setState(MAINTENANCE);
     }
     MsgService.sendMsg("TEMP:"+String(temp));

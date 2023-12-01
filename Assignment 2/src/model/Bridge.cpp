@@ -10,11 +10,11 @@ Bridge::Bridge() {
 
 void Bridge::setState(CarWashingState newState) {
     if (currentState == MAINTENANCE && newState == CAR_WASHING) {
-        stateTimestamp = lastStateTimeStamp;
+        this->stateTimestamp = millis() - this->lastStateTimeStamp;
     } else {
+        lastStateTimeStamp = this->elapsedTimeInState();
         stateTimestamp = millis();
     }
-
     currentState = newState;
     MsgService.sendMsg("STATE:"+String(this->currentState));
 }

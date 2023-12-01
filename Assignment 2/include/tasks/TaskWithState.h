@@ -20,7 +20,6 @@ public:
    * Initializes the TaskWithState with default values.
    */
   TaskWithState() : Task(){}
-
   /**
    * @brief Set the current state of the task and update the state timestamp.
    *
@@ -30,7 +29,6 @@ public:
       this->state = state;
       stateTimestamp = millis();
   }
-
   /**
    * @brief Get the current state of the task.
    *
@@ -39,7 +37,6 @@ public:
   int getState() {
     return this->state;
   }
-
   /**
    * @brief Get the elapsed time spent in the current state.
    *
@@ -50,7 +47,6 @@ public:
   }
   
 protected:
-
   int state;  //The current state of the task.
   long stateTimestamp; //The timestamp of the last state transition.
 };

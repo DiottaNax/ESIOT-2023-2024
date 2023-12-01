@@ -1,10 +1,7 @@
 package smart.car.washing.serial;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import smart.car.washing.controller.Controller;
-import smart.car.washing.gui.Dashboard;
 import smart.car.washing.gui.DashboardLogger;
 
 public class ChannelMonitor implements Runnable {

@@ -9,9 +9,7 @@
  * This class defines the interface for temperature sensors. 
  */
 class TemperatureSensor {
-
 public:
-
     /**
      * @brief Pure virtual function to get the temperature reading.
      *

@@ -5,7 +5,6 @@
 #include "tasks/BlinkingTask.h"
 #include "tasks/DistanceControlTask.h"
 #include "tasks/TemperatureTask.h"
-#include "devices/PresenceDetectorImpl.h"
 #include "devices/Gate.h"
 #include "devices/UltrasonicSensor.h"
 #include "tasks/UserConsoleTask.h"
@@ -23,7 +22,7 @@ DistanceControlTask *distanceController;
 UserConsoleTask *userConsole;
 
 // Callback function for presence detection
-void changeState() {
+void movementInterrupt() {
   Serial.println("Movement detected");
 }
 
@@ -49,7 +48,8 @@ void setup() {
   scheduler->addTask(userConsole);
 
   // Attach an interrupt for the presence detection using PIR sensor
-  attachInterrupt(digitalPinToInterrupt(PIR_PIN), changeState, CHANGE);
+  pinMode(PIR_PIN,INPUT);
+  attachInterrupt(digitalPinToInterrupt(PIR_PIN), movementInterrupt, CHANGE);
 }
 
 void loop() {

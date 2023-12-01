@@ -28,15 +28,13 @@ private:
     
     ProximitySensor *_proxSensor; // Pointer to the proximity sensor for distance measurement.
     Bridge *_bridge;  // Pointer to the bridge for coordination.
-    ServoMotor *_gate;
-
+    ServoMotor *_gate; // Pointer to the gate
     /**
      * @brief Handles the operations related to the gate.
      *
      * This function ensures that the gate is opened if it's not already open.
      */
     void handleGate();
-
     /**
      * @brief Handles the distance-related operations based on specified conditions.
      *
@@ -53,9 +51,7 @@ public:
      * @param bridge Pointer to the bridge.
      */
     DistanceControlTask(Bridge *bridge);
-
     void init();
-
     void tick();
 };
 

@@ -9,10 +9,7 @@
  * This class encapsulates a message with content.
  */
 class Msg {
-  String content;
-
 public:
-
   /**
    * @brief Constructor for Msg class.
    *
@@ -23,7 +20,6 @@ public:
   Msg(String content){
     this->content = content;
   }
-
   /**
    * @brief Get the content of the message.
    *
@@ -32,6 +28,8 @@ public:
   String getContent(){
     return content;
   }
+private:
+  String content; //The content of a message.
 };
 
 /**
@@ -41,7 +39,6 @@ public:
  */
 class Pattern {
 public:
-
   /**
    * @brief Pure virtual function to match a message.
    *
@@ -58,31 +55,25 @@ public:
  * availability of messages. 
  */
 class MsgServiceClass {
-    
-public: 
-  
+public:
   Msg* currentMsg; //Pointer to the currently received message.
   bool msgAvailable; //Flag indicating whether a message is available.
-
   /**
    * @brief Initialize the MsgService.
    */
   void init();  
-
   /**
    * @brief Check if a message is available.
    *
    * @return True if a message is available, false otherwise.
    */
   bool isMsgAvailable();
-
   /**
    * @brief Receive the next available message.
    *
    * @return Pointer to the received message.
    */
   Msg* receiveMsg();
-
   /**
    * @brief Check if a message matching the specified pattern is available.
    *
@@ -90,7 +81,6 @@ public:
    * @return True if a matching message is available, false otherwise.
    */
   bool isMsgAvailable(Pattern& pattern);
-
   /**
    * @brief Receive the next available message matching the specified pattern.
    *
@@ -98,21 +88,18 @@ public:
    * @return Pointer to the received message.
    */
   Msg* receiveMsg(Pattern& pattern);
-
   /**
    * @brief Send a message.
    *
    * @param msg The message to send.
    */
   void sendMsg(Msg& msg);
-
   /**
    * @brief Send a message with the specified content.
    *
    * @param msg The content of the message to send.
    */
   void sendMsg(const String& msg);
-
 };
 
 /**

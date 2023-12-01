@@ -14,13 +14,6 @@
  */
 class Scheduler
 {
-    // An array to store tasks.
-    Task *tasks[MAXTASKS];
-    //The current number of tasks in the scheduler.
-    short nTasks;
-    // The time period for task execution in milliseconds.
-    short period;
-
 public:
     /**
      * @brief Initializes the scheduler with a specified period.
@@ -28,14 +21,12 @@ public:
      * @param period The time period for task execution in milliseconds.
      */
     void init(short period);
-
     /**
      * @brief Adds a task to the scheduler.
      *
      * @param task A pointer to the Task object to be added.
      */
     void addTask(Task *task);
-
     /**
      * @brief Executes the scheduled tasks.
      *
@@ -43,6 +34,11 @@ public:
      * scheduled tasks based on their specified periods.
      */
     void schedule();
+private:
+    Task *tasks[MAXTASKS]; // An array to store tasks.
+    short nTasks;   //The current number of tasks in the scheduler.
+    short period;   // The time period for task execution in milliseconds.
+
 };
 
 #endif

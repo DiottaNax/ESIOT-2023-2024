@@ -56,8 +56,8 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         this.mainPanel.setLayout(new BorderLayout());
 
         EmptyBorder border = new EmptyBorder(10, 10, 10, 10);
-        state.setText("Current State: Waiting for car");
-        washingNumber.setText("Current Number: 0");
+        state.setText("State: Waiting for a car");
+        washingNumber.setText("Washing Number: 0");
         state.setBorder(border);
         washingNumber.setBorder(border);
 
@@ -102,7 +102,7 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      * @param number The current washing number or identifier.
      */
     public void updateWashingNumber(final int number) {
-        this.washingNumber.setText("Current Number: " + number);
+        this.washingNumber.setText("Washing Number: " + number);
     }
 
     /**
@@ -111,9 +111,11 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      * @param state A string representing the current state of the car washing system.
      */
     public void updateState(final String state) {
-        this.state.setText("Current State: " + state);
-        if (state.equals("MAINTENANCE")) {
+        this.state.setText("State: " + state);
+        if (state.equals("Maintenance")) {
             this.maintenanceButton.setEnabled(true);
+        } else if (this.maintenanceButton.isEnabled()) {
+            this.maintenanceButton.setEnabled(false);
         }
     }
 
@@ -124,7 +126,7 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      */
     public void attachController(final Controller controller) {
         maintenanceButton.addActionListener(e -> {
-            controller.notifyEvent("MAINTENANCE:DONE");
+            controller.notifyEvent("DONE");
             maintenanceButton.setEnabled(false);
         });
     }
