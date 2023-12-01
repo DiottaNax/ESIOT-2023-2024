@@ -23,18 +23,26 @@ void ControllerTask::init() {
     MsgService.init();
 }
 
+void movementInterrupt() {
+    Serial.println("Movement detected");
+}
+
 void ControllerTask::tick() {
     switch (this->bridge->getState()) {
     case CAR_WAITING:
-        this->washingNumber++;
+        // Attach an interrupt for the presence detection using PIR sensor
+        attachInterrupt(digitalPinToInterrupt(PIR_PIN), movementInterrupt, CHANGE);
         MsgService.sendMsg("NUMBER:"+String(washingNumber));
+        this->washingNumber++;
         userConsole->reset();
         delay(10);
         //sleeping
+        set_sleep_mode(SLEEP_MODE_PWR_DOWN);
         sleep_enable();
         sleep_mode(); 
         sleep_disable();
 
+        detachInterrupt(digitalPinToInterrupt(PIR_PIN));
         this->bridge->setState(WELCOME);
         break;
     case WELCOME: 

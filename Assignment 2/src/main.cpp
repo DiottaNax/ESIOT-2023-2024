@@ -21,11 +21,6 @@ TemperatureTask *tempController;
 DistanceControlTask *distanceController;
 UserConsoleTask *userConsole;
 
-// Callback function for presence detection
-void movementInterrupt() {
-  Serial.println("Movement detected");
-}
-
 void setup() {
   Serial.begin(9600);
 
@@ -47,9 +42,7 @@ void setup() {
   scheduler->addTask(distanceController);
   scheduler->addTask(userConsole);
 
-  // Attach an interrupt for the presence detection using PIR sensor
   pinMode(PIR_PIN,INPUT);
-  attachInterrupt(digitalPinToInterrupt(PIR_PIN), movementInterrupt, CHANGE);
 }
 
 void loop() {
