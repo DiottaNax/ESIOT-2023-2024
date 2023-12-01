@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 
 /**
  * JPanel subclass representing a graphical representation of temperature.
@@ -35,8 +37,13 @@ class TemperaturePanel extends JPanel {
 
         int width = getWidth();
         int height = getHeight();
-        g.setColor(Color.BLACK);
-        g.fillRoundRect(width / 2 - 10, 50, 20, height - 100, 20, 20);
+        g.setColor(Color.WHITE);
+        // Imposta uno spessore del bordo di 5 pixel
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(5.0f));
+
+        g2d.drawRoundRect(width / 2 - 10, 50, 20, height - 100, 20, 20);
+        
         if (temperature > 27) {
             g.setColor(Color.RED);
         } else {
@@ -47,6 +54,6 @@ class TemperaturePanel extends JPanel {
         g.fillRoundRect(width / 2 - 10, height - 50 - temperatureHeight, 20, temperatureHeight, 20, 20);
 
         g.setColor(Color.BLACK);
-        g.drawString(temperature + "°C", width / 2 - 20, height -60);
+        g.drawString(temperature + "°C", width / 2 - 15, height - 20);
     }
 }
