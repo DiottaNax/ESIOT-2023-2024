@@ -1,5 +1,5 @@
-#ifndef __DISTANCE_CONTROL_TASK__
-#define __DISTANCE_CONTROL_TASK__
+#ifndef DISTANCECONTROLTASK
+#define DISTANCECONTROLTASK
 
 #include "TaskWithState.h"
 #include "devices/ServoMotor.h"
@@ -22,13 +22,13 @@ class DistanceControlTask : public TaskWithState {
     };
 
 private:
-    long _firstTimeRegisteredMinDist; // Timestamp of the first time a minimum distance was registered.
-    bool _gateOpened;                 // Flag indicating whether the gate is open.
-    bool _alreadyPassedDist;          // Flag indicating if the object has already passed the minimum distance.
+    long firstTimeRegisteredMinDist; // Timestamp of the first time a minimum distance was registered.
+    bool gateOpened;                 // Flag indicating whether the gate is open.
+    bool alreadyPassedDist;          // Flag indicating if the object has already passed the minimum distance.
     
-    ProximitySensor *_proxSensor; // Pointer to the proximity sensor for distance measurement.
-    Bridge *_bridge;  // Pointer to the bridge for coordination.
-    ServoMotor *_gate; // Pointer to the gate
+    ProximitySensor *proxSensor; // Pointer to the proximity sensor for distance measurement.
+    Bridge *bridge;  // Pointer to the bridge for coordination.
+    ServoMotor *gate; // Pointer to the gate
     /**
      * @brief Handles the operations related to the gate.
      *

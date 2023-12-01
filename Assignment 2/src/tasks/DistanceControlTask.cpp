@@ -7,31 +7,31 @@
 #define CLOSED 0
 
 DistanceControlTask::DistanceControlTask(Bridge *bridge){
-    _proxSensor = new UltrasonicSensor(ECHO_PIN, TRIGGER_PIN);
-    _gate = new Gate(GATE_PIN);
-    _bridge = bridge;
+    proxSensor = new UltrasonicSensor(ECHO_PIN, TRIGGER_PIN);
+    gate = new Gate(GATE_PIN);
+    bridge = bridge;
 }
 
 void DistanceControlTask::handleDistance(bool distanceCondition, bool timeCondition, CarWashingState stateToSet)
 {
     // Check if the minimum distance condition is met
-    if (!_alreadyPassedDist && distanceCondition) {
-        _alreadyPassedDist = true;
-        _firstTimeRegisteredMinDist = millis();
-    } else if(_alreadyPassedDist) {
+    if (!alreadyPassedDist && distanceCondition) {
+        alreadyPassedDist = true;
+        firstTimeRegisteredMinDist = millis();
+    } else if(alreadyPassedDist) {
         // Reset the flag if the distance condition is not met
         if (!distanceCondition) {
-            _alreadyPassedDist = false;
+            alreadyPassedDist = false;
         } else if (timeCondition) {
             // Close the gate, turn it off, and transition to the specified state
-            _gate->setAngle(CLOSED);
-            _alreadyPassedDist = false;
-            _gateOpened = false;
+            gate->setAngle(CLOSED);
+            alreadyPassedDist = false;
+            gateOpened = false;
             // inverting the internal state before disactivating the task
             setState(getState() == ENTERING ? LEAVING : ENTERING);
             // Disactivating the task waiting to be activated by an outside task
             setActive(false);
-            _bridge->setState(stateToSet);
+            bridge->setState(stateToSet);
         }
     }
 }
@@ -40,18 +40,18 @@ void DistanceControlTask::handleDistance(bool distanceCondition, bool timeCondit
  * Opens the gate if not already opened
  */
 void DistanceControlTask::handleGate() {
-    if (!_gateOpened) {
-        _gate->setAngle(OPEN);
-        _gateOpened = true;
+    if (!gateOpened) {
+        gate->setAngle(OPEN);
+        gateOpened = true;
     }
 }
 
 void DistanceControlTask::init(){
-    _gateOpened = false;
-    _alreadyPassedDist = false;
+    gateOpened = false;
+    alreadyPassedDist = false;
     setState(ENTERING);
-    _gate->on();
-    _gate->setAngle(CLOSED);
+    gate->on();
+    gate->setAngle(CLOSED);
 }
 
 void DistanceControlTask::tick()
@@ -59,8 +59,8 @@ void DistanceControlTask::tick()
     handleGate();
 
     // Get the current distance and time
-    float distance = _proxSensor->getDistance();
-    int currentTime = millis() - _firstTimeRegisteredMinDist;
+    float distance = proxSensor->getDistance();
+    int currentTime = millis() - firstTimeRegisteredMinDist;
 
     switch(state) {
         case ENTERING:

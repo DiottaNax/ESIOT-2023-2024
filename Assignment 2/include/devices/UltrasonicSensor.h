@@ -28,9 +28,9 @@ public:
     void setTemperature(float temperature);
     
 protected:
-    float _vs = 331.5 + 0.6 * 20; //Speed of sound at sea level, used for distance calculations.
-    short _echoPin;     //Pin to which the echo signal wire of the sensor is connected.
-    short _triggerPin;  //Pin to which the trigger signal wire of the sensor is connected.
+    float vs = 331.5 + 0.6 * 20; //Speed of sound at sea level, used for distance calculations.
+    short echoPin;     //Pin to which the echo signal wire of the sensor is connected.
+    short triggerPin;  //Pin to which the trigger signal wire of the sensor is connected.
 };
 
 #endif

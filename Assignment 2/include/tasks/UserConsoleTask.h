@@ -22,14 +22,14 @@
  */
 class UserConsoleTask : public Task {
 private:
-    bool _justChangedState; //A flag indicating whether the state has just changed.
+    bool justChangedState; //A flag indicating whether the state has just changed.
 
-    Bridge *_bridge; //Pointer to the Bridge managing state and time.
-    BlinkingTask *_tBlinking; //Pointer to the BlinkingTask controlling blinking LED.
+    Bridge *bridge; //Pointer to the Bridge managing state and time.
+    BlinkingTask *tBlinking; //Pointer to the BlinkingTask controlling blinking LED.
 
-    LCDDisplay _display = LCDDisplay(RS_PIN, ENABLE_PIN, D4_PIN, D5_PIN, D6_PIN, D7_PIN); //The LCD display object.
-    Button _button = Button(BUTTON_PIN); //The button object for user interaction.
-    Led _leds[3] = {Led(PIN_LED1), Led(PIN_LED2), Led(PIN_LED3)}; //Array of LED objects.
+    LCDDisplay display = LCDDisplay(RS_PIN, ENABLE_PIN, D4_PIN, D5_PIN, D6_PIN, D7_PIN); //The LCD display object.
+    Button button = Button(BUTTON_PIN); //The button object for user interaction.
+    Led leds[3] = {Led(PIN_LED1), Led(PIN_LED2), Led(PIN_LED3)}; //Array of LED objects.
 
     /**
      * @brief Get the percentage of car washing completion.

@@ -3,120 +3,120 @@
 #include "config.h"
 
 UserConsoleTask::UserConsoleTask(Bridge *bridge, BlinkingTask *tBlinking) {
-    _bridge = bridge;
-    _tBlinking = tBlinking;
+    bridge = bridge;
+    tBlinking = tBlinking;
     periodic = true;
     period = 100;
 }
 
 void UserConsoleTask::init(){
-    _display.initialize();
-    _tBlinking->init(PIN_LED2);
+    display.initialize();
+    tBlinking->init(PIN_LED2);
     for (int i = 0; i < 3; i++){
-        _leds[i].turnOff();
+        leds[i].turnOff();
     }
 }
 
 int UserConsoleTask::getWashingPercentage(){
-    return ((float)_bridge->elapsedTimeInState()) / N3 * 100;
+    return ((float)bridge->elapsedTimeInState()) / N3 * 100;
 }
 
 void UserConsoleTask::reset(){
     for (int i = 0; i < 3; i++) {
-        _leds[i].turnOff();
+        leds[i].turnOff();
     }
 
     period = 100;
-    _display.clear();
+    display.clear();
 }
 
 void UserConsoleTask::tick(){
 
-    if(!_justChangedState && _bridge->elapsedTimeInState() < 2 * period){
-        _display.clear();
-        _justChangedState = true;
+    if(!justChangedState && bridge->elapsedTimeInState() < 2 * period){
+        display.clear();
+        justChangedState = true;
     }
 
-    switch (_bridge->getState()) {
+    switch (bridge->getState()) {
     case WELCOME:
-        _leds[0].turnOn();
-        _display.print("Welcome", 0, 0);
+        leds[0].turnOn();
+        display.print("Welcome", 0, 0);
         setActive(false);
         break;
     
     case GATE_OPENING:
-        _tBlinking->changePeriod(100);
-        _tBlinking->setActive(true);
-        _leds[0].turnOff();
-        _display.print("Proceed to", 0, 0);
-        _display.print("the Washing Area", 0, 1);
+        tBlinking->changePeriod(100);
+        tBlinking->setActive(true);
+        leds[0].turnOff();
+        display.print("Proceed to", 0, 0);
+        display.print("the Washing Area", 0, 1);
         this->setActive(false);
         break;
 
     case READY_TO_WASH:
-        if(_justChangedState){
-             _tBlinking->setActive(false);
-            _leds[1].turnOn();
-            _display.print("Ready to Wash", 0, 0);
+        if(justChangedState){
+             tBlinking->setActive(false);
+            leds[1].turnOn();
+            display.print("Ready to Wash", 0, 0);
             period = 50; //permits to better detect if the button is pressed
         }
 
-        if(_button.isPressed()){
-            _bridge->setState(CAR_WASHING);
+        if(button.isPressed()){
+            bridge->setState(CAR_WASHING);
         }
         
         break;
 
     case CAR_WASHING:
-        if(_justChangedState){
-            _tBlinking->changePeriod(500);
-            _tBlinking->setActive(true);
+        if(justChangedState){
+            tBlinking->changePeriod(500);
+            tBlinking->setActive(true);
         }
         period = 250; //percentage increments slowlier
-        _display.clear();
-        _display.print("Washing process:", 0, 0);
-        _display.print(String(getWashingPercentage()) + "%", 0, 1);
+        display.clear();
+        display.print("Washing process:", 0, 0);
+        display.print(String(getWashingPercentage()) + "%", 0, 1);
 
         if(getWashingPercentage() >= 100){
-            _bridge->setState(WASHING_COMPLETED);
+            bridge->setState(WASHING_COMPLETED);
             setActive(false);
         }
         break;
     
     case WASHING_COMPLETED:
-        if (_justChangedState) {
-            _tBlinking->setActive(false);
-            _display.print("Washing completed,", 0, 0);
-            _display.print("you can leave the area", 0, 1);
-            _leds[1].turnOff();
-            _leds[2].turnOn();
+        if (justChangedState) {
+            tBlinking->setActive(false);
+            display.print("Washing completed,", 0, 0);
+            display.print("you can leave the area", 0, 1);
+            leds[1].turnOff();
+            leds[2].turnOn();
             period = SLIDING_PERIOD; // sets the task period to the sliding period
         }
     
-        _display.scrollToLeft();
+        display.scrollToLeft();
 
         break;
     
     case MAINTENANCE:
-        if (_justChangedState) {
-            _display.print("Detected a Problem", 0, 0);
-            _display.print(" - Please Wait", 0, 1);
+        if (justChangedState) {
+            display.print("Detected a Problem", 0, 0);
+            display.print(" - Please Wait", 0, 1);
             period = SLIDING_PERIOD; // sets the task period to the sliding period
         }
     
-        _display.scrollToLeft();
+        display.scrollToLeft();
 
         break;
 
     case CAR_WAITING:
-        _leds[2].turnOff();
+        leds[2].turnOff();
         break;
 
     default:
-        _display.clear();
+        display.clear();
         setActive(false);
         break;
     }
 
-    _justChangedState = false;
+    justChangedState = false;
 }
