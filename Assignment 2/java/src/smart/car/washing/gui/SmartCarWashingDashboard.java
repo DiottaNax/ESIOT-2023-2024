@@ -110,12 +110,16 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      *
      * @param state A string representing the current state of the car washing system.
      */
-    public void updateState(final String state) {
-        this.state.setText("State: " + state);
-        if (state.equals("Maintenance")) {
+    public void updateState(final CarWashingState state) {
+        this.state.setText("State: " + state.getStateName());
+        if (state.equals(CarWashingState.MAINTENANCE)) {
             this.maintenanceButton.setEnabled(true);
         } else if (this.maintenanceButton.isEnabled()) {
             this.maintenanceButton.setEnabled(false);
+        }
+
+        if (!state.equals(CarWashingState.MAINTENANCE) || !state.equals(CarWashingState.CAR_WASHING)) {
+            this.updateTemperature(0);
         }
     }
 

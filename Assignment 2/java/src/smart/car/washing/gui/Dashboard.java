@@ -22,7 +22,7 @@ public interface Dashboard {
      *
      * @param state A string representing the current state of the car washing system.
      */
-    void updateState(final String state);
+    void updateState(final CarWashingState state);
 
     /**
      * Updates the displayed washing number on the dashboard.
