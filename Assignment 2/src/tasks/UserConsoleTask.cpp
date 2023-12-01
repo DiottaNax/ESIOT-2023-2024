@@ -3,8 +3,8 @@
 #include "config.h"
 
 UserConsoleTask::UserConsoleTask(Bridge *bridge, BlinkingTask *tBlinking) {
-    bridge = bridge;
-    tBlinking = tBlinking;
+    this->bridge = bridge;
+    this->tBlinking = tBlinking;
     periodic = true;
     period = 100;
 }

@@ -9,7 +9,7 @@
 DistanceControlTask::DistanceControlTask(Bridge *bridge){
     proxSensor = new UltrasonicSensor(ECHO_PIN, TRIGGER_PIN);
     gate = new Gate(GATE_PIN);
-    bridge = bridge;
+    this->bridge = bridge;
 }
 
 void DistanceControlTask::handleDistance(bool distanceCondition, bool timeCondition, CarWashingState stateToSet)
