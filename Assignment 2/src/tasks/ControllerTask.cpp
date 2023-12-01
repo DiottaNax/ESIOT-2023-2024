@@ -60,7 +60,6 @@ void ControllerTask::tick() {
             Msg *msg = MsgService.receiveMsg();
             if(msg->getContent().equals("DONE")){
                 bridge->setState(CAR_WASHING);
-                this->userConsole->setJustChangedState(true);
             }
             delete (msg);
         }

@@ -8,7 +8,7 @@
 #include "serial/MsgService.h"
 #include "config.h"
 
-#define PERIOD 10
+#define PERIOD 200
 
 /**
  * @brief Represents a controller task coordinating temperature, user console, and distance control tasks.

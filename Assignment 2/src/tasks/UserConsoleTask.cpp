@@ -27,13 +27,6 @@ void UserConsoleTask::makeTextScroll(){
     }
 }
 
-void UserConsoleTask::setJustChangedState(bool justChangedState){
-    _justChangedState = justChangedState;
-    if (justChangedState) {
-        _display.clear();
-    }
-}
-
 void UserConsoleTask::tick(){
 
     if(!_justChangedState && _bridge->elapsedTimeInState() < TICK_PERIOD){
@@ -81,6 +74,7 @@ void UserConsoleTask::tick(){
             _tBlinking->changePeriod(500);
             _tBlinking->setActive(true);
         }
+        _display.clear();
         _display.print("Washing process:", 0, 0);
         _display.print(String(getWashingPercentage()) + "%", 0, 1);
         if(getWashingPercentage() >= 100){
