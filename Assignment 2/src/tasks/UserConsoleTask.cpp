@@ -45,23 +45,20 @@ void UserConsoleTask::tick(){
         break;
     
     case GATE_OPENING:
-        if(_justChangedState){
-            _leds[1].turnOff();
-            _tBlinking->changePeriod(100);
-            _tBlinking->setActive(true);
-            _leds[0].turnOff();
-            _display.print("Proceed to", 0, 0);
-            _display.print("the Washing Area", 0, 1);
-        }
-        
+        _tBlinking->changePeriod(100);
+        _tBlinking->setActive(true);
+        _leds[0].turnOff();
+        _display.print("Proceed to", 0, 0);
+        _display.print("the Washing Area", 0, 1);
+        this->setActive(false);
         break;
 
     case READY_TO_WASH:
         if(_justChangedState){
              _tBlinking->setActive(false);
-            _display.clear();
             _leds[1].turnOn();
             _display.print("Ready to Wash", 0, 0);
+            period = 50; //permits to better detect if the button is pressed
         }
 
         if(_button.isPressed()){
@@ -75,11 +72,11 @@ void UserConsoleTask::tick(){
             _tBlinking->changePeriod(500);
             _tBlinking->setActive(true);
         }
-        period = 250;
+        period = 250; //percentage increments slowlier
         _display.clear();
         _display.print("Washing process:", 0, 0);
         _display.print(String(getWashingPercentage()) + "%", 0, 1);
-        
+
         if(getWashingPercentage() >= 100){
             _bridge->setState(WASHING_COMPLETED);
             setActive(false);
@@ -93,7 +90,7 @@ void UserConsoleTask::tick(){
             _display.print("you can leave the area", 0, 1);
             _leds[1].turnOff();
             _leds[2].turnOn();
-            period = 800;
+            period = SLIDING_PERIOD; // sets the task period to the sliding period
         }
     
         _display.scrollToLeft();
@@ -104,7 +101,7 @@ void UserConsoleTask::tick(){
         if (_justChangedState) {
             _display.print("Detected a Problem", 0, 0);
             _display.print(" - Please Wait", 0, 1);
-            period = 800;
+            period = SLIDING_PERIOD; // sets the task period to the sliding period
         }
     
         _display.scrollToLeft();
