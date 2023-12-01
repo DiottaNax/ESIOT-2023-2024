@@ -61,8 +61,8 @@ public class ControllerImpl implements Controller {
     * Each state is associated with a numerical value and a corresponding state name.
     */
     private enum CarWashingState {
-        CAR_WAITING(0, "Car Waiting"),
-        WELCOME(1, "Welcome"),
+        CAR_WAITING(0, "Waiting for a car"),
+        WELCOME(1, "A car is detected"),
         GATE_OPENING(2, "Gate Opening"),
         READY_TO_WASH(3, "Ready to Wash"),
         CAR_WASHING(4, "Car Washing"),

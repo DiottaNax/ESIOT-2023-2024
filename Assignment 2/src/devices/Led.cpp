@@ -12,8 +12,3 @@ void Led::turnOn() {
 void Led::turnOff() {
   digitalWrite(pin, LOW);
 }
-
-void Led::setIntensity(int intensity) {
-  intensity = map(intensity, 0, 1023, 0, 255);
-  analogWrite(pin, intensity);
-}

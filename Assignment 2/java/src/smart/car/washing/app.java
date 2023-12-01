@@ -31,7 +31,7 @@ public class app {
         dashboard = new SmartCarWashingDashboard();
         
         try {
-            channelMonitor = new ChannelMonitor(new SerialCommChannel("COM6", 9600));
+            channelMonitor = new ChannelMonitor(new SerialCommChannel("COM9", 9600));
             channelMonitor.attachController(controller);
         } catch (Exception e) {
             e.printStackTrace();

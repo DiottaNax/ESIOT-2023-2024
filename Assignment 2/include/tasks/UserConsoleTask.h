@@ -21,9 +21,7 @@
  * to control blinking LEDs.
  */
 class UserConsoleTask : public Task {
-
 private:
-
     short _timeStamp; //A timestamp for tracking time in the task.
     bool _justChangedState; //A flag indicating whether the state has just changed.
     String _tooLongString; //A string used for scrolling text on the LCD display.
@@ -41,14 +39,12 @@ private:
      * @return The percentage of car washing completion.
      */
     int getWashingPercentage();
-
     /**
      * @brief Scroll text on the LCD display.
      */
     void makeTextScroll();
 
 public:
-
     /**
      * @brief Constructor for UserConsoleTask.
      *
@@ -58,12 +54,10 @@ public:
      * @param tBlinking Pointer to the BlinkingTask controlling blinking LEDs.
      */
     UserConsoleTask(Bridge *bridge, BlinkingTask* tBlinking);
-
     /**
      * @brief Initialize the UserConsoleTask and associated devices.
      */
     void init();
-
     /**
      * @brief Perform a single iteration of the user console task.
      *

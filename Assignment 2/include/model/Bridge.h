@@ -9,35 +9,25 @@
  * time spent in each state. 
  */
 class Bridge {
-
-private:
-    CarWashingState currentState; //The current state of the car washing process.
-    long stateTimestamp; //The timestamp of the last state transition.
-    long lastStateTimeStamp;
-
 public:
-
     /**
      * @brief Default constructor for the Bridge class.
      *
      * Initializes the Bridge with an initial state.
      */
     Bridge();
-
     /**
      * @brief Get the current state of the car washing process.
      *
      * @return The current state represented by the CarWashingState enum.
      */
     CarWashingState getState();
-
     /**
      * @brief Set the current state of the car washing process.
      *
      * @param state The new state to set.
      */
     void setState(CarWashingState);
-
     /**
      * @brief Get the elapsed time in the current state.
      *
@@ -47,6 +37,10 @@ public:
      * @return The elapsed time in the current state.
      */
     long elapsedTimeInState();
+private:
+    CarWashingState currentState; //The current state of the car washing process.
+    long stateTimestamp;      //The timestamp of the current state transition.
+    long lastStateTimeStamp;  //The timestamp of the last state transition.
 };
 
 #endif

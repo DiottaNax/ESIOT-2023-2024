@@ -14,9 +14,7 @@
  * reads the temperature and updates the state in the provided Bridge only if necessary
  */
 class TemperatureTask : public Task {
-
 public:
-
   /**
    * @brief Constructor for TemperatureTask.
    *
@@ -26,14 +24,12 @@ public:
    * @param bridge Pointer to the Bridge managing state and time.
    */
   TemperatureTask(int period, Bridge *bridge);  
-
   /**
    * @brief Initialize the TemperatureTask with the specified LM35 sensor pin.
    *
    * @param pin The analog pin connected to the LM35 sensor.
    */
   void init(int pin);  
-
   /**
    * @brief Perform a single iteration of the temperature monitoring task.
    *
@@ -45,7 +41,7 @@ public:
 
 private:
   LM35Sensor *sensor; //Pointer to the LM35 sensor object.
-  Bridge *bridge; //Pointer to the Bridge managing state and time.
+  Bridge *bridge;     //Pointer to the Bridge managing state and time.
   
 };
 

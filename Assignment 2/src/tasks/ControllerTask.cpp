@@ -50,7 +50,9 @@ void ControllerTask::tick() {
         break;
     case CAR_WASHING:
         this->userConsole->setActive(true);
-        this->tempController->setActive(true);
+        if (!this->tempController->isActive()) {
+            this->tempController->setActive(true);
+        }
         break;
     case MAINTENANCE:
         this->userConsole->setActive(true);

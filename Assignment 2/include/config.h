@@ -34,13 +34,13 @@
  * completion.
  */
 enum CarWashingState {
-    CAR_WAITING,    //The initial state when the car is waiting.
-    WELCOME,        // The state indicating the welcome phase, triggered when a car is detected by the motion sensor.
-    GATE_OPENING,   // The state when the gate of the car wash is opening, and it closes when the car is at the correct distance.
-    READY_TO_WASH,  // The state when the system is ready to start washing, waiting for the user to push the start button.
-    CAR_WASHING,    // The state representing the active car washing process.
+    CAR_WAITING,        //The initial state when the car is waiting.
+    WELCOME,            // The state indicating the welcome phase, triggered when a car is detected by the motion sensor.
+    GATE_OPENING,       // The state when the gate of the car wash is opening, and it closes when the car is at the correct distance.
+    READY_TO_WASH,      // The state when the system is ready to start washing, waiting for the user to push the start button.
+    CAR_WASHING,        // The state representing the active car washing process.
     WASHING_COMPLETED,  // The state indicating that the car washing is completed.
-    MAINTENANCE     //The state called only if the temperature during washing exceeds a certain value, indicating the need for maintenance.
+    MAINTENANCE         //The state called only if the temperature during washing exceeds a certain value, indicating the need for maintenance.
 };
 
 #endif

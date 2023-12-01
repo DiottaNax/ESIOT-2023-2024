@@ -5,7 +5,6 @@
 #include "tasks/BlinkingTask.h"
 #include "tasks/DistanceControlTask.h"
 #include "tasks/TemperatureTask.h"
-#include "devices/PresenceDetectorImpl.h"
 #include "devices/Gate.h"
 #include "devices/UltrasonicSensor.h"
 #include "tasks/UserConsoleTask.h"

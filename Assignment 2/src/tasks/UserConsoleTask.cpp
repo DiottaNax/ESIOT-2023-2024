@@ -57,7 +57,7 @@ void UserConsoleTask::tick(){
             _display.print("Proceed to", 0, 0);
             _display.print("the Washing Area", 0, 1);
         }
-        //setActive(false);
+        
         break;
 
     case READY_TO_WASH:

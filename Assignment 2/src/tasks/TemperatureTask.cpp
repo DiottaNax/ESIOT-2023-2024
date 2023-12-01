@@ -15,7 +15,7 @@ void TemperatureTask::init(int pin) {
 }
 
 void TemperatureTask::tick() {
-    int temp = 25; //this->sensor->getTemp();
+    int temp = this->sensor->getTemp();
     if (temp >= MAXTEMP && this->bridge->getState() != MAINTENANCE) {
         bridge->setState(MAINTENANCE);
     }
