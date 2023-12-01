@@ -28,6 +28,8 @@ void ControllerTask::tick() {
     case CAR_WAITING:
         this->washingNumber++;
         MsgService.sendMsg("NUMBER:"+String(washingNumber));
+        userConsole->reset();
+        delay(10);
         //sleeping
         sleep_enable();
         sleep_mode(); 
