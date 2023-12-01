@@ -22,9 +22,7 @@
  */
 class UserConsoleTask : public Task {
 private:
-    short _timeStamp; //A timestamp for tracking time in the task.
     bool _justChangedState; //A flag indicating whether the state has just changed.
-    String _tooLongString; //A string used for scrolling text on the LCD display.
 
     Bridge *_bridge; //Pointer to the Bridge managing state and time.
     BlinkingTask *_tBlinking; //Pointer to the BlinkingTask controlling blinking LED.
@@ -65,6 +63,8 @@ public:
      * interaction, updates the display, and controls the BlinkingTask.
      */
     void tick();
+
+    void reset();
 };
 
 #endif
