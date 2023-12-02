@@ -20,22 +20,44 @@ public class app {
     private static ChannelMonitor channelMonitor;
     private static Thread channelMonitorThread;
     private static Controller controller;
-    private static Dashboard dashboard; 
-    
+    private static Dashboard dashboard;
+
     /**
      * The main entry point of the application.
      *
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
+
+        if (args.length == 0) {
+            DashboardLogger.showAndLogError(new Exception("No Port passed as argument, exiting program."),
+                    "No Port passed as argument", Level.SEVERE);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.exit(-1);
+        }
+
         dashboard = new SmartCarWashingDashboard();
+        boolean connectionEstablished = false;
         
-        try {
-            channelMonitor = new ChannelMonitor(new SerialCommChannel("COM9", 9600));
-            channelMonitor.attachController(controller);
-        } catch (Exception e) {
-            e.printStackTrace();
-            DashboardLogger.showError(e, Level.SEVERE);
+        while (!connectionEstablished) {
+            try {
+                channelMonitor = new ChannelMonitor(new SerialCommChannel(args[0], 9600));
+                channelMonitor.attachController(controller);
+                connectionEstablished = true;
+            } catch (Exception e) {
+                connectionEstablished = false;
+                e.printStackTrace();
+                DashboardLogger.showAndLogError(e, "Connection to " + args[0] + " failed", Level.SEVERE);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
 
         channelMonitorThread = new Thread(channelMonitor);
