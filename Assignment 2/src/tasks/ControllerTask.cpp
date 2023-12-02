@@ -61,13 +61,11 @@ void ControllerTask::tick() {
         this->userConsole->setActive(true);
         break;
     case CAR_WASHING:
-        this->userConsole->setActive(true);
         if (!this->tempController->isActive()) {
             this->tempController->setActive(true);
         }
         break;
     case MAINTENANCE:
-        this->userConsole->setActive(true);
         if(MsgService.isMsgAvailable()){
             Msg *msg = MsgService.receiveMsg();
             if(msg->getContent().equals("DONE")){
@@ -82,7 +80,6 @@ void ControllerTask::tick() {
             MsgService.sendMsg("NUMBER:" + String(washingNumber));
             washingCompleted = true;
         }
-        this->userConsole->setActive(true);
         this->tempController->setActive(false);
         this->distanceController->setActive(true);
         break;

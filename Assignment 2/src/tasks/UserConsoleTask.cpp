@@ -79,7 +79,6 @@ void UserConsoleTask::tick(){
 
         if(getWashingPercentage() >= 100){
             bridge->setState(WASHING_COMPLETED);
-            setActive(false);
         }
         break;
     
