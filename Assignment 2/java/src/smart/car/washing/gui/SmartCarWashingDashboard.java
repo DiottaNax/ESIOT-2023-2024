@@ -42,41 +42,43 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      */
     public SmartCarWashingDashboard() {
 
-        mainPanel = new JPanel();
-        JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(Color.LIGHT_GRAY);
-        centerPanel.setLayout(new GridBagLayout());
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-
-        JPanel northPanel = new JPanel();
-        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
-        northPanel.setBackground(Color.LIGHT_GRAY);
-
-        mainPanel.setBackground(Color.BLACK);
-        this.mainPanel.setLayout(new BorderLayout());
-
-        EmptyBorder border = new EmptyBorder(10, 10, 10, 10);
-        state.setText("State: ---");
-        washingNumber.setText("Washing completed: ---");
-        state.setBorder(border);
-        washingNumber.setBorder(border);
-
+        //Set Frame layout and dimension 
         this.setLayout(new GridLayout(1, 2));
         int sh = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / PROPORTION;
         int sw = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / (PROPORTION + 1);
         this.setSize(sw, sh);
 
-        temperaturePanel.setSize(new Dimension(sw / 3, sh));
-        temperaturePanel.setBackground(Color.DARK_GRAY);
-
+        //Panel
+        //Main Panel for northPanel and centerPanel
+        mainPanel = new JPanel();
+        mainPanel.setBackground(Color.BLACK);
+        this.mainPanel.setLayout(new BorderLayout());
+        //centerPanel for the maintenanceButton, use GridBagLayout in order to center the button
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(Color.LIGHT_GRAY);
+        centerPanel.setLayout(new GridBagLayout()); 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         maintenanceButton = new JButton("Maintenance Done");
         maintenanceButton.setEnabled(false);
         maintenanceButton.setPreferredSize(new Dimension(sw / 3, sh / 10));
+        //northPanel for the number of washes performed and the washing status
+        JPanel northPanel = new JPanel();
+        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
+        northPanel.setBackground(Color.LIGHT_GRAY);
+        EmptyBorder border = new EmptyBorder(10, 10, 10, 10);
+        state.setText("State: ---");
+        washingNumber.setText("Washing completed: ---");
+        state.setBorder(border);
+        washingNumber.setBorder(border);
+        //temperaturePanel for the temperature bar
+        temperaturePanel.setSize(new Dimension(sw / 3, sh));
+        temperaturePanel.setBackground(Color.DARK_GRAY);
+
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
         this.mainPanel.add(centerPanel, BorderLayout.CENTER);
         this.mainPanel.add(northPanel, BorderLayout.NORTH);
         this.add(mainPanel);
@@ -138,6 +140,7 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
 
     /**
      * Attaches a controller to the dashboard for event handling.
+     * Specifically used to handle the event when the maintenance button is pressed.
      *
      * @param controller The controller to be attached for event handling.
      */

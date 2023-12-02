@@ -11,6 +11,9 @@ ControllerTask::ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, Tem
     this->userConsole = userConsole;
 }
 
+/**
+ * @brief Interrupt service routine for movement detection.
+ */
 void movementInterrupt() {
     Serial.println("Movement detected");
 }
@@ -20,7 +23,7 @@ void ControllerTask::init() {
     this->bridge->setState(CAR_WAITING);
 
     distanceController->init();
-    tempController->init(LM35_PIN);
+    tempController->init();
     userConsole->init();
 
     MsgService.init();
@@ -35,7 +38,7 @@ void ControllerTask::tick() {
         washingCompleted = false;
         userConsole->reset();
         delay(10);
-        //sleeping
+        // sleeping
         set_sleep_mode(SLEEP_MODE_PWR_DOWN);
         sleep_enable();
         sleep_mode(); 

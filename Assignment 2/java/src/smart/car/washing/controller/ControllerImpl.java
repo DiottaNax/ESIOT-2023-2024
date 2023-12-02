@@ -36,9 +36,11 @@ public class ControllerImpl implements Controller {
      * @param msgEvent A string representing the event message or identifier.
      */
     public void notifyEvent(final String msgEvent) {
+        //The incoming message is in the format 'FIELD:VALUE'.
         StringTokenizer tokenizer = new StringTokenizer(msgEvent, ":");
         if (tokenizer.hasMoreTokens()) {
             try{
+                //Update the GUI based on the FIELD with the VALUE
                 switch (tokenizer.nextToken()) {
                     case "TEMP":
                         this.gui.updateTemperature(Integer.parseInt(tokenizer.nextToken()));

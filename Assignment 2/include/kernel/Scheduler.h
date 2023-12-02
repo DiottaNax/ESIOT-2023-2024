@@ -34,6 +34,7 @@ public:
      * scheduled tasks based on their specified periods.
      */
     void schedule();
+    
 private:
     Task *tasks[MAXTASKS]; // An array to store tasks.
     short nTasks;   //The current number of tasks in the scheduler.

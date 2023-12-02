@@ -9,13 +9,16 @@ Bridge::Bridge() {
 }
 
 void Bridge::setState(CarWashingState newState) {
+    // Manage timestamp based on state transitions
     if (currentState == MAINTENANCE && newState == CAR_WASHING) {
+        // Restore the CAR_WASHING timestamp to the point it was interrupted by MAINTENANCE
         this->stateTimestamp = millis() - this->lastStateTimeStamp;
     } else {
         lastStateTimeStamp = this->elapsedTimeInState();
         stateTimestamp = millis();
     }
     currentState = newState;
+    // Send a message with the updated state to the serial service
     MsgService.sendMsg("STATE:"+String(this->currentState));
 }
 

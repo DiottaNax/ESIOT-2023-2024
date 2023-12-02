@@ -38,10 +38,11 @@ class TemperaturePanel extends JPanel {
         int width = getWidth();
         int height = getHeight();
         g.setColor(Color.WHITE);
-        // Imposta uno spessore del bordo di 5 pixel
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(5.0f));
 
+        // Draw a rounded rectangle as the background of the temperature bar
         g2d.drawRoundRect(width / 2 - 10, 50, 20, height - 100, 20, 20);
         
         if (temperature >= 30) {
@@ -49,8 +50,9 @@ class TemperaturePanel extends JPanel {
         } else {
             g.setColor(Color.GREEN);
         }
-
+        // Calculate the height of the temperature bar based on the temperature value
         int temperatureHeight = (int) ((height - 100) * (temperature / 100.0));
+        // Draw the filled rounded rectangle representing the temperature bar
         g.fillRoundRect(width / 2 - 10, height - 50 - temperatureHeight, 20, temperatureHeight, 20, 20);
 
         g.setColor(Color.BLACK);

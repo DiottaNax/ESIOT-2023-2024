@@ -37,8 +37,10 @@ void MsgServiceClass::sendMsg(Msg& msg){
   Serial.println(msg.getContent());
 }
 
+/**
+ * @brief Serial event handler to read incoming content and create messages.
+ */
 void serialEvent() {
-  /* reading the content */
   while (Serial.available()) {
     char ch = (char) Serial.read();
     if (ch == '\n'){

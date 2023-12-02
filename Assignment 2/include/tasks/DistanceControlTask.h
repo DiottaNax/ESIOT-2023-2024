@@ -51,7 +51,15 @@ public:
      * @param bridge Pointer to the bridge.
      */
     DistanceControlTask(Bridge *bridge);
+    /**
+     * @brief Initializes the DistanceControlTask.
+     *
+     * Resets flags, sets the initial state to ENTERING, turns on the gate, and closes it.
+     */
     void init();
+    /**
+     * @brief Executes the distance control task logic in each tick.
+     */
     void tick();
 };
 

@@ -28,7 +28,7 @@ public class app {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-
+        // Check if a serial port is provided as a command-line argument
         if (args.length == 0) {
             DashboardLogger.showAndLogError(new Exception("No Port passed as argument, exiting program."),
                     "No Port passed as argument", Level.SEVERE);
@@ -43,8 +43,10 @@ public class app {
         dashboard = new SmartCarWashingDashboard();
         boolean connectionEstablished = false;
         
+        // Attempt to establish a connection to the specified serial port
         while (!connectionEstablished) {
             try {
+                // Initialize the ChannelMonitor with a SerialCommChannel
                 channelMonitor = new ChannelMonitor(new SerialCommChannel(args[0], 9600));
                 channelMonitor.attachController(controller);
                 connectionEstablished = true;
@@ -60,10 +62,15 @@ public class app {
             }
         }
 
+        // Start a separate thread for the ChannelMonitor
         channelMonitorThread = new Thread(channelMonitor);
+
+        // Initialize the Controller, attach it to the ChannelMonitor and the Dashboard
         controller = new ControllerImpl(dashboard, channelMonitor);
         channelMonitor.attachController(controller);
         dashboard.attachController(controller);
+
+        // Start the ChannelMonitor thread
         channelMonitorThread.start();
     }
 }

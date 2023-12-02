@@ -1,31 +1,42 @@
 #ifndef __CONFIG__
 #define __CONFIG__
 
-#define PIR_PIN 2
-#define PIN_LED1 17
-#define PIN_LED2 18
-#define PIN_LED3 19
+#define PIR_PIN 2 //PIR PIN
+
+//DISTANCE CONTROL TASK PIN
 #define GATE_PIN 9
 #define ECHO_PIN 10
 #define TRIGGER_PIN 11
-#define LM35_PIN A2
 
+//USER CONSOLE TASK PIN
+//DISPLAY PIN
 #define RS_PIN 3
 #define ENABLE_PIN 4
 #define D4_PIN 5
 #define D5_PIN 6
 #define D6_PIN 7
 #define D7_PIN 8
+//BUTTON PIN
 #define BUTTON_PIN 12
+//LED PIN
+#define PIN_LED1 17
+#define PIN_LED2 18
+#define PIN_LED3 19
+
+//TEMPERATURE TASK PIN
 #define DHT_PIN 13
 
+//TIME INTERVALS
 #define N1 5000
 #define N2 2000
 #define N3 6000
 #define N4 2500
 
+//DISTANCE VALUE
 #define MINDIST 0.04
 #define MAXDIST 0.08
+
+//MAX TEMPERATURE VALUE
 #define MAXTEMP 30
 
 /**

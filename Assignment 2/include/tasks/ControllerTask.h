@@ -52,7 +52,7 @@ private:
 
     Bridge *bridge;     //Pointer to the bridge managing state and time in the car washing process.
     int washingNumber = 0;  //The current washing number.
-    bool washingCompleted = false;
+    bool washingCompleted = false; //True if the entire car washing process has been completed, false otherwise
 };
 
 #endif

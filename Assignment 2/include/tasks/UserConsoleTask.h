@@ -63,7 +63,9 @@ public:
      * interaction, updates the display, and controls the BlinkingTask.
      */
     void tick();
-
+    /**
+     * @brief Resets the UserConsoleTask by turning off LEDs and clearing the display.
+     */
     void reset();
 };
 

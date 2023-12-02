@@ -13,21 +13,25 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener {
 	private BlockingQueue<String> queue;
 	private StringBuffer currentMsg = new StringBuffer("");
 	
+	/**
+     * Constructs a SerialCommChannel with the specified serial port and baud rate.
+     *
+     * @param port The serial port to be used.
+     * @param rate The baud rate for communication.
+     * @throws Exception If an error occurs during channel initialization.
+     */
 	public SerialCommChannel(String port, int rate) throws Exception {
 		queue = new ArrayBlockingQueue<String>(100);
 
+		// Initialize and configure the serial port
 		serialPort = new SerialPort(port);
 		serialPort.openPort();
-
 		serialPort.setParams(rate,
 		                         SerialPort.DATABITS_8,
 		                         SerialPort.STOPBITS_1,
 		                         SerialPort.PARITY_NONE);
-
 		serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | 
 		                                  SerialPort.FLOWCONTROL_RTSCTS_OUT);
-
-		// serialPort.addEventListener(this, SerialPort.MASK_RXCHAR);
 		serialPort.addEventListener(this);
 	}
 
@@ -49,13 +53,11 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener {
 
 	@Override
 	public String receiveMsg() throws InterruptedException {
-		// TODO Auto-generated method stub
 		return queue.take();
 	}
 
 	@Override
 	public boolean isMsgAvailable() {
-		// TODO Auto-generated method stub
 		return !queue.isEmpty();
 	}
 
@@ -76,17 +78,19 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener {
 
 
 	public void serialEvent(SerialPortEvent event) {
-		/* if there are bytes received in the input buffer */
+		// Check if there are bytes received in the input buffer 
 		if (event.isRXCHAR()) {
             try {
             		String msg = serialPort.readString(event.getEventValue());
             		
+					// Remove carriage return characters from the received message
             		msg = msg.replaceAll("\r", "");
             		
             		currentMsg.append(msg);
             		
             		boolean goAhead = true;
             		
+					// Process the received message
         			while(goAhead) {
         				String msg2 = currentMsg.toString();
         				int index = msg2.indexOf("\n");
