@@ -1,9 +1,11 @@
 package smart.car.washing.controller;
 
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 
 import smart.car.washing.gui.CarWashingState;
 import smart.car.washing.gui.Dashboard;
+import smart.car.washing.gui.DashboardLogger;
 import smart.car.washing.serial.ChannelMonitor;
 
 /**
@@ -36,23 +38,27 @@ public class ControllerImpl implements Controller {
     public void notifyEvent(final String msgEvent) {
         StringTokenizer tokenizer = new StringTokenizer(msgEvent, ":");
         if (tokenizer.hasMoreTokens()) {
-            switch (tokenizer.nextToken()) {
-                case "TEMP":
-                    this.gui.updateTemperature(Integer.parseInt(tokenizer.nextToken()));
-                    break;
+            try{
+                switch (tokenizer.nextToken()) {
+                    case "TEMP":
+                        this.gui.updateTemperature(Integer.parseInt(tokenizer.nextToken()));
+                        break;
 
-                case "STATE":
-                    final int state = Integer.parseInt(tokenizer.nextToken());
-                    this.gui.updateState(CarWashingState.fromValue(state));
-                    break;
+                    case "STATE":
+                        final int state = Integer.parseInt(tokenizer.nextToken());
+                        this.gui.updateState(CarWashingState.fromValue(state));
+                        break;
 
-                case "NUMBER":
-                    this.gui.updateWashingNumber(Integer.parseInt(tokenizer.nextToken()));
-                    break;
+                    case "NUMBER":
+                        this.gui.updateWashingNumber(Integer.parseInt(tokenizer.nextToken()));
+                        break;
 
-                case "DONE":
-                    this.channelMonitor.sendMessage("DONE");
-                    break;
+                    case "DONE":
+                        this.channelMonitor.sendMessage("DONE");
+                        break;
+                }
+            } catch(NumberFormatException e){
+                DashboardLogger.showAndLogError(e, "Failed to parse Dashboard Info", Level.WARNING);
             }
         }
     }

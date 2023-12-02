@@ -25,9 +25,9 @@ public final class DashboardLogger {
      * @param e The exception for which the error message is displayed.
      * @param level The logging level for the error.
      */
-    public static void showError(final Exception e, final Level level) {
+    public static void showAndLogError(final Exception e, final String title, final Level level) {
         SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), title, JOptionPane.ERROR_MESSAGE);
         });
 
         logger.log(level, e.getMessage(), e);

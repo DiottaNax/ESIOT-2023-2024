@@ -27,6 +27,7 @@ public class ChannelMonitor implements Runnable {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            DashboardLogger.showAndLogError(e, "Thread sleep failed",Level.SEVERE);
         }
         System.out.println("Ready.");
         
@@ -41,15 +42,15 @@ public class ChannelMonitor implements Runnable {
                     this.controller.notifyEvent(msg);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    DashboardLogger.showError(e, Level.SEVERE);
+                    DashboardLogger.showAndLogError(e, "Failed to receive message", Level.SEVERE);
                 }
             }
 
             try {
-                Thread.sleep(5);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                DashboardLogger.showError(e, Level.SEVERE);
+                DashboardLogger.showAndLogError(e, "Thread sleep failed",Level.SEVERE);
             }
         }
     }
