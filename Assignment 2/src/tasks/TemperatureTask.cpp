@@ -10,14 +10,22 @@ TemperatureTask::TemperatureTask(int period, Bridge *controller) {
 }
 
 void TemperatureTask::init(int pin) {
-    this->sensor = new LM35Sensor(pin);
+    //this->sensor = new LM35Sensor(pin);
     this->timeElapsed = 0;
+    dhtSens.begin();
 }
 
+bool fatto = false;
+
 void TemperatureTask::tick() {
-    int temp = 25; // this->sensor->getTemp();
-    if (temp >= MAXTEMP && this->bridge->getState() != MAINTENANCE) {
-        bridge->setState(MAINTENANCE);
+    int temp = dhtSens.readTemperature(); // this->sensor->getTemp();
+    if(isnan(temp)){
+        Serial.println("Errore nella lettura della temperatura");
+    } else{
+        if (temp >= MAXTEMP && this->bridge->getState() != MAINTENANCE) {
+            bridge->setState(MAINTENANCE);
+        }
+
+        MsgService.sendMsg("TEMP:" + String(temp));
     }
-    MsgService.sendMsg("TEMP:"+String(temp));
 }

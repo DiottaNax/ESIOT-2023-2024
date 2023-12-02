@@ -17,6 +17,7 @@
 #define D6_PIN 7
 #define D7_PIN 8
 #define BUTTON_PIN 12
+#define DHT_PIN 13
 
 #define N1 5000
 #define N2 2000
@@ -25,6 +26,7 @@
 
 #define MINDIST 0.04
 #define MAXDIST 0.08
+#define MAXTEMP 30
 
 /**
  * @brief Enumeration representing the states in a car washing process.

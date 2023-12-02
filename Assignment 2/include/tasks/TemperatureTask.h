@@ -1,10 +1,13 @@
 #ifndef __TEMPERATURE_TASK__
 #define __TEMPERATURE_TASK__
 
+#include "DHT.h"
 #include "devices/LM35Sensor.h"
 #include "model/Bridge.h"
 #include "Task.h"
-#define MAXTEMP 27
+#include "config.h"
+
+#define DHTTYPE DHT11
 
 /**
  * @brief Represents a task for monitoring temperature using an LM35 sensor.
@@ -40,9 +43,9 @@ public:
   void tick();
 
 private:
-  LM35Sensor *sensor; //Pointer to the LM35 sensor object.
+  //LM35Sensor *sensor; //Pointer to the LM35 sensor object.
   Bridge *bridge;     //Pointer to the Bridge managing state and time.
-  
+  DHT dhtSens = DHT(DHT_PIN, DHTTYPE);
 };
 
 #endif
