@@ -16,7 +16,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import smart.car.washing.controller.Controller;
@@ -29,10 +31,11 @@ import smart.car.washing.controller.Controller;
 public class SmartCarWashingDashboard extends JFrame implements Dashboard {
     private static int PROPORTION = 2;
     private JPanel mainPanel;
-    private TemperaturePanel temp = new TemperaturePanel();
+    private TemperaturePanel temperaturePanel = new TemperaturePanel();
     private JLabel washingNumber = new JLabel();
     private JLabel state = new JLabel();
     private final JButton maintenanceButton;
+    private int criticTemp = 30;
 
     /**
      * Constructor for the SmartCarWashingDashboard.
@@ -56,8 +59,8 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         this.mainPanel.setLayout(new BorderLayout());
 
         EmptyBorder border = new EmptyBorder(10, 10, 10, 10);
-        state.setText("State: Waiting for a car");
-        washingNumber.setText("Washing Number: 0");
+        state.setText("State: ---");
+        washingNumber.setText("Washing completed: ---");
         state.setBorder(border);
         washingNumber.setBorder(border);
 
@@ -66,8 +69,8 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         int sw = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / (PROPORTION + 1);
         this.setSize(sw, sh);
 
-        temp.setSize(new Dimension(sw / 3, sh));
-        temp.setBackground(Color.DARK_GRAY);
+        temperaturePanel.setSize(new Dimension(sw / 3, sh));
+        temperaturePanel.setBackground(Color.DARK_GRAY);
 
         maintenanceButton = new JButton("Maintenance Done");
         maintenanceButton.setEnabled(false);
@@ -77,7 +80,7 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         this.mainPanel.add(centerPanel, BorderLayout.CENTER);
         this.mainPanel.add(northPanel, BorderLayout.NORTH);
         this.add(mainPanel);
-        this.add(temp);
+        this.add(temperaturePanel);
         centerPanel.add(maintenanceButton);
         northPanel.add(washingNumber, BorderLayout.NORTH);
         northPanel.add(state, BorderLayout.SOUTH);
@@ -93,7 +96,10 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      * @param temperature The current temperature reading from the system.
      */
     public void updateTemperature(final int temperature) {
-        this.temp.setTemperature(temperature);
+        this.temperaturePanel.setTemperature(temperature);
+        if (temperature >= 30) {
+            criticTemp = temperature;
+        }
     }
 
     /**
@@ -102,7 +108,7 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
      * @param number The current washing number or identifier.
      */
     public void updateWashingNumber(final int number) {
-        this.washingNumber.setText("Washing Number: " + number);
+        this.washingNumber.setText("Washing completed: " + number);
     }
 
     /**
@@ -114,6 +120,13 @@ public class SmartCarWashingDashboard extends JFrame implements Dashboard {
         this.state.setText("State: " + state.getStateName());
         if (state.equals(CarWashingState.MAINTENANCE)) {
             this.maintenanceButton.setEnabled(true);
+            // Display a warning message to inform about maintenance
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(this,
+                        "During car washing a temperature of " + criticTemp
+                                + "C° was detectd. \n Please control the washing area, maintenance is required.",
+                        "Maintenance required", JOptionPane.WARNING_MESSAGE);
+            });
         } else if (this.maintenanceButton.isEnabled()) {
             this.maintenanceButton.setEnabled(false);
         }

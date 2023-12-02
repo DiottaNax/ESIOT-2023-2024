@@ -44,7 +44,7 @@ class TemperaturePanel extends JPanel {
 
         g2d.drawRoundRect(width / 2 - 10, 50, 20, height - 100, 20, 20);
         
-        if (temperature > 27) {
+        if (temperature >= 30) {
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.GREEN);
