@@ -11,6 +11,10 @@ ControllerTask::ControllerTask(Bridge *bridge, UserConsoleTask *userConsole, Tem
     this->userConsole = userConsole;
 }
 
+void movementInterrupt() {
+    Serial.println("Movement detected");
+}
+
 void ControllerTask::init() {
     active = true;
     this->bridge->setState(CAR_WAITING);
@@ -19,12 +23,8 @@ void ControllerTask::init() {
     tempController->init(LM35_PIN);
     userConsole->init();
 
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     MsgService.init();
-}
-
-void movementInterrupt() {
-    Serial.println("Movement detected");
+    
 }
 
 void ControllerTask::tick() {
@@ -32,8 +32,7 @@ void ControllerTask::tick() {
     case CAR_WAITING:
         // Attach an interrupt for the presence detection using PIR sensor
         attachInterrupt(digitalPinToInterrupt(PIR_PIN), movementInterrupt, CHANGE);
-        MsgService.sendMsg("NUMBER:"+String(washingNumber));
-        this->washingNumber++;
+        washingCompleted = false;
         userConsole->reset();
         delay(10);
         //sleeping
@@ -75,6 +74,11 @@ void ControllerTask::tick() {
         }
         break;
     case WASHING_COMPLETED:
+        if(!washingCompleted){
+            this->washingNumber++;
+            MsgService.sendMsg("NUMBER:" + String(washingNumber));
+            washingCompleted = true;
+        }
         this->userConsole->setActive(true);
         this->tempController->setActive(false);
         this->distanceController->setActive(true);

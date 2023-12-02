@@ -49,8 +49,10 @@ private:
     TemperatureTask *tempController;    //Pointer to the temperature control task.
     UserConsoleTask *userConsole;       //Pointer to the user console interaction task.
     DistanceControlTask *distanceController; //Pointer to the distance control task.
+
     Bridge *bridge;     //Pointer to the bridge managing state and time in the car washing process.
     int washingNumber = 0;  //The current washing number.
+    bool washingCompleted = false;
 };
 
 #endif
