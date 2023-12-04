@@ -37,6 +37,7 @@ public:
      * @return The elapsed time in the current state.
      */
     long elapsedTimeInState();
+    
 private:
     CarWashingState currentState; //The current state of the car washing process.
     long stateTimestamp;      //The timestamp of the current state transition.

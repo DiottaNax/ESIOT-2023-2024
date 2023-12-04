@@ -50,9 +50,7 @@ public class ChannelMonitor implements Runnable {
         }
         System.out.println("Ready.");
         
-        /**
-         * Listening for serial events
-         */
+        //Listening for serial events
         while (true) {
             if (commChannel.isMsgAvailable()) {
                 try {

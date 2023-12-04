@@ -3,7 +3,6 @@ package smart.car.washing.serial;
 /**
  * Simple interface for an async msg communication channel
  * @author aricci
- *
  */
 public interface CommChannel {
 	

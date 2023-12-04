@@ -37,10 +37,6 @@ private:
      * @return The percentage of car washing completion.
      */
     int getWashingPercentage();
-    /**
-     * @brief Scroll text on the LCD display.
-     */
-    void makeTextScroll();
 
 public:
     /**

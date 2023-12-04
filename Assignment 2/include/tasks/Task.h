@@ -79,7 +79,7 @@ protected:
     bool active;       /**< Indicates if the task is currently active. */
     bool periodic;     /**< Indicates if the task is periodic. */
     int period;        /**< The time period for the periodic task. */
-    long timeElapsed; /**< The time elapsed since the task was last executed. */
+    long timeElapsed;  /**< The time elapsed since the task was last executed. */
     
 };
 
