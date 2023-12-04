@@ -41,7 +41,7 @@ void UserConsoleTask::tick(){
     case WELCOME:
         leds[0].turnOn();
         display.print("Welcome", 0, 0);
-        setActive(false);
+        this->setActive(false);
         break;
     
     case GATE_OPENING:
@@ -55,7 +55,7 @@ void UserConsoleTask::tick(){
 
     case READY_TO_WASH:
         if(justChangedState){
-             tBlinking->setActive(false);
+            tBlinking->setActive(false);
             leds[1].turnOn();
             display.print("Ready to Wash", 0, 0);
             period = 50; //permits to better detect if the button is pressed
