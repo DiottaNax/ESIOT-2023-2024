@@ -1,3 +1,11 @@
+/**
+ * ESIOT a.y. 2023/2024 - Assignment 2
+ *
+ *    .::Smart Car Washing::.
+ *
+ *  @authors Javid Ameri, Matilde D'Antino, Federico Diotallevi :3
+ *
+ */
 #include <Arduino.h>
 #include "model/Bridge.h"
 #include "kernel/Scheduler.h"
