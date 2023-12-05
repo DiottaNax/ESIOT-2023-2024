@@ -1,2 +1,7 @@
 .pio/*
 .vscode/*
+bin/*
+
+*/bin/*
+*/.pio/*
+*/.vscode/*

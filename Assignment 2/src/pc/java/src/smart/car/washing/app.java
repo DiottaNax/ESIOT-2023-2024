@@ -21,6 +21,9 @@ public class app {
     private static Thread channelMonitorThread;
     private static Controller controller;
     private static Dashboard dashboard;
+    private static int connectionTries = 0;
+
+    private final static int MAX_TRIES = 3;
 
     /**
      * The main entry point of the application.
@@ -51,9 +54,22 @@ public class app {
                 channelMonitor.attachController(controller);
                 connectionEstablished = true;
             } catch (Exception e) {
+                connectionTries++;
+                if (connectionTries > MAX_TRIES) {
+                    DashboardLogger.showAndLogError(
+                            new Exception("Connection to " + args[0] + " failed, exiting program."),
+                            "Connection to " + args[0] + " failed", Level.SEVERE);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException iE) {
+                        iE.printStackTrace();
+                    }
+                    System.exit(-1);
+                }
+
                 connectionEstablished = false;
                 e.printStackTrace();
-                DashboardLogger.showAndLogError(e, "Connection to " + args[0] + " failed", Level.SEVERE);
+                DashboardLogger.showAndLogError(e, "Connection to " + args[0] + " failed", Level.WARNING);
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e1) {
