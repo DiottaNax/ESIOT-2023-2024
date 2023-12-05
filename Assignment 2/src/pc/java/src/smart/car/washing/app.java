@@ -21,9 +21,9 @@ public class app {
     private static Thread channelMonitorThread;
     private static Controller controller;
     private static Dashboard dashboard;
-    private static int connectionTries = 0;
+    private static int connectionAttempts = 0;
 
-    private final static int MAX_TRIES = 3;
+    private final static int MAX_ATTEMPTS = 3;
 
     /**
      * The main entry point of the application.
@@ -33,13 +33,17 @@ public class app {
     public static void main(String[] args) {
         // Check if a serial port is provided as a command-line argument
         if (args.length == 0) {
-            DashboardLogger.showAndLogError(new Exception("No Port passed as argument, exiting program."),
+            // If no serial port is provided, log an error and exit the program
+            DashboardLogger.showAndLogError(new IllegalArgumentException("No Port passed as argument, exiting program."),
                     "No Port passed as argument", Level.SEVERE);
+
+            // Sleep for 5s allowing to see the error message
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             System.exit(-1);
         }
 
@@ -49,27 +53,27 @@ public class app {
         // Attempt to establish a connection to the specified serial port
         while (!connectionEstablished) {
             try {
-                // Initialize the ChannelMonitor with a SerialCommChannel
+                // Initialize the ChannelMonitor and attach the controller
                 channelMonitor = new ChannelMonitor(new SerialCommChannel(args[0], 9600));
                 channelMonitor.attachController(controller);
                 connectionEstablished = true;
             } catch (Exception e) {
-                connectionTries++;
-                if (connectionTries > MAX_TRIES) {
+                connectionAttempts++;
+                // If the program failed to connect to the port for MAX_ATTEMPTS times, log an error and exit
+                if (connectionAttempts > MAX_ATTEMPTS) {
                     DashboardLogger.showAndLogError(
-                            new Exception("Connection to " + args[0] + " failed, exiting program."),
-                            "Connection to " + args[0] + " failed", Level.SEVERE);
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException iE) {
-                        iE.printStackTrace();
-                    }
-                    System.exit(-1);
+                            new Exception("Connection to " + args[0] + " failed for " + connectionAttempts
+                                    + " times, exiting program."),
+                            "Connection to " + args[0] + " failed." + connectionAttempts, Level.SEVERE);
+                } else {
+                    connectionEstablished = false;
+                    e.printStackTrace();
+                    // If the connection failed log an error and try to reconnect
+                    DashboardLogger.showAndLogError(e,
+                            "Connection to " + args[0] + " failed, attempt N." + connectionAttempts, Level.WARNING);
                 }
 
-                connectionEstablished = false;
-                e.printStackTrace();
-                DashboardLogger.showAndLogError(e, "Connection to " + args[0] + " failed", Level.WARNING);
+                // Sleep for 5s allowing the user to connect the cable and read the error messages
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e1) {
@@ -86,7 +90,6 @@ public class app {
         channelMonitor.attachController(controller);
         dashboard.attachController(controller);
 
-        // Start the ChannelMonitor thread
         channelMonitorThread.start();
     }
 }
