@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let currentSystemState;
-    let oldData = [];
+    let oldData = new Array();
     let graph;
 
     let bar = document.getElementById('valveOpening');
@@ -81,15 +81,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function changeWaterLevel(newLevel) {
         if (graph instanceof Chart) {
-            console.log('sto distruggendo il grafo');
             graph.destroy();
         }
 
         const ctx = canvas.getContext('2d');
-
-        console.log(typeof oldData);
-        console.log(typeof newLevel);
-        console.log(typeof 56);
 
         waterLeveltrend(oldData, newLevel);
 
@@ -103,10 +98,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 labels: etichette, 
                 datasets: [{
                     label: 'water level', 
-                    data: oldData, 
+                    data: [...oldData], 
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', 
                     borderColor: 'rgba(255, 99, 132, 1)', 
-                    borderWidth: 1 
+                    borderWidth: 2 
                 }]
             },
             options: {
@@ -122,7 +117,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function waterLeveltrend(oldData, newData) {
-        oldData.push(newData);
+        oldData.push(parseFloat(newData));
         if (oldData.length > 6) {
             oldData.shift();
         }
