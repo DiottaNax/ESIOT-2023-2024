@@ -63,10 +63,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function changeSystemState(newState) {
-        if (newState != 'REMOTE') {
-            bar.disabled = true;
-        } else {
+        if (newState == 'REMOTE') {
             bar.disabled = false;
+        } else if (newState == 'MANUAL') {
+            bar.disabled = true;
+            remoteButton.disabled = true;
+        } else {
+            bar.disabled = true;
+            remoteButton.disabled = false;
         }
         currentSystemState = newState;
     }
