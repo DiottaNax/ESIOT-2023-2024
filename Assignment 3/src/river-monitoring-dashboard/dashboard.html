@@ -6,6 +6,8 @@
         
         <title>River Monitoring Dashboard</title>
 
+        <script src="dashboard.js"></script>
+
         <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Axios -->
@@ -39,14 +41,15 @@
             <div class="row">
                 <div class="col-md-6 col-sm-12">
                     <h6>Graph</h6>
+                    <canvas id="graph"></canvas>
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="row">
                         <div class="col-sm-6">
-                            <p>STATE</p>
+                            <p id="alarm_level">STATE: </p>
                         </div>
                         <div class="col-sm-6">
-                            <p>VALVE OPENING</p>
+                            <p id="valve_opening_value">VALVE OPENING</p>
                         </div>
                     </div>
                 </div>
@@ -54,16 +57,23 @@
         </div>
         
         <div id="section2" class="container-fluid bg-warning" style="padding:100px 20px;">
-            <h3>Manual Control</h3>
+            <h3>Remote Control</h3>
             <div class="row">
-                <button>Manual Control</button>
+                <button id="remoteButton">Remote Control</button>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-2">
                     <label for="valveOpening" class="form-label">Valve Opening</label>
                 </div>
-                <div class="col-sm-6">
-                    <input type="range" class="form-range" id="valveOpening" step="100" name="points" style="width: 80%;">
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="range" class="form-range" id="valveOpening" min="0" max="100" name="points" style="width: 80%;">
+                        </div>
+                        <div class="col-sm-6">
+                            <p id="valveValue">50%</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
