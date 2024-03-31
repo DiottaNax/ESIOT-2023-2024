@@ -20,9 +20,12 @@
             body {
                 position: relative; 
             }
+            div {
+                padding: 10px;
+            }
         </style>
     </head>
-    <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+    <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" style="text-align: center; align-items: center;">
 
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
           <div class="container-fluid">
@@ -38,6 +41,7 @@
         </nav>
         
         <div id="section1" class="container-fluid bg-success text-white" style="padding:100px 20px;">
+            <h3>System State</h3>
             <div class="row">
                 <div class="col-md-6 col-sm-12">
                     <h6>Graph</h6>
@@ -56,10 +60,12 @@
             </div>
         </div>
         
-        <div id="section2" class="container-fluid bg-warning" style="padding:100px 20px;">
+        <div id="section2" class="container-fluid bg-warning text-center" style="padding:100px 20px;">
             <h3>Remote Control</h3>
-            <div class="row">
-                <button id="remoteButton">Remote Control</button>
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <button id="remoteButton" style="width: 50%; text-align: center;">Remote Control</button>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-2">

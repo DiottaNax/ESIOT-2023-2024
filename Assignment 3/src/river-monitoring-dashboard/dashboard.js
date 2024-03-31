@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         axios.post('http://localhost:8080/api/data', data)
             .then(response => {
-                changeState(response.data[0].SYSTEM_STATE);
+                changeSystemState(response.data[0].SYSTEM_STATE);
             })
             .catch(error => {
                 console.error('Errore:', error);
