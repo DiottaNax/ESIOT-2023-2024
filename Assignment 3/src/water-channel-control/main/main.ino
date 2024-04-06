@@ -7,23 +7,10 @@
  *
  */
 #include <Arduino.h>
-#include "config.h"
-#include "devices/WaterValve.h"
-#include "devices/Button.h"
-#include "devices/LCDDisplay.h"
 #include <avr/sleep.h>
 
-
-// Creazione degli oggetti per ciascun componente hardware
-WaterValve waterValve(waterValvePin);
-Button button(buttonPin);
-LCDDisplay lcdDisplay(lcdRs, lcdEnable, lcdD4, lcdD5, lcdD6, lcdD7);
-
 void setup() {
-  // Inizializzazione dei componenti hardware
-  waterValve.on();
-  button.begin();
-  lcdDisplay.initialize();
+  
 }
 
 void loop() {
