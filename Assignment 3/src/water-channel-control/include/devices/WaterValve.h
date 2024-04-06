@@ -4,7 +4,7 @@
 #include "ServoMotor.h"
 
 /**
- * @brief The Gate class inherits from the ServoMotor class.
+ * @brief The WaterValve class inherits from the ServoMotor class.
  */
 class WaterValve: public ServoMotor {
 
