@@ -5,6 +5,7 @@
 
 void MqttManager :: setup_wifi() {
     delay(10);
+    neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,0,0); // Red
     Serial.println(String("Connecting to ") + ssid);
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
@@ -16,6 +17,7 @@ void MqttManager :: setup_wifi() {
     Serial.println("WiFi connected");
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
+    neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // Green
 }
 
 void MqttManager :: callback(char* topic, byte* payload, unsigned int length) {
@@ -37,22 +39,24 @@ void MqttManager :: callback(char* topic, byte* payload, unsigned int length) {
 }
 
 void MqttManager :: reconnect() {
-    while (!client.connected()) {
-        Serial.print("Attempting MQTT connection...");
-        
-        String clientId = String("esiot-2122-client-")+String(random(0xffff), HEX);
+  neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,0,0); // Red
+  while (!client.connected()) {
+      Serial.print("Attempting MQTT connection...");
+      
+      String clientId = String("esiot-2122-client-")+String(random(0xffff), HEX);
 
-        if (client.connect(clientId.c_str())) {
-        Serial.println("connected");
-        client.subscribe(frequency_topic);
-        } else {
-        Serial.print("failed, rc=");
-        Serial.print(client.state());
-        Serial.println(" try again in 5 seconds");
-        
-        delay(5000);
-      }
+      if (client.connect(clientId.c_str())) {
+      Serial.println("connected");
+      client.subscribe(frequency_topic);
+      } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      
+      delay(5000);
     }
+  }
+  neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // Green
 }
 
 void MqttManager :: send_message(SonarTask *sonar) {
@@ -71,8 +75,9 @@ void MqttManager :: send_message(SonarTask *sonar) {
 }
 
 void MqttManager :: init() {
-    setup_wifi();
-    randomSeed(micros());
-    client.setServer(mqtt_server, 1883);
-    client.setCallback(callback);
+  digitalWrite(RGB_BUILTIN, HIGH);
+  setup_wifi();
+  randomSeed(micros());
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
 }
