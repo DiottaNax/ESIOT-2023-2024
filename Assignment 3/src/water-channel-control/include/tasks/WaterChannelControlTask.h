@@ -1,12 +1,8 @@
 #include "TaskWithState.h"
 #include "devices/WaterValve.h"
+#include "config.h"
 
 class WaterChannelControlTask : public TaskWithState {
-    enum State {
-        REMOTE,     //State for Remote mode
-        MANUAL,     //State for Manual mode
-        AUTOMATIC   //State for Automatic mode
-    };
 
     private:
     WaterValve waterValve;
