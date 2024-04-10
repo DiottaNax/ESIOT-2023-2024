@@ -1,7 +1,12 @@
 #include <Arduino.h>
 #include "MqttManager.h"
+#include "config.h"
 #include "SonarTask.h"
 #include <stdlib.h>
+
+MqttManager::MqttManager(){
+
+}
 
 void MqttManager :: setup_wifi() {
     delay(10);
