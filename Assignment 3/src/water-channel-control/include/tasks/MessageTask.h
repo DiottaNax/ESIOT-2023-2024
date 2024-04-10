@@ -2,6 +2,7 @@
 #include "devices/Button.h"
 #include "devices/LCDDisplay.h"
 #include "WaterChannelControlTask.h"
+#include "config.h"
 
 class MessageTask : public Task {
     
