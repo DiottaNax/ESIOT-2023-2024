@@ -1,6 +1,10 @@
 #include <Arduino.h>
 #include "SonarTask.h"
 
+SonarTask::SonarTask(){
+    
+}
+
 void SonarTask :: init() {
     pinMode(trigSonar, OUTPUT);
     pinMode(echoSonar, INPUT);
