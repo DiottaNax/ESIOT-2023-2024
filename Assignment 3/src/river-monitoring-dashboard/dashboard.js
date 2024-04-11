@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    let currentSystemState;
     let oldData = new Array();
     let graph;
 
@@ -52,8 +51,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
         axios.post('http://localhost:8080/api/data', data)
             .then(response => {
+                changeMode(response.data[0].MODE);
                 changeSystemState(response.data[0].SYSTEM_STATE);
-                changeAlarmLevel(response.data[0].ALARM_LEVEL);
                 changeWaterLevel(response.data[0].WATER_LEVEL);
                 changeValveOpening(response.data[0].VALVE_OPENING);
             })
@@ -62,21 +61,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
     }
 
-    function changeSystemState(newState) {
-        if (newState == 'REMOTE') {
+    function changeMode(newMode) {
+        if (newMode == 'REMOTE') {
             bar.disabled = false;
-        } else if (newState == 'MANUAL') {
+        } else if (newMode == 'MANUAL') {
             bar.disabled = true;
             remoteButton.disabled = true;
         } else {
             bar.disabled = true;
             remoteButton.disabled = false;
         }
-        currentSystemState = newState;
     }
 
-    function changeAlarmLevel(newLevel) {
-        document.getElementById('alarm_level').textContent = "STATE: " + newLevel;
+    function changeSystemState(newState) {
+        document.getElementById('system_state').textContent = "STATE: " + newState;
     }
 
     function changeWaterLevel(newLevel) {
