@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "MqttManager.h"
 #include "config.h"
-#include "SonarTask.h"
+#include "Sonar.h"
 #include <stdlib.h>
 
 MqttManager::MqttManager(){
@@ -64,7 +64,7 @@ void MqttManager :: reconnect() {
   neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // Green
 }
 
-void MqttManager :: send_message(SonarTask *sonar) {
+void MqttManager :: send_message(Sonar *sonar) {
   for (;;) {
     if (!client.connected()) {
       reconnect();

@@ -2,7 +2,7 @@
 #define __MQTT_MANAGER__
 
 #include <Arduino.h>
-#include "SonarTask.h"
+#include "Sonar.h"
 
 class MqttManager {
   private:
@@ -13,7 +13,7 @@ class MqttManager {
     void setup_wifi();
     static void callback(char* topic, byte* payload, unsigned int length);
     void reconnect(); 
-    void send_message(SonarTask *sonar);
+    void send_message(Sonar *sonar);
 };
 
 #endif

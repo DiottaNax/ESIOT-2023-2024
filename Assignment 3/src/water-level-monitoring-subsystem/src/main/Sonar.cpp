@@ -1,16 +1,16 @@
 #include <Arduino.h>
-#include "SonarTask.h"
+#include "Sonar.h"
 
-SonarTask::SonarTask(){
+Sonar::Sonar(){
     
 }
 
-void SonarTask :: init() {
+void Sonar :: init() {
     pinMode(trigSonar, OUTPUT);
     pinMode(echoSonar, INPUT);
 }
 
-float SonarTask :: get_distance() {
+float Sonar :: get_distance() {
     digitalWrite(trigSonar, LOW);
     delayMicroseconds(3);
     digitalWrite(trigSonar, HIGH);
