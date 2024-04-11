@@ -22,6 +22,9 @@ dependencies {
     implementation("io.vertx:vertx-web-client:4.3.1")
     implementation("io.vertx:vertx-mqtt:4.3.1")
 
+    // For serial comm
+    implementation("io.github.java-native:jssc:2.9.6")
+
     /* for logging */
     implementation("org.slf4j:slf4j-api:1.7.25")
     implementation("org.slf4j:slf4j-jdk14:1.7.36")
@@ -30,9 +33,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    // This dependency is used by the application.
-    implementation("com.google.guava:guava:32.1.1-jre")
 }
 
 application {
