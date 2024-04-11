@@ -16,15 +16,15 @@ public enum SystemState {
         this.valveOpening = valveOpening;
     }
 
-    int getFrequency() {
+    public int getFrequency() {
         return this.frequency;
     }
 
-    int getValveOpening() {
+    public int getValveOpening() {
         return this.valveOpening;
     }
 
-    SystemState getFromWaterLevel(final double wLevel) {
+    public static SystemState getFromWaterLevel(final double wLevel) {
         if (wLevel <= 6.0) {
             return ALARM_TOO_LOW;
         } else if(wLevel > 6.0 && wLevel <= 10.0) {
