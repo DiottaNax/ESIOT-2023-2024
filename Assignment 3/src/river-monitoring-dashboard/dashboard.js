@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    let currentSystemState;
     let oldData = new Array();
     let graph;
 
@@ -13,13 +12,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const syncRequest = setInterval(getData, int);
 
     remoteButton.addEventListener('click', function() {
-        let data = "REMOTE_CONTROL";
+        let data = {
+            SYSTEM_STATE: 'REMOTE'
+        };
         
-        axios.post('http://localhost:8080/app/mode', data)
+        axios.post('http://localhost:8080/api/data', data)
             .then(response => {
                 changeSystemState(response.data[0].SYSTEM_STATE);
             })
             .catch(error => {
+                console.error('Errore:', error);
             });
     });
     
@@ -34,11 +36,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             VALVE_OPENING: value
         };
 
-        axios.post('http://localhost:8080/app/valve', data)
+        axios.post('http://localhost:8080/api/data', data)
             .then(response => {
                 console.log(response.data);
             })
             .catch(error => {
+                console.error('Errore:', error);
             });
     });
     
@@ -46,32 +49,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let data = {
         };
     
-        axios.post('http://localhost:8080/app/data', data)
+        axios.post('http://localhost:8080/api/data', data)
             .then(response => {
+                changeMode(response.data[0].MODE);
                 changeSystemState(response.data[0].SYSTEM_STATE);
-                changeAlarmLevel(response.data[0].ALARM_LEVEL);
                 changeWaterLevel(response.data[0].WATER_LEVEL);
                 changeValveOpening(response.data[0].VALVE_OPENING);
             })
             .catch(error => {
+                console.error('Errore:', error);
             });
     }
 
-    function changeSystemState(newState) {
-        if (newState == 'REMOTE') {
+    function changeMode(newMode) {
+        if (newMode == 'REMOTE') {
             bar.disabled = false;
-        } else if (newState == 'MANUAL') {
+        } else if (newMode == 'MANUAL') {
             bar.disabled = true;
             remoteButton.disabled = true;
         } else {
             bar.disabled = true;
             remoteButton.disabled = false;
         }
-        currentSystemState = newState;
     }
 
-    function changeAlarmLevel(newLevel) {
-        document.getElementById('alarm_level').textContent = "STATE: " + newLevel;
+    function changeSystemState(newState) {
+        document.getElementById('system_state').textContent = "STATE: " + newState;
     }
 
     function changeWaterLevel(newLevel) {
