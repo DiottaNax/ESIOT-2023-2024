@@ -4,7 +4,7 @@
 #include "WaterChannelControlTask.h"
 #include "config.h"
 
-class MessageTask : public Task {
+class ConsoleTask : public Task {
     
     private:
     Button button;
@@ -12,7 +12,7 @@ class MessageTask : public Task {
     WaterChannelControlTask waterChannelControlTask;
 
     public:
-    MessageTask();
+    ConsoleTask();
     void init();
     void tick();
 }

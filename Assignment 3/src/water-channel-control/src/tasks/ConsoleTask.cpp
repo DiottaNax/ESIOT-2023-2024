@@ -1,4 +1,4 @@
-#include "tasks/MessageTask.h"
+#include "tasks/ConsoleTask.h"
 #include "config.h"
 #include "devices/Button.h"
 #include "devices/LCDDisplay.h"
@@ -6,36 +6,34 @@
 #include "WaterChannelControlTask.h"
 #include "config.h"
 
-MessageTask::MessageTask(){
+ConsoleTask::ConsoleTask(){
     // Creazione degli oggetti per ciascun componente hardware
     this->button(BUTTON_PIN);
     this->lcdDisplay(RS_PIN, ENABLE_PIN, D4_PIN, D5_PIN, D6_PIN, D7_PIN);
     this->waterChannelControlTask();
 }
 
-void MessageTask::init() {
+void ConsoleTask::init() {
     // Inizializzazione dei componenti hardware
+    this->waterChannelControlTask.setState(AUTOMATIC);
     button.begin();
     lcdDisplay.initialize();
+    this->lcdDisplay.clear();
+    this->lcdDisplay.print("MANUAL");
 }
 
-void MessageTask::tick() {
-    if(MsgService.isMsgAvailable()){
-        Msg *msg = MsgService.receiveMsg();
-        if(msg->getContent().equals("STATE:AUTOMATIC")){
-            this->waterChannelControlTask.setState(AUTOMATIC)
-        }
-        if(msg->getContent().equals("STATE:REMOTE")){
-            this->waterChannelControlTask.setState(REMOTE)
-        }
-        delete(msg);
-    }
+void ConsoleTask::tick() {
     if (button.isPressed()) {
         if(waterChannelControlTask.getState() != MANUAL){
             this->waterChannelControlTask.setState(MANUAL);
+            MsgService.sendMsg("MODE:MANUAL");
+            this->lcdDisplay.clear();
+            this->lcdDisplay.print("MANUAL");
         }
         else{
             this->waterChannelControlTask.setState(AUTOMATIC);
+            this->lcdDisplay.clear();
+            this->lcdDisplay.print("MANUAL");
         }
     }
 }

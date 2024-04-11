@@ -14,7 +14,6 @@
 #define BUTTON_PIN 12
 
 enum State {
-        REMOTE,     //State for Remote mode
         MANUAL,     //State for Manual mode
         AUTOMATIC   //State for Automatic mode
     };

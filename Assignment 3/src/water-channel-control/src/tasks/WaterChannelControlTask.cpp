@@ -31,16 +31,5 @@ void WaterChannelControlTask::tick() {
             int angle = map(potValue, 0, 1023, 0, 180);     // Map the potentiometer value (0-1023) to the desired angle range (0-180)
             waterValve.setAngle(angle);
             break;
-        case REMOTE:
-            if(MsgService.isMsgAvailable()){
-                Msg *msg = MsgService.receiveMsg();
-                if(msg->getContent().startsWith("VALVE_OPENING:")){
-                    String content = msg->getContent();
-                    int valveOpening = content.substring(14).toInt(); // 14 è la lunghezza di "VALVE_OPENING:"
-                    waterValve.setAngle(valveOpening);
-                }
-                delete(msg);
-            }
-            break;
     }
 }
