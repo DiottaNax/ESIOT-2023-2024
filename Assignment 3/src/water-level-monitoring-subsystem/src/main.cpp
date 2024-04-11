@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "Sonar.h"
-#include "MqttManager.h"
+#include "devices/Sonar.h"
+#include "tasks/MqttManager.h"
 
 MqttManager *mqtt;
 Sonar *sonar;
