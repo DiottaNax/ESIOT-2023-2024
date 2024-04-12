@@ -9,7 +9,7 @@ class ConsoleTask : public Task {
     private:
     Button button;
     LCDDisplay lcdDisplay;
-    WaterChannelControlTask waterChannelControlTask;
+    WaterChannelControlTask *waterChannelControlTask;
 
     public:
     ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask);

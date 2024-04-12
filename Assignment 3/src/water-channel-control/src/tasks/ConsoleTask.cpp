@@ -14,7 +14,7 @@ ConsoleTask::ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask){
 
 void ConsoleTask::init() {
     // Inizializzazione dei componenti hardware
-    this->waterChannelControlTask.setState(AUTOMATIC);
+    this->waterChannelControlTask->setState(AUTOMATIC);
     button.begin();
     lcdDisplay.initialize();
     this->lcdDisplay.clear();
@@ -23,14 +23,14 @@ void ConsoleTask::init() {
 
 void ConsoleTask::tick() {
     if (button.isPressed()) {
-        if(waterChannelControlTask.getState() != MANUAL){
-            this->waterChannelControlTask.setState(MANUAL);
+        if(this->waterChannelControlTask->getState() != MANUAL){
+            this->waterChannelControlTask->setState(MANUAL);
             MsgService.sendMsg("MODE:MANUAL");
             this->lcdDisplay.clear();
             this->lcdDisplay.print("MANUAL");
         }
         else{
-            this->waterChannelControlTask.setState(AUTOMATIC);
+            this->waterChannelControlTask->setState(AUTOMATIC);
             this->lcdDisplay.clear();
             this->lcdDisplay.print("MANUAL");
         }
