@@ -6,26 +6,26 @@
  *  @authors Javid Ameri, Matilde D'Antino, Federico Diotallevi :3
  *
  */
-#include <Arduino.h>
-#include <avr/sleep.h>
 
-void setup() {
-  
+#include "main.h"
+#include "tasks/ConsoleTask.h"
+#include "tasks/WaterChannelControlTask.h"
+
+main::main(){
+  this->waterChannelControlTask();
+  this->consoleTask(&waterChannelControlTask);
 }
 
-void loop() {
-  // Esempio di utilizzo del bottone per controllare la valvola d'acqua
-  if (button.wasPressed()) {
-    // Accendi la valvola d'acqua
-    waterValve.setAngle(90);
-    // Mostra un messaggio sul display LCD
-    lcdDisplay.print("Valvola accesa", 0, 0);
-  }
-  if (button.wasReleased()) {
-    // Spegni la valvola d'acqua
-    waterValve.off();
-    // Cancella il messaggio sul display LCD
-    lcdDisplay.clear();
-  }
+void main::setup() {
+    consoleTask.init();
+    waterChannelControlTask.init();
+    
+}
+
+void main::loop() {
+    consoleTask.tick();
+    if(waterChannelControlTask.isActive()){
+      waterChannelControlTask.tick();
+    }
 }
 

@@ -12,7 +12,7 @@ class ConsoleTask : public Task {
     WaterChannelControlTask waterChannelControlTask;
 
     public:
-    ConsoleTask();
+    ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask);
     void init();
     void tick();
 }
