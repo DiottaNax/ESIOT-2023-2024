@@ -4,7 +4,6 @@
 package river.monitoring.service;
 
 import river.monitoring.service.core.RiverMonitoringService;
-import river.monitoring.service.core.SystemModeHandlerImpl;
 
 public class App {
 
