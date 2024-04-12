@@ -81,6 +81,8 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
                                 }
                             }
                             break;
+                        default:
+                            break;
                     }
                     
                 } catch (InterruptedException e) {
@@ -109,7 +111,7 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
 
     @Override
     public void setValveOpening(int valveOpening) {
-        this.sendMessage("VALVE_OPENING" + valveOpening);
+        this.sendMessage("VALVE_OPENING:" + valveOpening);
     }
 
 }
