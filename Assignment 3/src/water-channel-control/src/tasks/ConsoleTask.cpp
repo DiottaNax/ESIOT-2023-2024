@@ -20,7 +20,7 @@ void ConsoleTask::init() {
     button.begin();
     lcdDisplay.initialize();
     this->lcdDisplay.clear();
-    this->lcdDisplay.print("MANUAL");
+    this->lcdDisplay.print("AUTOMATIC");
 }
 
 void ConsoleTask::tick() {
