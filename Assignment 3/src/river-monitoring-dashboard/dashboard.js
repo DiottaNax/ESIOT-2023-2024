@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const syncRequest = setInterval(getData, int);
 
     remoteButton.addEventListener('click', function() {
-        let data = '';
+        let data = 'MODE_REMOTE';
         
         axios.post('http://localhost:8080/api/mode', data)
             .then(response => {
