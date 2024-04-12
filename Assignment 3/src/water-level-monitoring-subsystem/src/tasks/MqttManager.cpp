@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include "MqttManager.h"
-#include "config.h"
-#include "Sonar.h"
 #include <stdlib.h>
+#include "tasks/MqttManager.h"
+#include "config.h"
+#include "devices/Sonar.h"
 
 MqttManager::MqttManager(){
 
