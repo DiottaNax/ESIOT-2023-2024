@@ -4,7 +4,6 @@
 #include "devices/LCDDisplay.h"
 #include "serial/MsgService.h"
 #include "WaterChannelControlTask.h"
-#include "config.h"
 
 ConsoleTask::ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask){
     // Creazione degli oggetti per ciascun componente hardware
