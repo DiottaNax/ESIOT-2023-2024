@@ -11,12 +11,9 @@
 #include "tasks/ConsoleTask.h"
 #include "tasks/WaterChannelControlTask.h"
 
-main::main(){
-  this->waterChannelControlTask();
-  this->consoleTask(&waterChannelControlTask);
-}
-
 void main::setup() {
+    this->waterChannelControlTask();
+    this->consoleTask(&waterChannelControlTask);
     consoleTask.init();
     waterChannelControlTask.init();
     
