@@ -21,8 +21,8 @@ void setup() {
 
     waterChannelControlTask = new WaterChannelControlTask();
     consoleTask = new ConsoleTask(&waterChannelControlTask);
-    consoleTask.init();
-    waterChannelControlTask.init();
+    consoleTask->init();
+    waterChannelControlTask->init();
     scheduler = new Scheduler();
     scheduler->init(50);
     scheduler->addTask(waterChannelControlTask);
