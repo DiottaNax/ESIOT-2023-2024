@@ -27,7 +27,7 @@ void WaterChannelControlTask::tick() {
             }
             break;
         case MANUAL:
-            int potValue = analogRead(potPin);
+            int potValue = analogRead(POT_PIN);
             int angle = map(potValue, 0, 1023, 0, 180);     // Map the potentiometer value (0-1023) to the desired angle range (0-180)
             waterValve.setAngle(angle);
             break;

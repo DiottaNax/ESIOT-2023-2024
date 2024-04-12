@@ -12,16 +12,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const syncRequest = setInterval(getData, int);
 
     remoteButton.addEventListener('click', function() {
-        let data = {
-            SYSTEM_STATE: 'REMOTE'
-        };
+        let data = '';
         
-        axios.post('http://localhost:8080/api/data', data)
+        axios.post('http://localhost:8080/api/mode', data)
             .then(response => {
-                changeSystemState(response.data[0].SYSTEM_STATE);
+                changeSystemState(response.data[0].MODE);
             })
             .catch(error => {
-                console.error('Errore:', error);
             });
     });
     
@@ -36,12 +33,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             VALVE_OPENING: value
         };
 
-        axios.post('http://localhost:8080/api/data', data)
+        axios.post('http://localhost:8080/api/valve', data)
             .then(response => {
                 console.log(response.data);
             })
             .catch(error => {
-                console.error('Errore:', error);
             });
     });
     
@@ -57,7 +53,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 changeValveOpening(response.data[0].VALVE_OPENING);
             })
             .catch(error => {
-                console.error('Errore:', error);
             });
     }
 

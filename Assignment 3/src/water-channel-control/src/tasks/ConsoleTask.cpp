@@ -4,13 +4,12 @@
 #include "devices/LCDDisplay.h"
 #include "serial/MsgService.h"
 #include "WaterChannelControlTask.h"
-#include "config.h"
 
-ConsoleTask::ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask): waterChannelControlTask(ptrWaterChannelControlTask){
+ConsoleTask::ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask){
     // Creazione degli oggetti per ciascun componente hardware
     this->button(BUTTON_PIN);
     this->lcdDisplay(RS_PIN, ENABLE_PIN, D4_PIN, D5_PIN, D6_PIN, D7_PIN);
-    this->waterChannelControlTask = &ptrWaterChannelControlTask();
+    this->waterChannelControlTask = ptrWaterChannelControlTask;
 }
 
 void ConsoleTask::init() {
