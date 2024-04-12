@@ -12,6 +12,8 @@
 #define D7_PIN 8
 //BUTTON PIN
 #define BUTTON_PIN 12
+//POTENTIOMETER PIN
+#define POT_PIN A0
 
 enum State {
         MANUAL,     //State for Manual mode
