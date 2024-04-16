@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let oldData = new Array();
+    let labels = new Array();
     let graph;
+
+    const length = 10;
 
     let bar = document.getElementById('valveOpening');
     bar.disabled = true;
@@ -16,7 +19,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         axios.post('http://localhost:8080/api/mode', data)
             .then(response => {
-                changeSystemState(response.data[0].MODE);
+                changeMode(response.data[0].MODE);
             })
             .catch(error => {
             });
@@ -58,13 +61,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function changeMode(newMode) {
         if (newMode == 'REMOTE') {
-            bar.disabled = false;
+            bar.style.display = 'block';
+            remoteButton.textContent = "Auto Control"
         } else if (newMode == 'MANUAL') {
-            bar.disabled = true;
+            bar.style.display = 'none';
             remoteButton.disabled = true;
+            remoteButton.textContent = "Remote Control"
         } else {
-            bar.disabled = true;
+            bar.style.display = 'none';
             remoteButton.disabled = false;
+            remoteButton.textContent = "Remote Control"
         }
     }
 
@@ -73,45 +79,37 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function changeWaterLevel(newLevel) {
-        if (graph instanceof Chart) {
-            graph.destroy();
-        }
+        updateData(oldData, newLevel);
+        const now = new Date();
+        const currentTime = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+        updateData(labels, currentTime);
 
-        const ctx = canvas.getContext('2d');
-
-        waterLeveltrend(oldData, newLevel);
-
-        console.log(oldData);
-
-        const etichette = [int, int*2, int*3, int*4, int*5, int*6];
-
-        graph = new Chart(ctx, {
-            type: 'line', 
-            data: {
-                labels: etichette, 
-                datasets: [{
-                    label: 'water level', 
-                    data: [...oldData], 
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)', 
-                    borderColor: 'rgba(255, 99, 132, 1)', 
-                    borderWidth: 2 
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true 
-                        }
+        if (!graph) {
+            const ctx = canvas.getContext('2d');
+    
+            graph = new Chart(ctx, {
+                type: 'line', 
+                data: {
+                    labels: labels, 
+                    datasets: [{
+                        label: 'water level', 
+                        data: [...oldData], 
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+                        borderColor: 'rgba(255, 99, 132, 1)', 
+                        borderWidth: 2 
                     }]
                 }
-            }
-        });
+            });
+        } else {
+            graph.data.datasets[0].data = oldData;
+            graph.data.labels = labels;
+            graph.update();
+        }
     }
 
-    function waterLeveltrend(oldData, newData) {
+    function updateData(oldData, newData) {
         oldData.push(parseFloat(newData));
-        if (oldData.length > 6) {
+        if (oldData.length > length) {
             oldData.shift();
         }
     }
