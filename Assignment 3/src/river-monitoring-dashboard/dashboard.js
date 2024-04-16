@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             VALVE_OPENING: value
         };
 
+        console.log(data);
+
         axios.post('http://localhost:8080/api/valve', data)
             .then(response => {
                 console.log(response.data);
