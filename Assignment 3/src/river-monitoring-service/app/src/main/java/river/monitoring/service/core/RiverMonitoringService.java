@@ -14,6 +14,7 @@ import river.monitoring.service.serial.SerialCommChannel;
 
 import java.lang.Runnable;
 import java.util.Optional;
+
 import java.util.List;
 
 public class RiverMonitoringService implements Controller, Runnable {
@@ -28,12 +29,13 @@ public class RiverMonitoringService implements Controller, Runnable {
     private Optional<Double> waterLevel = Optional.empty();
     private Optional<SystemState> alarmLevel = Optional.empty();
     private Optional<Integer> valveOpening = Optional.empty();
+    private boolean newDataToProcess = true;
 
     public RiverMonitoringService(final String serialPort) throws Exception {
         this.modeHandler = new SystemModeHandlerImpl();
         this.arduinoComm = new SerialArduinoComm(new SerialCommChannel(serialPort, 9600), this.modeHandler);
-        this.espComm = new MqttEspComm();
         this.dashboardComm = new HttpDashboardComm(modeHandler);
+        this.espComm = new MqttEspComm();
     }
 
     @Override
@@ -44,45 +46,61 @@ public class RiverMonitoringService implements Controller, Runnable {
     @Override
     public void updateAlarmLevel() {
         if (this.waterLevel.isPresent()) {
-            this.alarmLevel = Optional.of(SystemState.getFromWaterLevel(this.waterLevel.get()));
+            var newAlarm = Optional.of(SystemState.getFromWaterLevel(this.waterLevel.get()));
+            if (!this.alarmLevel.equals(newAlarm)) {
+                this.alarmLevel = newAlarm;
+                this.newDataToProcess = true;
+            }
         }
     }
 
     @Override
     public void updateValveOpening() {
         final var mode = modeHandler.getCurrentMode();
-        switch(mode) {
+        Optional<Integer> nextValveOpening = Optional.empty();
+        switch (mode) {
             case AUTO:
                 if (alarmLevel.isPresent()) {
-                    this.valveOpening = Optional.of(alarmLevel.get().getValveOpening());
+                    nextValveOpening = Optional.of(alarmLevel.get().getValveOpening());
                 }
                 break;
             case MANUAL:
-                this.valveOpening = arduinoComm.getValveOpening();
+                nextValveOpening = arduinoComm.getValveOpening();
                 break;
             case REMOTE:
-                this.valveOpening = dashboardComm.getValveOpening();
+                nextValveOpening = dashboardComm.getValveOpening();
                 break;
+        }
+        
+        if (!nextValveOpening.equals(this.valveOpening) && nextValveOpening.isPresent()) {
+            this.valveOpening = nextValveOpening;
+            this.newDataToProcess = true;
         }
     }
 
     @Override
     public void updateDashboard() {
         var optionals = List.of(this.alarmLevel, this.valveOpening, this.waterLevel);
-        if (optionals.stream().noneMatch(Optional::isPresent)) {
+        // Update dashboard only if all values are present
+        if (optionals.stream().allMatch(Optional::isPresent)) {
             var data = new DataPoint(this.modeHandler.getCurrentMode(),
                     this.waterLevel.get(),
                     this.valveOpening.get(),
                     this.alarmLevel.get());
             this.dashboardComm.updateData(Optional.of(data));
-        } else {
-            this.dashboardComm.updateData(Optional.empty());
         }
     }
 
     @Override
     public void processData() {
-        this.valveOpening.ifPresent(this.arduinoComm::setValveOpening);
+        // Send new data to arduino, esp and dashboard only if there are new datas
+        if (newDataToProcess) {
+            this.valveOpening.ifPresent(this.arduinoComm::setValveOpening);
+            this.alarmLevel.ifPresent(a -> this.espComm.setFrequence(a.getFrequency()));
+            this.alarmLevel.ifPresent(a -> log("alarm is   " + a.name() + "  with freq " + a.getFrequency()));
+        }
+
+        newDataToProcess = false;
     }
 
     @Override
@@ -92,6 +110,7 @@ public class RiverMonitoringService implements Controller, Runnable {
             updateAlarmLevel();
             updateValveOpening();
             updateDashboard();
+            processData();
 
             try {
                 Thread.sleep(PERIOD);
@@ -104,5 +123,4 @@ public class RiverMonitoringService implements Controller, Runnable {
     private void log(final String message) {
         System.out.println("[SERVICE]: " + message);
     }
-
 }
