@@ -14,8 +14,9 @@ import io.vertx.mqtt.messages.MqttPublishMessage;
 
 import river.monitoring.service.api.EspCommunicator;
 
-/*
- * MQTTCommunicator is responsible for handling MQTT communication for water level readings and frequency updates.
+/**
+ * Handles communication with the ESP32 device via MQTT.
+ * Implements {@link EspCommunicator} and extends {@link AbstractVerticle}.
  */
 public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
 
@@ -29,21 +30,23 @@ public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
     private MqttClient frequencyPublisher;
     private Optional<Double> waterLevel = Optional.empty();
 
-	/**
-	 * Creates a MQTTCommunicator instance using the specified vertx instance
-	 */
-	public MqttEspComm(final Vertx vertx) {
-		this.frequencyPublisher = MqttClient.create(vertx);
-		this.waterLevelSubscriber = MqttClient.create(vertx);
-		vertx.deployVerticle(this);
-	}
+    /**
+     * Constructs and deploys an MqttEspComm with the specified Vertx instance.
+     *
+     * @param vertx the Vertx instance.
+     */
+    public MqttEspComm(final Vertx vertx) {
+        this.frequencyPublisher = MqttClient.create(vertx);
+        this.waterLevelSubscriber = MqttClient.create(vertx);
+        vertx.deployVerticle(this);
+    }
 
-	/**
-	 * Creates a MQTTCommunicator instance using a non clustered instance with default options
-	 */
-	public MqttEspComm() {
-		this(Vertx.vertx());
-	}
+    /**
+     * Constructs and deploys an MqttEspComm with the default Vertx instance.
+     */
+    public MqttEspComm() {
+        this(Vertx.vertx());
+    }
 
     @Override
     public void start() {
@@ -55,20 +58,21 @@ public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
                 connectResult -> logConnectResult("Water level subscriber", connectResult));
     }
 
+    // Handler for new water level measurement in water level topic
     private void hanldeNewWaterLevel(final MqttPublishMessage message) {
-        try{
+        try {
             var wLevel = Double.parseDouble(message.payload().toString(CharsetUtil.US_ASCII));
             this.waterLevel = Optional.of(wLevel);
-            log("parsed new water level: " + waterLevel.get());
+            log("Parsed new water level: " + waterLevel.get());
         } catch (NumberFormatException e) {
             log("Failed to parse double");
         }
     }
 
-    // Publish a new frequency value to the ESP32
+    // Handler to publish a new frequency value to the ESP32 in frequency topic
     @Override
-    public void setFrequence(final int frequence) {
-        log("sending message \"" + frequence + "\"");
+    public void setFrequency(final int frequence) {
+        log("Sending message \"" + frequence + "\"");
         frequencyPublisher.publish(FREQUENCY_TOPIC,
                 Buffer.buffer(Integer.toString(frequence), "ASCII"),
                 MqttQoS.AT_LEAST_ONCE, false, false);
@@ -79,7 +83,7 @@ public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
         return this.waterLevel;
     }
 
-    // Logging helper method
+    // Logging helper methods
     private void log(final String msg) {
         System.out.println("[MQTT COMMUNICATOR] " + msg);
     }
@@ -94,7 +98,7 @@ public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
             // Subscribe to the water level topic
             waterLevelSubscriber.subscribe(WATER_LEVEL_TOPIC, 2); // QoS level 2
         } else {
-            log("Failed to connect" + clientName + connectResult.cause().getMessage());
+            log("Failed to connect " + clientName + ": " + connectResult.cause().getMessage());
         }
     }
 }

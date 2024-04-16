@@ -17,16 +17,17 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
     private Optional<Integer> valveOpening = Optional.empty();
 
     /**
-     * Constructs a ChannelMonitor with the specified communication channel.
+     * Constructs and reboots a SerialArduinoComm with the specified communication channel and mode handler.
      *
      * @param commChannel The communication channel to monitor.
+     * @param modeHandler The mode handler to manage system modes.
      */
     public SerialArduinoComm(final CommChannel commChannel, final SystemModeHandler modeHandler) {
         this.commChannel = commChannel;
         this.modeHandler = modeHandler;
 
         // Wait for Arduino to reboot
-        log("Waiting Arduino for rebooting...");
+        log("Waiting for Arduino to reboot...");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -45,11 +46,9 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
         commChannel.sendMsg(msg);
     }
 
-
     @Override
     public void run() {
-
-        //Listening for serial events
+        // Listening for serial events
         while (true) {
             if (commChannel.isMsgAvailable()) {
                 try {
@@ -67,14 +66,14 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
                                 }
                             }
                             break;
-                    
+
                         case "MODE":
                             if (tokenizer.hasMoreTokens()) {
                                 switch (tokenizer.nextToken()) {
                                     case "AUTO":
                                         this.modeHandler.changeMode(SystemMode.AUTO);
                                         break;
-                                
+
                                     case "MANUAL":
                                         this.modeHandler.changeMode(SystemMode.MANUAL);
                                         break;
@@ -84,7 +83,7 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
                         default:
                             break;
                     }
-                    
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     log("Failed to receive message");
@@ -99,7 +98,7 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
             }
         }
     }
-    
+
     private void log(final String message) {
         System.out.println("[ARDUINO COMM]: " + message);
     }
@@ -113,5 +112,4 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
     public void setValveOpening(int valveOpening) {
         this.sendMessage("VALVE_OPENING:" + valveOpening);
     }
-
 }
