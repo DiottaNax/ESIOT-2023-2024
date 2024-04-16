@@ -67,12 +67,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
             valveOpeningText.style.display = 'block';
             valveValue.style.display = 'block';
             remoteButton.textContent = "Auto Control"
-        } else {
+        } else if (newMode == 'MANUAL') {
             bar.style.display = 'none';
             bar.disabled = true;
             valveOpeningText.style.display = 'none';
             valveValue.style.display = 'none';
             remoteButton.disabled = true;
+            remoteButton.textContent = "Remote Control"
+        } else {
+            bar.style.display = 'none';
+            bar.disabled = true;
+            valveOpeningText.style.display = 'none';
+            valveValue.style.display = 'none';
+            remoteButton.disabled = false;
             remoteButton.textContent = "Remote Control"
         }
     }
