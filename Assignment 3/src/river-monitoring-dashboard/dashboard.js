@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         changeValveOpening(value);
 
         let data = {
-            VALVE_OPENING: value
+            "VALVE_OPENING": value
         };
 
         console.log(data);
