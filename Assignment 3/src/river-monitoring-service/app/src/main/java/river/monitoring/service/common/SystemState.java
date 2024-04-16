@@ -25,13 +25,13 @@ public enum SystemState {
     }
 
     public static SystemState getFromWaterLevel(final double wLevel) {
-        if (wLevel <= 6.0) {
+        if (wLevel <= 0.06) {
             return ALARM_TOO_LOW;
-        } else if(wLevel > 6.0 && wLevel <= 10.0) {
+        } else if(wLevel > 0.06 && wLevel <= 0.16) {
             return NORMAL;
-        } else if (wLevel > 10.0 && wLevel <= 12.5) {
+        } else if (wLevel > 0.16 && wLevel <= 0.22) {
             return PRE_ALARM_TOO_HIGH;
-        } else if(wLevel > 12.5 && wLevel <= 15.0) {
+        } else if(wLevel > 0.22 && wLevel <= 0.3) {
             return ALARM_TOO_HIGH;
         } else {
             return ALARM_TOO_HIGH_CRITIC;
