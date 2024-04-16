@@ -33,7 +33,7 @@ public final class DataPoint {
 		return valveOpening;
 	}
 
-	public JsonArray getAsJson() {
+	public JsonArray asJson() {
 		final JsonArray arr = new JsonArray();
 		final JsonObject data = new JsonObject();
 		data.put("MODE", this.mode.toString());
