@@ -8,6 +8,6 @@ import river.monitoring.service.core.RiverMonitoringService;
 public class App {
 
     public static void main(String[] args) throws Exception {
-        new RiverMonitoringService(args[0]).run();
+        new RiverMonitoringService("COM9");
     }
 }
