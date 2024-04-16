@@ -2,6 +2,7 @@
 #define __SERVO_MOTOR_IMPL__
 
 #include "ServoMotor.h"
+#include "ServoTimer2.h"
 
 /**
  * @brief The WaterValve class inherits from the ServoMotor class.
@@ -34,6 +35,7 @@ public:
     
 private:
   int pin; //Private member variable to store the pin number.
+  ServoTimer2 motor; //used to control servomotor
 };
 
 #endif
