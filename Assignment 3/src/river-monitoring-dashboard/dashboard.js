@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let barValue = document.getElementById('valveValue');
     let remoteButton = document.getElementById('remoteButton');
     const canvas = document.getElementById('graph');
+    let valveOpeningText = document.getElementById('valveOpeningText');
 
     const int = 5000; 
     const syncRequest = setInterval(getData, int);
@@ -61,15 +62,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function changeMode(newMode) {
         if (newMode == 'REMOTE') {
+            bar.disabled = false;
             bar.style.display = 'block';
+            valveOpeningText.style.display = 'block';
+            valveValue.style.display = 'block';
             remoteButton.textContent = "Auto Control"
-        } else if (newMode == 'MANUAL') {
-            bar.style.display = 'none';
-            remoteButton.disabled = true;
-            remoteButton.textContent = "Remote Control"
         } else {
             bar.style.display = 'none';
-            remoteButton.disabled = false;
+            bar.disabled = true;
+            valveOpeningText.style.display = 'none';
+            valveValue.style.display = 'none';
+            remoteButton.disabled = true;
             remoteButton.textContent = "Remote Control"
         }
     }
@@ -81,7 +84,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function changeWaterLevel(newLevel) {
         updateData(oldData, newLevel);
         const now = new Date();
-        const currentTime = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+        const currentTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
         updateData(labels, currentTime);
 
         if (!graph) {
