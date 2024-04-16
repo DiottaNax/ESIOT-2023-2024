@@ -10,19 +10,19 @@ MqttManager::MqttManager(){
 
 void MqttManager :: setup_wifi() {
     delay(10);
-    neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,0,0); // Red
+    neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,0,0); 
     Serial.println(String("Connecting to ") + ssid);
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(WiFi.status());
+      delay(500);
+      Serial.print(WiFi.status());
     }
     Serial.println("");
     Serial.println("WiFi connected");
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
-    neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // Green
+    neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); 
 }
 
 void MqttManager :: callback(char* topic, byte* payload, unsigned int length) {
@@ -33,11 +33,7 @@ void MqttManager :: callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("Payload: ");
     Serial.println(buffer);
     float f_temp = atof(buffer);
-    if(f_temp > 100.00) {
-        frequency = f_temp;
-    } else {
-        frequency = 500;
-    }
+    frequency = f_temp;
 
     Serial.print("Frequenza arrivata: ");
     Serial.println(frequency);
