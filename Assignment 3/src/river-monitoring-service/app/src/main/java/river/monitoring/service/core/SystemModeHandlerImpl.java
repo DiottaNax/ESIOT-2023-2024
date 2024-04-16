@@ -17,7 +17,9 @@ public class SystemModeHandlerImpl implements SystemModeHandler{
 
     @Override
     public boolean changeMode(final SystemMode mode) {
-        if (this.currentMode.equals(SystemMode.MANUAL)) {
+        if(this.currentMode.equals(mode)){
+            return false;
+        } else if (this.currentMode.equals(SystemMode.MANUAL)) {
             if (!mode.equals(SystemMode.AUTO)) {
                 return false;
             }
