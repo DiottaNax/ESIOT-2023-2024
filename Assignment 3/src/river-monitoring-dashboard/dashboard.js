@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
     });
     
-    bar.addEventListener('input', function() {
+    bar.addEventListener('change', function() {
         let value = bar.value;
  
         barValue.textContent = value + '%';
