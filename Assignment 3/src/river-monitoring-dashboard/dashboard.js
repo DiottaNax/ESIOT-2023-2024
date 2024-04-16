@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function changeWaterLevel(newLevel) {
         updateData(oldData, newLevel);
-        const now = new Date();
         const currentTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
         updateData(labels, currentTime);
 
