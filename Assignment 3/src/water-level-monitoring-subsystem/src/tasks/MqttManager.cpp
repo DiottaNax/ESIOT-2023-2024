@@ -47,12 +47,12 @@ void MqttManager :: reconnect() {
       String clientId = String("esiot-2122-client-")+String(random(0xffff), HEX);
 
       if (client.connect(clientId.c_str())) {
-      Serial.println("connected");
-      client.subscribe(frequency_topic);
+        Serial.println("connected");
+        client.subscribe(frequency_topic);
       } else {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
+        Serial.print("failed, rc=");
+        Serial.print(client.state());
+        Serial.println(" try again in 5 seconds");
       
       delay(5000);
     }
