@@ -15,7 +15,6 @@ ConsoleTask::ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask){
 void ConsoleTask::init() {
     // Initialize the hardware components
     this->waterChannelControlTask->setState(AUTOMATIC); // Set the initial state to AUTOMATIC
-    button.begin(); // Initialize the button
     lcdDisplay.initialize(); // Initialize the LCD display
     this->lcdDisplay.clear(); // Clear the LCD display
     this->lcdDisplay.print("AUTOMATIC", 0 , 0); // Print message saying that the mode is initally set on AUTOMATIC
@@ -25,7 +24,7 @@ void ConsoleTask::init() {
 // Task execution function
 void ConsoleTask::tick() {
     // Check if the button was pressed
-    if (button.wasPressed()) {
+    if (button.isPressed()) {
         // Toggle between MANUAL and AUTOMATIC states
         if(this->waterChannelControlTask->getState() != MANUAL){
             // Switch to MANUAL state

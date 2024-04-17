@@ -23,6 +23,9 @@ void setup() {
     // Initialize the tasks
     consoleTask->init();
     waterChannelControlTask->init();
+
+    consoleTask->setActive(true);
+    waterChannelControlTask->setActive(true);
     
     // Create an instance of the scheduler and initialize it with a base period of 50 milliseconds
     scheduler = new Scheduler();
