@@ -27,6 +27,7 @@ public:
    */
   void init() {
       timeElapsed = 0;
+      completed = false;
   }
   /**
    * @brief Pure virtual function to be implemented by derived classes.
@@ -75,11 +76,21 @@ public:
       return periodic;
   }
 
+  void setCompleted(){
+    completed = true;
+    active = false;
+  }
+
+  bool isCompleted(){
+    return completed;
+  }
+
 protected:
     bool active;       /**< Indicates if the task is currently active. */
     bool periodic;     /**< Indicates if the task is periodic. */
     int period;        /**< The time period for the periodic task. */
     long timeElapsed;  /**< The time elapsed since the task was last executed. */
+    bool completed;
     
 };
 

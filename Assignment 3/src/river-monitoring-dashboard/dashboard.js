@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     bar.addEventListener('change', function() {
         let value = bar.value;
  
-        barValue.textContent = value + '%';
+        barValue.textContent = value + '°';
 
         changeValveOpening(value);
 
