@@ -48,18 +48,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
     
     function getData() {
-        let data = {
-        };
-    
-        axios.post('http://localhost:8080/api/data', data)
-            .then(response => {
-                changeMode(response.data[0].MODE);
-                changeSystemState(response.data[0].SYSTEM_STATE);
-                changeWaterLevel(response.data[0].WATER_LEVEL);
-                changeValveOpening(response.data[0].VALVE_OPENING);
-            })
-            .catch(error => {
-            });
+        let data = {};
+
+        axios
+          .post("http://localhost:8080/api/data", data)
+          .then((response) => {
+            const responseData = response.data[0];
+            const timestamp = new Date().toLocaleTimeString("en-US", {
+              hour12: false,
+            }); // Use 24-hour format for clarity
+
+            changeMode(responseData.MODE);
+            changeSystemState(responseData.SYSTEM_STATE);
+            changeWaterLevel(responseData.WATER_LEVEL, timestamp);
+            changeValveOpening(responseData.VALVE_OPENING);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
     }
 
     function changeMode(newMode) {
@@ -90,26 +96,44 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('system_state').textContent = "STATE: " + newState;
     }
 
-    function changeWaterLevel(newLevel) {
+    function changeWaterLevel(newLevel, timestamp) {
         updateData(oldData, newLevel);
-        const currentTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-        updateData(labels, currentTime);
+        updateData(labels, timestamp);
 
         if (!graph) {
-            const ctx = canvas.getContext('2d');
-    
+            const ctx = canvas.getContext("2d");
+
             graph = new Chart(ctx, {
-                type: 'line', 
-                data: {
-                    labels: labels, 
-                    datasets: [{
-                        label: 'water level', 
-                        data: [...oldData], 
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)', 
-                        borderColor: 'rgba(255, 99, 132, 1)', 
-                        borderWidth: 2 
-                    }]
-                }
+            type: "line",
+            data: {
+                labels,
+                datasets: [
+                {
+                    label: "water level",
+                    data: [...oldData],
+                    backgroundColor: "rgba(255, 99, 132, 0.2)",
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    borderWidth: 2,
+                },
+                ],
+            },
+            options: {
+                // Optional: Customize x-axis formatting (consider library like moment.js)
+                scales: {
+                xAxes: [
+                    {
+                    type: "time",
+                    time: {
+                        // Adjust time display format as needed (e.g., 'HH:mm:ss')
+                        unit: "minute",
+                        displayFormats: {
+                        minute: "HH:mm",
+                        },
+                    },
+                    },
+                ],
+                },
+            },
             });
         } else {
             graph.data.datasets[0].data = oldData;
@@ -118,11 +142,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    function updateData(oldData, newData) {
-        oldData.push(parseFloat(newData));
-        if (oldData.length > length) {
-            oldData.shift();
-        }
+    function updateData(data, newData) {
+      data.push(newData);
+      if (data.length > length) {
+        data.shift();
+      }
     }
 
     function changeValveOpening(newValue) {
