@@ -17,7 +17,6 @@ PubSubClient client(espClient);     // Represents the MQTT client instance.
 /* MQTT server address */
 const char* mqtt_server = "broker.mqtt-dashboard.com"; // Represents the MQTT client instance.
 
-unsigned long lastMsgTime = 0;      // Stores the timestamp of the last message.
 char msg[MSG_BUFFER_SIZE];          // Buffer for storing MQTT messages.
 
 /* MQTT topic */
