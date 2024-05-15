@@ -15,11 +15,6 @@ class Sonar {
 
   public:
     /**
-     * @brief Constructor.
-     */
-    Sonar();
-
-    /**
      * @brief Initialize the sonar sensor.
      */
     void init();
