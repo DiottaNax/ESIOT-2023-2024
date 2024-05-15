@@ -10,9 +10,10 @@ import river.monitoring.service.common.SystemMode;
 /**
  * Monitors the communication channel for incoming messages and notifies the attached controller.
  */
-public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
+public class SerialArduinoComm implements ArduinoCommunicator {
     private final CommChannel commChannel;
     private final SystemModeHandler modeHandler;
+    private final Thread communicationThread;
 
     private Optional<Integer> valveOpening = Optional.empty();
 
@@ -25,6 +26,7 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
     public SerialArduinoComm(final CommChannel commChannel, final SystemModeHandler modeHandler) {
         this.commChannel = commChannel;
         this.modeHandler = modeHandler;
+        this.communicationThread = new Thread(this::runCommunication);
 
         // Wait for Arduino to reboot
         log("Waiting for Arduino to reboot...");
@@ -35,6 +37,8 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
             log("Thread sleep failed");
         }
         log("Ready.");
+
+        this.communicationThread.start(); // Run communication in a dedicated thread
     }
 
     /**
@@ -43,20 +47,24 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
      * @param msg The message to be sent.
      */
     private void sendMessage(final String msg) {
+        log("sending " + msg);
         commChannel.sendMsg(msg);
     }
 
-    @Override
-    public void run() {
+    private void runCommunication() {
         // Listening for serial events
+        //log("Start communication with arduino"); //DEBUG
         while (true) {
             if (commChannel.isMsgAvailable()) {
                 try {
                     final String msg = commChannel.receiveMsg();
-                    final StringTokenizer tokenizer = new StringTokenizer(msg, ":");
-                    log("\t" + msg);
-                    switch (tokenizer.nextToken()) {
+                    final StringTokenizer tokenizer = new StringTokenizer(msg, ":"); // Message are made like "PREAMBLE:CONTENT"
+                    //log("\t" + msg); //DEBUG
+                    final var preamble = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : ""; // Get the preamble if a string is present, empty string otherwise
+                    //log("message arrived: " + msg); //DEBUG
+                    switch (preamble) {
                         case "VALVE_OPENING":
+                            // Parse valve opening
                             if (tokenizer.hasMoreTokens()) {
                                 try {
                                     final int vOpening = Integer.parseInt(tokenizer.nextToken());
@@ -68,6 +76,7 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
                             break;
 
                         case "MODE":
+
                             if (tokenizer.hasMoreTokens()) {
                                 switch (tokenizer.nextToken()) {
                                     case "AUTO":
@@ -91,7 +100,7 @@ public class SerialArduinoComm implements Runnable, ArduinoCommunicator {
             }
             // Sleep for a short duration to avoid high CPU usage
             try {
-                Thread.sleep(10);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 log("Thread sleep failed");

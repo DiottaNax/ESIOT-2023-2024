@@ -6,6 +6,7 @@ import river.monitoring.service.api.DashboardCommunicator;
 import river.monitoring.service.api.EspCommunicator;
 import river.monitoring.service.api.SystemModeHandler;
 import river.monitoring.service.common.DataPoint;
+import river.monitoring.service.common.SystemMode;
 import river.monitoring.service.common.SystemState;
 import river.monitoring.service.http.HttpDashboardComm;
 import river.monitoring.service.mqtt.MqttEspComm;
@@ -35,6 +36,7 @@ public class RiverMonitoringService implements Controller, Runnable {
     private Optional<SystemState> alarmLevel = Optional.empty();
     private Optional<Integer> valveOpening = Optional.empty();
     private boolean newDataToProcess = true;
+    private SystemMode lastMode = SystemMode.AUTO;
 
     /**
      * Constructs a RiverMonitoringService with the specified serial port for Arduino communication.
@@ -89,19 +91,23 @@ public class RiverMonitoringService implements Controller, Runnable {
         if (!nextValveOpening.equals(this.valveOpening) && nextValveOpening.isPresent()) {
             this.valveOpening = nextValveOpening;
             this.newDataToProcess = true;
+            //log("new valve opening: " + nextValveOpening); //DEBUG
         }
     }
 
     @Override
     public void updateDashboard() {
-        final var optionals = List.of(this.alarmLevel, this.valveOpening, this.waterLevel);
-        // Update dashboard only if all values are present
-        if (optionals.stream().allMatch(Optional::isPresent)) {
-            final var data = new DataPoint(this.modeHandler.getCurrentMode(),
-                    this.waterLevel.get(),
-                    this.valveOpening.get(),
-                    this.alarmLevel.get());
-            this.dashboardComm.updateData(Optional.of(data));
+        if (newDataToProcess) {
+            final var optionals = List.of(this.alarmLevel, this.valveOpening, this.waterLevel);
+            // Update dashboard only if all values are present
+            if (optionals.stream().allMatch(Optional::isPresent)) {
+                final var data = new DataPoint(this.modeHandler.getCurrentMode(),
+                        this.waterLevel.get(),
+                        this.valveOpening.get(),
+                        this.alarmLevel.get());
+                this.dashboardComm.updateData(Optional.of(data));
+                //log("Sending new data to the dashboard: " + data.asJson()); // DEBUG
+            }
         }
     }
 
@@ -120,6 +126,11 @@ public class RiverMonitoringService implements Controller, Runnable {
     @Override
     public void run() {
         while (true) {
+            if (!modeHandler.getCurrentMode().equals(this.lastMode)) {
+                this.newDataToProcess = true;
+                this.lastMode = this.modeHandler.getCurrentMode();
+            }
+            
             updateWaterLevel();
             updateAlarmLevel();
             updateValveOpening();
