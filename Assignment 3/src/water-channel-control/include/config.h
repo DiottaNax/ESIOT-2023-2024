@@ -11,7 +11,7 @@
 #define D6_PIN 7
 #define D7_PIN 8
 //BUTTON PIN
-#define BUTTON_PIN 12
+#define BUTTON_PIN 11
 //POTENTIOMETER PIN
 #define POT_PIN A0
 

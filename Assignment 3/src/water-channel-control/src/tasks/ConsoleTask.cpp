@@ -6,30 +6,31 @@
 #include "tasks/WaterChannelControlTask.h"
 
 // Constructor
-ConsoleTask::ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask){
+ConsoleTask::ConsoleTask(WaterChannelControlTask* ptrWaterChannelControlTask) {
+    this->periodic = true;
+    this->period = 150;
     // Assign the pointer to the WaterChannelControlTask object
     this->waterChannelControlTask = ptrWaterChannelControlTask;
 }
 
 // Initialization function
 void ConsoleTask::init() {
-    // Initialize the hardware components
     this->waterChannelControlTask->setState(AUTOMATIC); // Set the initial state to AUTOMATIC
-    lcdDisplay.initialize(); // Initialize the LCD display
-    this->lcdDisplay.clear(); // Clear the LCD display
-    this->lcdDisplay.print("AUTOMATIC", 0 , 0); // Print message saying that the mode is initally set on AUTOMATIC
+    lcdDisplay.initialize();
+    this->lcdDisplay.clear();
+    this->lcdDisplay.print("AUTOMATIC", 0 , 0); // Set initial display message
     Serial.println("start");
 }
 
 // Task execution function
 void ConsoleTask::tick() {
     // Check if the button was pressed
-    if (button.isPressed()) {
-        // Toggle between MANUAL and AUTOMATIC states
+    //Serial.println("tick"); // DEBUG
+    if (button.wasPressed()) {
+
         if(this->waterChannelControlTask->getState() != MANUAL){
             // Switch to MANUAL state
             this->waterChannelControlTask->setState(MANUAL);
-            Serial.println("manual");
             MsgService.sendMsg("MODE:MANUAL");
             // Clear the LCD display and print MANUAL mode
             this->lcdDisplay.clear();
@@ -38,8 +39,8 @@ void ConsoleTask::tick() {
         else{
             // Switch to AUTOMATIC state
             this->waterChannelControlTask->setState(AUTOMATIC);
-            Serial.println("automatic");
             // Clear the LCD display and print AUTOMATIC mode
+            MsgService.sendMsg("MODE:AUTO");
             this->lcdDisplay.clear();
             this->lcdDisplay.print("AUTOMATIC", 0 , 0);
         }

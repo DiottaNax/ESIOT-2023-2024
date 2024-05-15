@@ -9,14 +9,13 @@
 #include "tasks/WaterChannelControlTask.h"
 #include "kernel/Scheduler.h"
 
-Scheduler *scheduler; // Pointer to the scheduler object
-WaterChannelControlTask *waterChannelControlTask; // Pointer to the water channel control task object
-ConsoleTask *consoleTask; // Pointer to the console task object
+Scheduler *scheduler;
+WaterChannelControlTask *waterChannelControlTask;
+ConsoleTask *consoleTask;
 
 void setup() {
-    Serial.begin(9600); // Initialize serial communication at 9600 baud
+    Serial.begin(9600);
 
-    // Create instances of the water channel control task and console task
     waterChannelControlTask = new WaterChannelControlTask();
     consoleTask = new ConsoleTask(waterChannelControlTask);
 
@@ -27,11 +26,10 @@ void setup() {
     consoleTask->setActive(true);
     waterChannelControlTask->setActive(true);
     
-    // Create an instance of the scheduler and initialize it with a base period of 50 milliseconds
+    // Create an instance of the scheduler and initialize it
     scheduler = new Scheduler();
-    scheduler->init(50);
+    scheduler->init(100);
 
-    // Add the tasks to the scheduler
     scheduler->addTask(waterChannelControlTask);
     scheduler->addTask(consoleTask);
 }
