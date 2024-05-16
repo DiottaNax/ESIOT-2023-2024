@@ -29,7 +29,6 @@ bool Scheduler::addTask(Task* task){
 void Scheduler::schedule(){   
   while (!timerFlag){}
   timerFlag = false;
-
   for (int i = 0; i < nTasks; i++){
     if (taskList[i]->isActive()){
       if (taskList[i]->isPeriodic()){
@@ -38,9 +37,6 @@ void Scheduler::schedule(){
         }
       } else {
         taskList[i]->tick();
-        if (taskList[i]->isCompleted()){
-          taskList[i]->setActive(false);
-        }
       }
     }
   }

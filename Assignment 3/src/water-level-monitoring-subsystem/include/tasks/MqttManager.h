@@ -9,18 +9,10 @@
  */
 class MqttManager {
   private:
-
-  public:
-
     /**
-     * @brief Constructs a new MqttManager object.
+     * @brief Reconnects to the MQTT broker.
      */
-    MqttManager();
-
-    /**
-     * @brief Initializes the MQTT manager.
-     */
-    void init();
+    void reconnect();
 
     /**
      * @brief Sets up the Wi-Fi connection.
@@ -29,17 +21,19 @@ class MqttManager {
 
     /**
      * @brief Callback function invoked when a message is received.
-     * 
+     *
      * @param topic The topic of the message.
      * @param payload The payload of the message.
      * @param length The length of the payload.
      */
-    static void callback(char* topic, byte* payload, unsigned int length);
+    static void callback(char *topic, byte *payload, unsigned int length);
+
+  public:
 
     /**
-     * @brief Reconnects to the MQTT broker.
+     * @brief Initializes the MQTT manager.
      */
-    void reconnect(); 
+    void init();
 
     /**
      * @brief Sends a message containing sonar data.

@@ -2,7 +2,7 @@
 #define __CONSOLE_TASK_H__
 
 #include "Task.h"
-#include "../devices/ButtonImpl.h"
+#include "../devices/Button.h"
 #include "../devices/LCDDisplay.h"
 #include "WaterChannelControlTask.h"
 #include "../config.h"
@@ -13,7 +13,7 @@
 class ConsoleTask : public Task {
     
 private:
-    ButtonImpl button = ButtonImpl(BUTTON_PIN); /**< The button object for user input */
+    Button button = Button(BUTTON_PIN); /**< The button object for user input */
     LCDDisplay lcdDisplay = LCDDisplay(RS_PIN, ENABLE_PIN, D4_PIN, D5_PIN, D6_PIN, D7_PIN); /**< The LCD display object for visual feedback */
     WaterChannelControlTask *waterChannelControlTask; /**< Pointer to the WaterChannelControlTask for coordinating actions */
 

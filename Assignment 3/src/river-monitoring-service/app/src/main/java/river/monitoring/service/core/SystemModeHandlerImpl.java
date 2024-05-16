@@ -27,18 +27,22 @@ public class SystemModeHandlerImpl implements SystemModeHandler {
         this.currentMode = SystemMode.AUTO;
     }
 
+    private boolean canChange(final SystemMode mode) {
+        
+        return !( // Negate all the condition in which System Mode can't change
+                    this.currentMode.equals(mode) // SystemMode can't change if new mode isn't different from the current
+                    || (this.currentMode.equals(SystemMode.MANUAL) && !mode.equals(SystemMode.AUTO))  // SystemMode can't change if current mode is manual and new mode is not auto
+                );
+    }
+
     @Override
     public boolean changeMode(final SystemMode mode) {
-        if (this.currentMode.equals(mode)) {
-            return false;
-        } else if (this.currentMode.equals(SystemMode.MANUAL)) {
-            if (!mode.equals(SystemMode.AUTO)) {
-                return false;
-            }
+        if (canChange(mode)) {
+            this.currentMode = mode;
+            return true;
         }
 
-        this.currentMode = mode;
-        return true;
+        return false;
     }
 
     @Override

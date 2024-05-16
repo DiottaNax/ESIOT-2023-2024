@@ -5,11 +5,9 @@ import java.util.Optional;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.CharsetUtil;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.mqtt.MqttClient;
-import io.vertx.mqtt.messages.MqttConnAckMessage;
 import io.vertx.mqtt.messages.MqttPublishMessage;
 
 import river.monitoring.service.api.EspCommunicator;
@@ -52,10 +50,31 @@ public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
     public void start() {
         // Connect a publisher for sending frequency updates
         this.frequencyPublisher.connect(1883, BROKER_ADDRESS,
-                connectResult -> logConnectResult("Frequency publisher", connectResult));
+                connectResult -> {
+                    if (connectResult.succeeded()) {
+                        log("Frequency publisher connected");
+
+                        // Subscribe to the water level topic
+                        frequencyPublisher.subscribe(FREQUENCY_TOPIC, 0); // QoS level 0
+                    } else {
+                        log("Failed to connect Frequency publisher: " + connectResult.cause().getMessage());
+                    }
+                });
         // Connect a subscriber for receiving water level readings
         this.waterLevelSubscriber.connect(1883, BROKER_ADDRESS,
-                connectResult -> logConnectResult("Water level subscriber", connectResult));
+                connectResult -> {
+                    if (connectResult.succeeded()) {
+                        log("Water Level subscriber connected");
+
+                        // Subscribe to the water level topic
+                        waterLevelSubscriber.subscribe(WATER_LEVEL_TOPIC, 0); // QoS level 0
+
+                        // Handle incoming water level messages
+                        waterLevelSubscriber.publishHandler(this::hanldeNewWaterLevel);
+                    } else {
+                        log("Failed to connect Water Level subscriber :" + connectResult.cause().getMessage());
+                    }
+                });
     }
 
     // Handler for new water level measurement in water level topic
@@ -63,9 +82,10 @@ public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
         try {
             var wLevel = Double.parseDouble(message.payload().toString(CharsetUtil.US_ASCII));
             this.waterLevel = Optional.of(wLevel);
-            log("Parsed new water level: " + waterLevel.get());
+            //log("Parsed new water level: " + waterLevel.get());
         } catch (NumberFormatException e) {
-            log("Failed to parse double");
+            this.waterLevel = Optional.empty();
+            //log("Failed to parse double, message was:" + message.payload().toString(CharsetUtil.US_ASCII));
         }
     }
 
@@ -86,19 +106,5 @@ public class MqttEspComm extends AbstractVerticle implements EspCommunicator {
     // Logging helper methods
     private void log(final String msg) {
         System.out.println("[MQTT COMMUNICATOR] " + msg);
-    }
-
-    private void logConnectResult(final String clientName, AsyncResult<MqttConnAckMessage> connectResult) {
-        if (connectResult.succeeded()) {
-            log(clientName + " connected");
-
-            // Handle incoming water level messages
-            waterLevelSubscriber.publishHandler(this::hanldeNewWaterLevel);
-
-            // Subscribe to the water level topic
-            waterLevelSubscriber.subscribe(WATER_LEVEL_TOPIC, 2); // QoS level 2
-        } else {
-            log("Failed to connect " + clientName + ": " + connectResult.cause().getMessage());
-        }
     }
 }
